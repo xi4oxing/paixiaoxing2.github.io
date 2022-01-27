@@ -23,7 +23,7 @@
     <script id="hexo-configurations">
     let KEEP = window.KEEP || {};
     KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en"};
-    KEEP.theme_config = {"toc":{"enable":false,"number":false,"expand_all":false,"init_open":false},"style":{"primary_color":"#0066CC","avatar":"/images/avatar.svg","favicon":"/images/logo.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":true,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":true},"percent":{"enable":true}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.theme_config = {"toc":{"enable":false,"number":false,"expand_all":false,"init_open":false},"style":{"primary_color":"#0066CC","avatar":"/images/avatar.svg","favicon":"/images/logo.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":true,"background_img":"/images/bg.svg","description":"“都入冬了，你还执着于盛夏的蝉鸣？”"},"scroll":{"progress_bar":{"enable":true},"percent":{"enable":true}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
     KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
   </script>
 <meta name="generator" content="Hexo 6.0.0"></head>
@@ -175,13 +175,12 @@
 <p>如果OP===2</p>
 <p>则把op复制成‘1’</p>
 <p>然后把conent的值赋空字符串</p>
-<p>然后调用process（）方法函数<img src="/.com//paixiaoxing\source_posts\序列化\image-20220119115458134.png" alt="image-20220119115458134"></p>
-<p>分析：</p>
+<p>然后调用process（）方法函数<img src="/.com//1.png"></p>
 <p>如果op==1则调用write方法</p>
 <p>如果op==2则调用read（）返回一个res并且输出</p>
 <p>如果都不满足则输出 bad hacker！</p>
 <p>如果要读取flag肯定调用read（）方法</p>
-<p><img src="/.com//paixiaoxing\source_posts\序列化\image-20220119120029389.png" alt="image-20220119120029389"></p>
+<p><img src="/.com//2.png"></p>
 <p>直接序列化控制其中的变量</p>
 <h2 id="漏洞本质："><a href="#漏洞本质：" class="headerlink" title="漏洞本质："></a>漏洞本质：</h2><p>unserialize函数的变量可控</p>
 <p>php文件重存在可利用类，类中有魔术方法</p>
