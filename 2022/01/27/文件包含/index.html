@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Keep Team">
+    
+    <title>
+        
+            文件包含 |
+        
+        Keep Theme
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/logo.svg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":false,"number":false,"expand_all":false,"init_open":false},"style":{"primary_color":"#0066CC","avatar":"/images/avatar.svg","favicon":"/images/logo.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":true,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":true},"percent":{"enable":true}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Keep Theme
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">文件包含</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/avatar.svg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Keep Team</span>
+                        
+                            <span class="author-label">Lv1</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2022-01-27 19:38:38</span>
+        <span class="mobile">2022-01-27 19:38</span>
+    </span>
+    
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h1><h3 id="本地包含"><a href="#本地包含" class="headerlink" title="本地包含"></a>本地包含</h3><p>%00截断</p>
+<h3 id="远程包含"><a href="#远程包含" class="headerlink" title="远程包含"></a>远程包含</h3><p>%00阻断</p>
+<p>php://filter/read=convert.base64-encode/resource=</p>
+<h3 id="文件包含-挖掘经验"><a href="#文件包含-挖掘经验" class="headerlink" title="文件包含-挖掘经验"></a>文件包含-挖掘经验</h3><p>• 模块加载、cache调用，传入的参数拼接包含路径</p>
+<p>• include()</p>
+<p>使用此函数，只有代码执行到此函数时才将文件包含进来，发生错误时只警告并继续执行。</p>
+<p>• inclue_once()</p>
+<p>功能和前者一样，区别在于当重复调用同一文件时，程序只调用一次。</p>
+<p>• require()</p>
+<p>使用此函数，只要程序执行，立即调用此函数包含文件，发生错误时，会输出错误信息并</p>
+<p>立即终止程序。</p>
+<p>• require_once()</p>
+<p>功能和前者一样，区别在于当重复调用同一文件时，程序只调用一次。</p>
+<p>了解常见的文件包含点</p>
+<p>会基本利用文件包含点，包括伪协议等</p>
+<p>查看服务器 apche或者nginx（/var/log/nginx/access.log）</p>
+<p>找到它默认的服务器日志存放位置</p>
+<p>读文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?url=php://filter/read=convert.base64-encode/resource=index.php</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//paixiaoxing\source_posts\文件包含\image-20211107082630591.png" alt="image-20211107082630591"></p>
+<p>被包含的文件如果含有&lt;?php &lt;? 等php投，里面的php代码就会被执行</p>
+<p>require或者include</p>
+<p>常见可在服务器上生成文件的功能</p>
+<p>1、文件上传</p>
+<p><img src="/.com//paixiaoxing\source_posts\文件包含\image-20211107083057392.png" alt="image-20211107083057392"></p>
+<p>file=***则存在文件包含漏洞</p>
+<p>2、服务器日志目录一般在（/var/log/apache2/assess.logAPACHE协议）<em><strong>用post请求发送，来源用referer</strong></em></p>
+<p>3、程序本身自带备份功能（MyWebSQL）</p>
+<p>php://filter=伪协议</p>
+<p>/?file=php://filter/read=convert.base64-encode/resource=xxx.php</p>
+<h2 id="文件读取-挖掘经验"><a href="#文件读取-挖掘经验" class="headerlink" title="文件读取-挖掘经验"></a>文件读取-挖掘经验</h2><h4 id="load-file-函数"><a href="#load-file-函数" class="headerlink" title="load_file()函数"></a>load_file()函数</h4><p>1、必须有权限读取并且文件必须完全刻度</p>
+<p>2、想要读取的文件必须再服务器上</p>
+<p>3、必须指定文件完整的路劲</p>
+<p>4、想要读文件必须小于max_allowed_packet</p>
+<p><img src="/.com//paixiaoxing\source_posts\文件包含\image-20220120155152699.png" alt="image-20220120155152699"></p>
+<p>• fopen()</p>
+<p>• file_get_contents()</p>
+<p>• fread</p>
+<p>• fgets</p>
+<p>• fgetss</p>
+<p>• file</p>
+<p>• fpassthru</p>
+<p>• parse_ini_file</p>
+<p>• readfile</p>
+<p> allow_url_fopen选项激活了 URL 形式的 fopen 封装协议</p>
+<p>使得可以访问 URL 对象例如文件。默认的封装协议提供用</p>
+<p>ftp 和 http 协议来访问远程文件，一些扩展库例如 zlib 可</p>
+<p>能会注册更多的封装协议</p>
+<h2 id="文件删除"><a href="#文件删除" class="headerlink" title="文件删除"></a>文件删除</h2><p>unlink（）</p>
+<h2 id="变量覆盖"><a href="#变量覆盖" class="headerlink" title="变量覆盖"></a>变量覆盖</h2><p><img src="/.com//paixiaoxing\source_posts\文件包含\image-20220120101403425.png" alt="image-20220120101403425"></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> extract ( <span class="variable">$array</span> , extract_rules,prefix ) </span><br><span class="line">    </span><br><span class="line">•<span class="variable">$array</span> 关联的数组，受第二个和第三个参数的影响。 </span><br><span class="line">•extract_rules 对待非法／数字和冲突的键名的方法将根据取出标记</span><br><span class="line">•prefix 仅在第二个参数特殊时需要，添加前缀</span><br><span class="line"><span class="comment"># extract（）变量覆盖</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="parse-str-变量覆盖"><a href="#parse-str-变量覆盖" class="headerlink" title="**parse_str()**变量覆盖"></a>**parse_str()**变量覆盖</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> parse_str ( <span class="keyword">string</span> <span class="variable">$encoded_string</span> [, <span class="keyword">array</span> &amp;<span class="variable">$result</span> ] )</span><br><span class="line"><span class="comment"># $encoded_string 输入的字符串</span></span><br><span class="line"><span class="comment"># $result 变量将会以数组元素的形式存入到这个数组，作为替代</span></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">import_request_variables()</span><br><span class="line">    (PHP <span class="number">4</span> &gt;= <span class="number">4.1</span>.<span class="number">0</span>, PHP <span class="number">5</span> &lt; <span class="number">5.4</span>.<span class="number">0</span>)</span><br><span class="line">import_request_variables — 将 GET／POST／Cookie 变量导入到全局作用域中</span><br><span class="line"><span class="keyword">bool</span> import_request_variables ( <span class="keyword">string</span> <span class="variable">$types</span> [, <span class="keyword">string</span> <span class="variable">$prefix</span> ] )</span><br><span class="line"><span class="comment"># $type 指定需要导入的变量。可以用字母‘G’、‘P’和‘C’分别表示 GET、POST 和 Cookie</span></span><br><span class="line"><span class="comment"># $prefix 变量名前缀</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="危险函数："><a href="#危险函数：" class="headerlink" title="危险函数："></a>危险函数：</h3><p>•<strong>EXTR_OVERWRITE</strong> - 默认。如果有冲突，则覆盖已有的变量。</p>
+<p>•EXTR_SKIP - 如果有冲突，不覆盖已有的变量。（忽略数组中同名的元素）</p>
+<p><strong>•EXTR_PREFIX_SAME</strong> - 如果有冲突，在变量名前加上前缀 prefix。自 PHP 4.0.5 起，这也包括了对数字</p>
+<p>索引的处理</p>
+<p>•EXTR_PREFIX_ALL - 给所有变量名加上前缀 prefix（第三个参数）</p>
+<p>•EXTR_PREFIX_INVALID - 仅在非法或数字变量名前加上前缀 prefix。本标记是 PHP 4.0.5 新加的。</p>
+<p>•<strong>EXTR_IF_EXISTS</strong> - 仅在当前符号表中已有同名变量时，覆盖它们的值。其它的都不处理。可以用在已经</p>
+<p>定义了一组合法的变量，然后要从一个数组例如 $_REQUEST 中提取值覆盖这些变量的场合。本标记是 PH</p>
+<p>P 4.2.0 新加的。</p>
+<p>•EXTR_PREFIX_IF_EXISTS - 仅在当前符号表中已有同名变量时，建立附加了前缀的变量名，其它的都不</p>
+<p>处理。本标记是 PHP 4.2.0 新加的。</p>
+<p>•EXTR_REFS - 将变量作为引用提取。这有力地表明了导入的变量仍然引用了 var_array 参数的值。可以</p>
+<p>单独使用这个标志或者在 extract_type 中用 OR 与其它任何标志结合使用。本标记是 PHP 4.3.0 新加</p>
+<p>的。</p>
+
+        </div>
+
+        
+
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2022/01/27/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">文件上传</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>
+              -
+            
+            2022&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Keep Team</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+</div>
+
+
+
+</body>
+</html>

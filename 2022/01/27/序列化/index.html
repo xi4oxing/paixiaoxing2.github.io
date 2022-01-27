@@ -9,7 +9,7 @@
     
     <title>
         
-            images |
+            序列化 |
         
         Keep Theme
     </title>
@@ -120,7 +120,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">images</span>
+            <span class="title-hover-animation">序列化</span>
         </div>
 
         
@@ -139,8 +139,8 @@
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fas fa-edit"></i>&nbsp;
-        <span class="pc">2022-01-27 18:42:37</span>
-        <span class="mobile">2022-01-27 18:42</span>
+        <span class="pc">2022-01-27 19:32:02</span>
+        <span class="mobile">2022-01-27 19:32</span>
     </span>
     
     
@@ -157,7 +157,45 @@
         
 
         <div class="article-content markdown-body">
-            
+            <h1 id="序列化反序列化"><a href="#序列化反序列化" class="headerlink" title="序列化反序列化"></a>序列化反序列化</h1><p>反序列化漏洞专题</p>
+<p>代码审计重点：</p>
+<p>1、在源代码审计的时候要确认代码逻辑安全性</p>
+<p>2、在做在吗审计的时候要确认调用函数的安全性</p>
+<h5 id="PASS-1"><a href="#PASS-1" class="headerlink" title="PASS-1"></a>PASS-1</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"></span><br><span class="line"><span class="variable">$a</span> = <span class="string">&#x27;Micheal&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> seralize(<span class="variable">$a</span>);</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">O:<span class="number">8</span>:<span class="string">&quot;demoTest&quot;</span>:<span class="number">3</span>:&#123;s:<span class="number">4</span>:<span class="string">&quot;name&quot;</span>;s:<span class="number">7</span>:<span class="string">&quot;Micheal&quot;</span>;s:<span class="number">3</span>:<span class="string">&quot;sex&quot;</span>;s:<span class="number">3</span>:<span class="string">&quot;man&quot;</span>;s:<span class="number">3</span>:<span class="string">&quot;age&quot;</span>;i:<span class="number">31</span>;&#125;</span><br><span class="line">O表示一个类</span><br><span class="line">字符类型：名称个数：“名称”;(：如果是类这便是key/value的个数：)</span><br><span class="line">    key：value一组</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果有类的反序列化题目就会先走（自动触发）__destruct（）这个魔法函数</p>
+<p>如果OP===2</p>
+<p>则把op复制成‘1’</p>
+<p>然后把conent的值赋空字符串</p>
+<p>然后调用process（）方法函数<img src="/.com//paixiaoxing\source_posts\序列化\image-20220119115458134.png" alt="image-20220119115458134"></p>
+<p>分析：</p>
+<p>如果op==1则调用write方法</p>
+<p>如果op==2则调用read（）返回一个res并且输出</p>
+<p>如果都不满足则输出 bad hacker！</p>
+<p>如果要读取flag肯定调用read（）方法</p>
+<p><img src="/.com//paixiaoxing\source_posts\序列化\image-20220119120029389.png" alt="image-20220119120029389"></p>
+<p>直接序列化控制其中的变量</p>
+<h2 id="漏洞本质："><a href="#漏洞本质：" class="headerlink" title="漏洞本质："></a>漏洞本质：</h2><p>unserialize函数的变量可控</p>
+<p>php文件重存在可利用类，类中有魔术方法</p>
+<h3 id="魔术方法："><a href="#魔术方法：" class="headerlink" title="魔术方法："></a>魔术方法：</h3><p>__construct(), __destruct()</p>
+<p>__call(),\ __callStatic()</p>
+<p>__get(), __set()</p>
+<p>__isset(),__unset()</p>
+<p>__sleep(), __wakeup()</p>
+<p>__toString()</p>
+<p>__invoke()</p>
+<p>__set_state()</p>
+<p>__clone()</p>
+<p>__debugInfo()</p>
+
         </div>
 
         
@@ -170,13 +208,13 @@
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2022/01/27/123123/"
+                           href="/2022/01/27/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">123123</span>
+                                <span class="post-nav-title-item">文件上传</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
