@@ -9,7 +9,7 @@
     
     <title>
         
-            Most-Secure-Calculator |
+            MRCTF2020]Ez_bypass |
         
         paixiaoxing&#39;s Blog
     </title>
@@ -137,7 +137,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">Most-Secure-Calculator</span>
+            <span class="title-hover-animation">MRCTF2020]Ez_bypass</span>
         </div>
 
         
@@ -156,8 +156,8 @@
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fas fa-edit"></i>&nbsp;
-        <span class="pc">2022-01-28 16:11:28</span>
-        <span class="mobile">2022-01-28 16:11</span>
+        <span class="pc">2022-01-29 16:25:07</span>
+        <span class="mobile">2022-01-29 16:25</span>
     </span>
     
     
@@ -174,19 +174,28 @@
         
 
         <div class="article-content markdown-body">
-            <h1 id="计算器1"><a href="#计算器1" class="headerlink" title="计算器1"></a>计算器1</h1><p>一样先进去看一下</p>
-<p><img src="/2022/01/28/Most-Secure-Calculator/1.png" alt="1"></p>
-<p>进行一个简单的wfuzz测试</p>
-<p>发现啥也没过滤</p>
-<p>然后</p>
-<p>随便输入一些数看看</p>
-<p><img src="/2022/01/28/Most-Secure-Calculator/4.png" alt="1"></p>
-<p>发现这里面是一个简单的命令执行所以直接执行系统命令试试</p>
-<p><img src="/2022/01/28/Most-Secure-Calculator/2.png" alt="1"></p>
-<p>发现可以执行基本的system命令</p>
-<p>然后直接执行cat flag.txt就行拉</p>
-<p><img src="/2022/01/28/Most-Secure-Calculator/3.png" alt="1"></p>
-<h1 id="KCTF-WaS-mY-cAlCuLaToR-sAfE"><a href="#KCTF-WaS-mY-cAlCuLaToR-sAfE" class="headerlink" title="KCTF{WaS_mY_cAlCuLaToR_sAfE}"></a>KCTF{WaS_mY_cAlCuLaToR_sAfE}</h1>
+            <h1 id="MRCTF2020-Ez-bypass"><a href="#MRCTF2020-Ez-bypass" class="headerlink" title="[MRCTF2020]Ez_bypass"></a>[MRCTF2020]Ez_bypass</h1><p>首先进入题目看一看</p>
+<p><img src="/2022/01/29/MRCTF2020-Ez-bypass/2.png" alt="1"></p>
+<p>进入源码可以看到排列好的函数</p>
+<p><img src="/2022/01/29/MRCTF2020-Ez-bypass/1.png" alt="1"></p>
+<p>可以看出我们需要绕过这些if</p>
+<p>考到了两个知识点：</p>
+<p>1、MD5碰撞绕过</p>
+<p>2、php弱比较</p>
+<p>MD5碰撞比较好绕过</p>
+<p>可以通过数组绕过（0e绕过，但是尝试了一下不知道为啥不行）</p>
+<p>因为MD5无法操作数组它会将数组看成0，但是MD5之前的数又不相同所以可以直接绕过</p>
+<p><img src="/2022/01/29/MRCTF2020-Ez-bypass/3.png" alt="1"></p>
+<p>接下来的弱比较漏洞更好绕过了</p>
+<p>他需要判断passwd为1234567</p>
+<p>我们只需要传入1234567后面带字母就行了</p>
+<p>因为php是一个弱类型的函数</p>
+<p>而我们输入的数的第一个是1为整型所以她会把这组数据都看作整型</p>
+<p>直接过滤掉a</p>
+<p>就可以直接拿到flag</p>
+<p><img src="/2022/01/29/MRCTF2020-Ez-bypass/4.png" alt="1"></p>
+<p>$flag=”flag{cf290612-38d0-46a8-9ab8-396a0c556d2a}“</p>
+
         </div>
 
         
@@ -196,29 +205,14 @@
         
             <div class="article-nav">
                 
-                    <div class="article-prev">
-                        <a class="prev"
-                           rel="prev"
-                           href="/2022/01/29/MRCTF2020-Ez-bypass/"
-                        >
-                            <span class="left arrow-icon flex-center">
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item">MRCTF2020]Ez_bypass</span>
-                                <span class="post-nav-item">Prev posts</span>
-                            </span>
-                        </a>
-                    </div>
-                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2022/01/28/myphpsite/"
+                           href="/2022/01/28/Most-Secure-Calculator/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">myphpsite</span>
+                                <span class="post-nav-title-item">Most-Secure-Calculator</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
