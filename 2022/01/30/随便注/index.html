@@ -174,7 +174,41 @@
         
 
         <div class="article-content markdown-body">
-            <h1 id="随便注"><a href="#随便注" class="headerlink" title="随便注"></a>随便注</h1>
+            <h1 id="随便注"><a href="#随便注" class="headerlink" title="随便注"></a>随便注</h1><p>首先进入题目：</p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/1.png" alt="1"></p>
+<p>看起来是sql注入先试试看看有啥报错</p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/2.png" alt="1"></p>
+<p>看起来是单引号字符型漏洞</p>
+<p>测试一下他的列数</p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/3.png" alt="1"></p>
+<p>4看起来不行</p>
+<p>测试了一下2的时候可以正常回显</p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/4.png" alt="1"></p>
+<p>所以列数是2，用select看看有没有回显的地方</p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/5.png" alt="1"></p>
+<p>看到他过滤了很多东西就连命名表都过滤了但是没有过滤符号</p>
+<p>但是没有过滤show所以考虑到堆叠注入</p>
+<p>看一看库</p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/6.png" alt="1"></p>
+<p>表：</p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/6.png" alt="1"></p>
+<p>发现其中有两个表</p>
+<p>看看里面有啥</p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/11.png" alt="1"></p>
+<p>发现单引号不行，测试一下双引号还有反撇号</p>
+<p>发现反撇号`可以</p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/7.png" alt="1"></p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/12.png" alt="1"></p>
+<p>可以看到1919这个表这里面含有flag但是输出的时候输出的是words表中的数据</p>
+<p>而这题又屏蔽了一些可以用的函数</p>
+<p>想想其他办法</p>
+<p>我们可以重命名表然后把表中的flag改成id这样查询就可以直接查询到id的数据而id的数据就是flag</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">payload=1&#x27;;RENAME TABLE `words` TO `word1`;RENAME `1919810931114514` TO `words`;ALTER TABLE `words` CHANGE `flag` `id` VARCHAR(100)SET utf8 COLLATE utf8_general_ci NOT NULL;show columns from `words`;#`</span><br></pre></td></tr></table></figure>
+
+<p>就可以直接输出flag了</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;39e1f712-9675-492f-9e7a-7cb9ece7ba2f</span><br></pre></td></tr></table></figure>
+
+
         </div>
 
         
