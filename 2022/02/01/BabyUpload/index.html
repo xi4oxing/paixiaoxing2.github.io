@@ -174,7 +174,31 @@
         
 
         <div class="article-content markdown-body">
-            
+            <h1 id="GXYCTF2019-BabyUpload"><a href="#GXYCTF2019-BabyUpload" class="headerlink" title="[GXYCTF2019]BabyUpload"></a>[GXYCTF2019]BabyUpload</h1><p>名字一看就知道是文件上传</p>
+<p>老样子先随便传一些文件进去看看</p>
+<p><img src="/2022/02/01/BabyUpload/1.png" alt="1"></p>
+<p>传入php一句话木马发现不能有ph后缀</p>
+<p>那么试试别的</p>
+<p><img src="/2022/02/01/BabyUpload/2.png" alt="1"></p>
+<p><img src="/2022/02/01/BabyUpload/3.png" alt="1"></p>
+<p>发现jpg可以传</p>
+<p>那么就是htaccess改后缀了</p>
+<p>抓个包，上传个一句话木马</p>
+<p><img src="/2022/02/01/BabyUpload/4.png" alt="1"></p>
+<p>发现他还是被拦截了</p>
+<p>因为之前jpg可以上传。那么可以猜测他拦截的是文件的内容</p>
+<p>测试了一下发现‘&lt;?’不能在文件里面</p>
+<p>卡在这里了</p>
+<p>上网查了一下，学到了</p>
+<p>可以用$_REQUEST方式传入数据查询</p>
+<p><img src="/2022/02/01/BabyUpload/6.png" alt="1"></p>
+<p>用html自带的script闭合中间语言用php标识把中间的语句用变成php代码，然后我门可以在下面的用post传参直接命令执行</p>
+<p>试一下phpinfo</p>
+<p><img src="/2022/02/01/BabyUpload/7.png" alt="1"></p>
+<p>但是system好像不能用</p>
+<p>我们可以show_source()来读文件</p>
+<p>直接构造payload：shell=show_source(“/flag”)</p>
+
         </div>
 
         
