@@ -9,7 +9,7 @@
     
     <title>
         
-            王鼎杯2020青龙组AreUSerialz |
+            BabyUpload |
         
         paixiaoxing&#39;s Blog
     </title>
@@ -137,7 +137,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">王鼎杯2020青龙组AreUSerialz</span>
+            <span class="title-hover-animation">BabyUpload</span>
         </div>
 
         
@@ -156,8 +156,8 @@
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fas fa-edit"></i>&nbsp;
-        <span class="pc">2022-01-28 10:10:39</span>
-        <span class="mobile">2022-01-28 10:10</span>
+        <span class="pc">2022-02-01 17:03:04</span>
+        <span class="mobile">2022-02-01 17:03</span>
     </span>
     
     
@@ -174,38 +174,7 @@
         
 
         <div class="article-content markdown-body">
-            <h1 id="网鼎杯-2020-青龙组-AreUSerialz"><a href="#网鼎杯-2020-青龙组-AreUSerialz" class="headerlink" title="[网鼎杯 2020 青龙组]AreUSerialz"></a>[网鼎杯 2020 青龙组]AreUSerialz</h1><p>同样先进去看看发现是一道序列化题目</p>
-<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/1.png" alt="1"></p>
-<p>然后进行代码审计</p>
-<p>注意：这类型题目在进行反序列化时首先调用的是__destruct()魔术方法</p>
-<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/2.png" alt="2"></p>
-<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/5.png" alt="5"></p>
-<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/4.png" alt="4"></p>
-<p>我们可以看到这里上面的2是强比较类型（同类型同大小同数值）而下面是弱比较类型不一定需要类型相同所以要绕过这个if我们可以直接用int类型2</p>
-<p>可以看到我们可以进行文件读取filename就是我们需要读取的文件路径</p>
-<p>我们可以通过php伪协议进行读取</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php://filter/read=convert.base64-encode/resource=flag.php</span><br></pre></td></tr></table></figure>
-
-<p>所以我们需要改的参数只有op以及filename</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">``protected` `$op``=2;</span><br><span class="line">``protected` `$filename``=``&quot;php://filter/read=convert.base64-encode/resource=flag.php&quot;``;</span><br><span class="line">``protected` `$content``;</span><br></pre></td></tr></table></figure>
-
-<p>我们直接进行序列化</p>
-<p>注意class类型序列化时需要先实例化对象</p>
-<p>最后都得到</p>
-<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/8.png" alt="8"></p>
-<p>发现有三个显示不正确的地方</p>
-<p>上网查了一下发现是%00的编码无法通过上面的is_valid函数校验（参考文档：<a class="link" target="_blank" rel="noopener" href="https://www.cnblogs.com/Cl0ud/p/12874458.html%EF%BC%89">https://www.cnblogs.com/Cl0ud/p/12874458.html）<i class="fas fa-external-link-alt"></i></a></p>
-<p>最简单的解决办法是将上面类中的对象转换成public类型（因为php7+版本对属性不敏感）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public` `$op``=2;</span><br><span class="line">public` `$filename``=``&quot;php://filter/read=convert.base64-encode/resource=flag.php&quot;``;</span><br><span class="line">public` `$content``;</span><br></pre></td></tr></table></figure>
-
-<p>最后得到</p>
-<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/7.png" alt="7"></p>
-<p>最后用get方式传进str</p>
-<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/9.png" alt="9"></p>
-<p>最后进行base64解码就行了</p>
-<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/11.png" alt="11"></p>
-<p>flag{242b88d2-1121-4c83-a6e4-7685dc25adfb}</p>
-
+            
         </div>
 
         
@@ -218,13 +187,13 @@
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2022/01/28/GXYCTF2019-BabySQli/"
+                           href="/2022/02/01/EasyJava/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">(GXYCTF2019)BabySQli</span>
+                                <span class="post-nav-title-item">EasyJava</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
@@ -234,10 +203,10 @@
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2022/01/28/%E4%BD%A0%E4%BC%A0%E4%BD%A0%F0%9F%90%8E%E5%91%A2/"
+                           href="/2022/01/31/fakebook/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">你传你🐎呢</span>
+                                <span class="post-nav-title-item">fakebook</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
