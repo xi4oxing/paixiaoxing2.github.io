@@ -174,7 +174,42 @@
         
 
         <div class="article-content markdown-body">
-            
+            <h1 id="RoarCTF-2019-Easy-Java"><a href="#RoarCTF-2019-Easy-Java" class="headerlink" title="[RoarCTF 2019]Easy Java"></a>[RoarCTF 2019]Easy Java</h1><p>java类的题目没写过，还是先进去看看把</p>
+<p><img src="/2022/02/01/EasyJava/3.png" alt="1"></p>
+<p>不知道是啥漏洞，提示了是java应该不是sql注入</p>
+<p>尝试爆破的时候发现爆出了账号密码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">admin</span><br><span class="line">admin888</span><br></pre></td></tr></table></figure>
+
+<p>登录进去看看</p>
+<p><img src="/2022/02/01/EasyJava/1.png" alt="1"></p>
+<p>可惜，flag不在这里，而且是送分题</p>
+<p>去看看别的</p>
+<p>主页下面有个help点进去看看</p>
+<p><img src="/2022/02/01/EasyJava/2.png" alt="1"></p>
+<p>好像有任意文件读取漏洞，但是读不到</p>
+<p>试试直接进入，下载了一个文件</p>
+<p>可是里面也没有什么信息，是个假的</p>
+<p>这里我就不会做了因为java也没做过就去看了看大佬的wp</p>
+<p>没想到请求方式也是假的用post可以直接下载</p>
+<p>但是之前我已经下载过了</p>
+<p>这之后涉及到一个java-web开发的一个点，因为没接触过所以这里偷抄记录一下大佬写的（<a class="link" target="_blank" rel="noopener" href="https://blog.csdn.net/wy_97/article/details/78165051%EF%BC%89">https://blog.csdn.net/wy_97/article/details/78165051）<i class="fas fa-external-link-alt"></i></a></p>
+<p>说是WEB-INF是javaweb应用的安全目录，如果想要访问其中的文件，必须通过web.xml</p>
+<p>相互映射才能访问</p>
+<p>简单来说就是</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> WEB-INF主要包含一下文件或目录：</span><br><span class="line">    /WEB-INF/web.xml：Web应用程序配置文件，描述了 servlet 和其他的应用组件配置及命名规则。</span><br><span class="line">    /WEB-INF/classes/：含了站点所有用的 class 文件，包括 servlet class 和非servlet class，他们不能包含在 .jar文件中</span><br><span class="line">    /WEB-INF/lib/：存放web应用需要的各种JAR文件，放置仅在这个应用中要求使用的jar文件,如数据库驱动jar文件</span><br><span class="line">    /WEB-INF/src/：源码目录，按照包名结构放置各个java文件。</span><br><span class="line">    /WEB-INF/database.properties：数据库配置文件</span><br><span class="line">漏洞检测以及利用方法：通过找到web.xml文件，推断class文件的路径，最后直接class文件，在通过反编译class文件，得到网站源码</span><br></pre></td></tr></table></figure>
+
+<p>我们可以post传入web.xml读取一下</p>
+<p><img src="/2022/02/01/EasyJava/4.png" alt="1"></p>
+<p>找到flag了，发现在com/wm/ctf/FlagController里面有个flag</p>
+<p>读取一下class文件</p>
+<p>路径就是/classes/com/wm/ctf/FlagController.class</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">filename=/WEB-INF/classes/com/wm/ctf/FlagController.class</span><br></pre></td></tr></table></figure>
+
+<p>POST下载文件</p>
+<p><img src="/2022/02/01/EasyJava/5.png" alt="1"></p>
+<p>将其中的base64编码解码就能得到了</p>
+<p><img src="/2022/02/01/EasyJava/6.png" alt="1"></p>
+
         </div>
 
         
