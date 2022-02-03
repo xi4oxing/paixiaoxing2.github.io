@@ -22,8 +22,8 @@
 
     <script id="hexo-configurations">
     let KEEP = window.KEEP || {};
-    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en"};
-    KEEP.theme_config = {"toc":{"enable":false,"number":false,"expand_all":false,"init_open":false},"style":{"primary_color":"#0066CC","avatar":"/images/paidaxing.jpg","favicon":"/images/paidaxing.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":true,"background_img":"/images/bg.svg","description":"“都入冬了，你还执着于盛夏的蝉鸣？”"},"scroll":{"progress_bar":{"enable":true},"percent":{"enable":true}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en","path":"search.xml"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/paidaxing.jpg","favicon":"/images/paidaxing.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":true,"background_img":"/images/bg.svg","description":"“都入冬了，你还执着于盛夏的蝉鸣？”"},"scroll":{"progress_bar":{"enable":true},"percent":{"enable":true}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
     KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
   </script>
 <meta name="generator" content="Hexo 6.0.0"></head>
@@ -82,9 +82,9 @@
                     
                         <li class="menu-item">
                             <a class=""
-                               href="/about"
+                               href="/links"
                             >
-                                友链
+                                LINKS
                             </a>
                         </li>
                     
@@ -115,7 +115,7 @@
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/about">友链</a>
+                       href="/links">LINKS</a>
                 </li>
             
         </ul>
@@ -161,10 +161,25 @@
     </span>
     
     
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/knightctf/">knightctf</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
 
     
     
     
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
     
 </div>
 
@@ -190,7 +205,32 @@
         </div>
 
         
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：Most-Secure-Calculator</li>
+        <li>Post author：paixiaoxing</li>
+        <li>Create time：2022-01-28 16:11:28</li>
+        <li>
+            Post link：https://keep.xpoet.cn/2022/01/28/Most-Secure-Calculator/
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
 
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/knightctf/">#knightctf</a>&nbsp;
+                    </li>
+                
+            </ul>
         
 
         
@@ -252,6 +292,20 @@
             2022&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">paixiaoxing</a>
         </div>
         
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
         <div class="theme-info info-item">
             Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
         </div>
@@ -268,6 +322,10 @@
             <div class="post-tools-container">
     <ul class="tools-list">
         <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
         
 
         <!-- go comment -->
@@ -323,6 +381,14 @@
     </div>
 
     
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E5%99%A81"><span class="nav-number">1.</span> <span class="nav-text">计算器1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#KCTF-WaS-mY-cAlCuLaToR-sAfE"><span class="nav-number">2.</span> <span class="nav-text">KCTF{WaS_mY_cAlCuLaToR_sAfE}</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
 
     <div class="image-viewer-container">
     <img src="">
@@ -350,10 +416,22 @@
 
 
 
+    
+<script src="/js/code-copy.js"></script>
+
+
 
 
 
 <div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
     
 </div>
 
