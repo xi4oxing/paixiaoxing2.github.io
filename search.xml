@@ -761,4 +761,75 @@
 
 ]]></content>
   </entry>
+  <entry>
+    <title>蛛蛛...嘿嘿♥我的蛛蛛</title>
+    <url>/2022/02/06/%E8%9B%9B%E8%9B%9B-%E5%98%BF%E5%98%BF%E2%99%A5%E6%88%91%E7%9A%84%E8%9B%9B%E8%9B%9B/</url>
+    <content><![CDATA[<h1 id="蛛蛛…嘿嘿♥我的蛛蛛"><a href="#蛛蛛…嘿嘿♥我的蛛蛛" class="headerlink" title="蛛蛛…嘿嘿♥我的蛛蛛"></a>蛛蛛…嘿嘿♥我的蛛蛛</h1><p>进去之后先看看</p>
+<p><img src="/2022/02/06/%E8%9B%9B%E8%9B%9B-%E5%98%BF%E5%98%BF%E2%99%A5%E6%88%91%E7%9A%84%E8%9B%9B%E8%9B%9B/1.png" alt="1"></p>
+<p>点了一下，发现方框变多但是只有一个是真的</p>
+<p><img src="/2022/02/06/%E8%9B%9B%E8%9B%9B-%E5%98%BF%E5%98%BF%E2%99%A5%E6%88%91%E7%9A%84%E8%9B%9B%E8%9B%9B/2.png" alt="1"></p>
+<p>查看源代码的时候可以看到哪个是真的</p>
+<p>但是一直点也不知道什么时候结束，写一个简单的爬虫脚本方便我们直接得到那个页面</p>
+<p>附上我的脚本：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开发时间：2022/2/6:16:50</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;https://hgame-spider.vidar.club/714c5754f1&#x27;</span></span><br><span class="line">key = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">while</span>(<span class="number">1</span>):</span><br><span class="line">    urrl = url + key</span><br><span class="line">    uuu = re.<span class="built_in">compile</span>(<span class="string">&#x27;href=&quot;(.*?)&quot;&#x27;</span>)   <span class="comment">#匹配括号中的内容</span></span><br><span class="line">    r = requests.get(url=urrl)          <span class="comment">#用get方式传入参数</span></span><br><span class="line">    l = re.findall(uuu, r.text)    <span class="comment">#在r.text中匹配UUU规则中的数据</span></span><br><span class="line">    <span class="built_in">print</span>(urrl)                 <span class="comment">#查看访问网址</span></span><br><span class="line">    key = [i <span class="keyword">for</span> i <span class="keyword">in</span> l <span class="keyword">if</span> i != <span class="string">&#x27;&#x27;</span>]  <span class="comment">#从l中提取数据直到他为空</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(key) == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        key = key[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+
+<p>直接访问最后一个网页</p>
+<p><img src="/2022/02/06/%E8%9B%9B%E8%9B%9B-%E5%98%BF%E5%98%BF%E2%99%A5%E6%88%91%E7%9A%84%E8%9B%9B%E8%9B%9B/4.png" alt="1"></p>
+<p><img src="/2022/02/06/%E8%9B%9B%E8%9B%9B-%E5%98%BF%E5%98%BF%E2%99%A5%E6%88%91%E7%9A%84%E8%9B%9B%E8%9B%9B/3.png" alt="1"></p>
+<p>最后找flag就简单了慢慢找呗，最后发现flag是在请求头里面</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>easy_auth</title>
+    <url>/2022/02/06/easy-auth/</url>
+    <content><![CDATA[<h1 id="easy-auth"><a href="#easy-auth" class="headerlink" title="easy_auth"></a>easy_auth</h1><p>进去是一个注册登录框：</p>
+<p><img src="/2022/02/06/easy-auth/1.png" alt="1"></p>
+<p>先注册一个admin看看</p>
+<p><img src="/2022/02/06/easy-auth/5.png" alt="1"></p>
+<p>可以看到，admin用户是存在的</p>
+<p>那么有极大的可能就是第一个就是admin</p>
+<p>先随便注册一个进去先看看</p>
+<p><img src="/2022/02/06/easy-auth/2.png" alt="1"></p>
+<p>进入了这个页面</p>
+<p>下面有个对话框可以输入内容</p>
+<p>输入完会显示在网页上</p>
+<p>抓个包，抓doing包试试</p>
+<p><img src="/2022/02/06/easy-auth/3.png" alt="1"></p>
+<p>发过来好几个包，最后一个get包里面发现了我们想要的东西，可以看到我们返回了我的ID以及用户名</p>
+<p>而且我发过去的东西里面附带了一个token</p>
+<p>但是我不知道这视什么解码</p>
+<p>上网查了一下这种格式，非常可能是jwt的sha256解码</p>
+<p>进去看看</p>
+<p><img src="/2022/02/06/easy-auth/9.png" alt="1"></p>
+<p>发现确实是我们返回的内容，那么我们按照之前测试的尝试修改UserName改成admin，ID改成0试试第一个是不是admin</p>
+<p><img src="/2022/02/06/easy-auth/8.png" alt="1"></p>
+<p>好像不太行，但是有返回值，思路应该是对的，ID试试改成1</p>
+<p><img src="/2022/02/06/easy-auth/4.png" alt="1"></p>
+<p>可以看到他成功返回了并且返回了flag</p>
+]]></content>
+      <tags>
+        <tag>hgame</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Tetris plus</title>
+    <url>/2022/02/06/Tetris-plus/</url>
+    <content><![CDATA[<h1 id="Tetris-plus"><a href="#Tetris-plus" class="headerlink" title="Tetris-plus"></a>Tetris-plus</h1><p>进入题目：</p>
+<p>发现是个游戏，先小玩一把。</p>
+<p><img src="/2022/02/06/Tetris-plus/1.png" alt="1"></p>
+<p>到最后也没发现啥问题</p>
+<p>点点别的也都正常</p>
+<p>看看源代码</p>
+<p><img src="/2022/02/06/Tetris-plus/3.png" alt="1"></p>
+<p>都是些不痛不痒的东西，但是包含的js非常多，都点进去看看</p>
+<p>在check.js页面发现他注释了段很长的东西，之前写过的jsfuck</p>
+<p><img src="/2022/02/06/Tetris-plus/2.png" alt="1"></p>
+<p>直接拿去开发者页面去编译一下jsfuck</p>
+<p><img src="/2022/02/06/Tetris-plus/5.png" alt="1"></p>
+<p>就得到了flag拉</p>
+]]></content>
+      <tags>
+        <tag>hgame</tag>
+      </tags>
+  </entry>
 </search>
