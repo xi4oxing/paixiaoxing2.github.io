@@ -152,6 +152,95 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2022/01/31/CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day2-Web1-Hack-World/">
+                        (CISCN2019 华北赛区 Day2 Web1)Hack World
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        今天来写一下Hack World首先还是先进入题目：
+
+提示我们我们想要的flag再表flag中的flag列中
+我们可以猜一下payload=select flag from flag
+先试试输入数字看看
+发现1是
+
+2是
+0和3就报错了
+
+输入数字...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Jan 31 2022 14:07:24 GMT+0800">2022-01-31</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/CISCN/">CISCN</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/01/31/CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day2-Web1-Hack-World/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/01/30/Blacklist/">
+                        Blacklist
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        Blacklist[可以先看看之前强网杯的随便住]
+首先进入题目：
+
+看起来是sql注入先试试看看有啥报错
+
+看起来是单引号字符型漏洞
+测试一下他的列数
+
+4看起来不行
+测试了一下2的时候可以正常回显
+
+所以列数是2，用select看看有没有回显的地...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Jan 30 2022 10:20:50 GMT+0800">2022-01-30</span></span>
+        
+        
+    </div>
+
+    <a href="/2022/01/30/Blacklist/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/">
                         随便注
                     </a>
@@ -534,89 +623,6 @@ KCTF...
     </div>
 
     <a href="/2022/01/28/%E4%BD%A0%E4%BC%A0%E4%BD%A0%F0%9F%90%8E%E5%91%A2/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/01/27/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98HardSQL/">
-                        极客大挑战HardSQL
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        极客大挑战Hardsql// 题目是一个很容易的报错题目
-首先判断出错点：
-
-
-尝试得出是字符串注入单引号闭合
-
-经过尝试判断出此题过滤空格等于号等字符
-我们可以用括号进行绕过
-因为无法回显所以想到报错注入
-此题可以用的是xpath注入
-也就是upd...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Jan 27 2022 20:12:07 GMT+0800">2022-01-27</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98/">极客大挑战</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/01/27/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98HardSQL/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/01/27/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/">
-                        文件包含
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        文件包含本地包含%00截断
-远程包含%00阻断
-php://filter/read=convert.base64-encode/resource=
-文件包含-挖掘经验• 模块加载、cache调用，传入的参数拼接包含路径
-• include()
-使用此...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Jan 27 2022 19:38:38 GMT+0800">2022-01-27</span></span>
-        
-        
-    </div>
-
-    <a href="/2022/01/27/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>

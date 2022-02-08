@@ -832,4 +832,43 @@
         <tag>hgame</tag>
       </tags>
   </entry>
+  <entry>
+    <title>cybergrabs-easyweb</title>
+    <url>/2022/02/08/cybergrabs-easyweb/</url>
+    <content><![CDATA[<h1 id="easy-web"><a href="#easy-web" class="headerlink" title="easy-web"></a>easy-web</h1><p>进入题目也得先看看</p>
+<p><img src="/2022/02/08/cybergrabs-easyweb/1.png" alt="1"></p>
+<p>啥也没有，源代码也没啥</p>
+<p>抓个包看下（因为他刚进去的时候有的要等响应，抓错几次）</p>
+<p><img src="/2022/02/08/cybergrabs-easyweb/2.png" alt="1"></p>
+<p>可以看到我们传过去一个cookie</p>
+<p>而且从服务器端回传了一个cookie的value值，我们拿到这个值直接去base64解码就可以得到了</p>
+]]></content>
+      <tags>
+        <tag>Cyber Grabs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>cybergrabs-rabbit</title>
+    <url>/2022/02/08/cybergrabs-rabbit/</url>
+    <content><![CDATA[<h1 id="rabblt"><a href="#rabblt" class="headerlink" title="rabblt"></a>rabblt</h1><p>这道题跟之前的不一样</p>
+<p>在tryhackme网站里开了个攻击机</p>
+<p>我们自己连连不上</p>
+<p>题目提示让我们read flag.txt</p>
+<p>我们可以想到可能是文件读取或者文件包含，让我们直接读到flag.txt之中的内容</p>
+<p>打开之后照常先进网站看看</p>
+<p><img src="/2022/02/08/cybergrabs-rabbit/2.png" alt="1"></p>
+<p>发现这些没有那种类似文件包含的漏洞，</p>
+<p>那么会不会是在根目录下面直接读取flag.txt</p>
+<p>尝试了一下dirsearch，但是攻击机里面没有</p>
+<p>但是前面题目中提示了flag应该是在flag.txt里面</p>
+<p>所以我们直接读取flag.txt试试</p>
+<p><img src="/2022/02/08/cybergrabs-rabbit/3.png" alt="1"></p>
+<p>可以看到可以读取到flag</p>
+<p>提交</p>
+<p><img src="/2022/02/08/cybergrabs-rabbit/4.png" alt="1"></p>
+]]></content>
+      <tags>
+        <tag>Cyber Grabs</tag>
+      </tags>
+  </entry>
 </search>
