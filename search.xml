@@ -994,6 +994,44 @@
   <entry>
     <title>禁止套娃</title>
     <url>/2022/02/10/%E7%A6%81%E6%AD%A2%E5%A5%97%E5%A8%83/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<h2 id="GXYCTF2019-禁止套娃"><a href="#GXYCTF2019-禁止套娃" class="headerlink" title="[GXYCTF2019]禁止套娃"></a>[GXYCTF2019]禁止套娃</h2><p>进入题目就一句话，啥也没有</p>
+<p><img src="/2022/02/10/%E7%A6%81%E6%AD%A2%E5%A5%97%E5%A8%83/2.png" alt="1"></p>
+<p>猜测一下是不是藏起来了？</p>
+<p>找了半天没找到，扫描一下目录也没有，最后找到是git源码泄露</p>
+<p>用githack来下载源码</p>
+<p><img src="/2022/02/10/%E7%A6%81%E6%AD%A2%E5%A5%97%E5%A8%83/1.png" alt="1"></p>
+<p>可以看到需要有四个if需要绕过</p>
+<p>第一个是确定以get方式传入exp</p>
+<p>第二个是禁止了协议，php伪协议都不行了</p>
+<p>第三个<strong>if</strong>(<strong>‘;’ === preg_replace</strong>(<strong>‘/[a-z,_]+((?R)?)/‘, <strong>NULL</strong>, <strong>&lt;**span **class**=”katex math inline”**&gt;</strong>_GET</strong>[<strong>‘exp’</strong>]))中(?R)指的是引用当前表达式后面加了一个？是递归调用（<strong>完全不懂，查了之后才知道</strong>）整个的意思是将匹配到的字符替换为空，也就是说我们只能用无参函数可以嵌套无参函数</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">a(b(c()))可以使用</span><br><span class="line">a(&#x27;b&#x27;)这种里面有参数的不行</span><br></pre></td></tr></table></figure>
+
+<p>第四个又过滤et info等函数</p>
+<p>很明显就是无参数RCE了，</p>
+<p>我们现需要看看里面又啥文件，可以构造print_r(scandir(‘.’));</p>
+<p>但是我们函数里面又不能有参数，</p>
+<p>实在没办法，请教大佬，看了看大佬的wp</p>
+<p>学到了：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">localeconv()</span><br><span class="line">他是一个数组，第一个就是.我们需要调用数组的第一个又需要介绍一个函数</span><br><span class="line">current（）</span><br><span class="line">他们俩组合current(locakeconv())</span><br><span class="line">就可以调用‘.’拉</span><br></pre></td></tr></table></figure>
+
+<p>那我们把上面的.替换掉</p>
+<p><img src="/2022/02/10/%E7%A6%81%E6%AD%A2%E5%A5%97%E5%A8%83/3.png" alt="1"></p>
+<p>可以看到我们需要读取的文件在倒数第三个</p>
+<p>这里又学到一个姿势</p>
+<p>把数组倒置反向排序，然后选取第二个</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">需要用到的函数：</span><br><span class="line">array_reverse()</span><br><span class="line">next（）</span><br><span class="line">先倒置再取下一个</span><br><span class="line">next（array_reverse()）</span><br></pre></td></tr></table></figure>
+
+<p>那么payload：</p>
+<p>？exp=print_r(next(array_reverse(current(localeconv()))));</p>
+<p><img src="/2022/02/10/%E7%A6%81%E6%AD%A2%E5%A5%97%E5%A8%83/4.png" alt="1"></p>
+<p>接下来就是读文件了，把print_r换成highlight_file</p>
+<p>最终payload：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">?exp=print_r(next(array_reverse(current(localeconv()))));</span><br></pre></td></tr></table></figure>
+
+
+
+<p>就可以拿到flag了</p>
+<p><img src="/2022/02/10/%E7%A6%81%E6%AD%A2%E5%A5%97%E5%A8%83/5.png" alt="1"></p>
+]]></content>
   </entry>
 </search>
