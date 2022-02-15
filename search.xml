@@ -887,7 +887,30 @@
   <entry>
     <title>Newcalc0</title>
     <url>/2022/02/15/Newcalc0/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<h1 id="Newcalc0"><a href="#Newcalc0" class="headerlink" title="Newcalc0"></a>Newcalc0</h1><p>本题是一道nodejs：</p>
+<p>是原型链污染</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">什么是原型链污染？</span><br><span class="line">js中几乎所有的东西都是一个对象，任何对象都有一个原型对象，这个原型对象由对象的内置属性proto指向它的构造函数的prototype指向的对象，即任何对象都是由一个构造函数创建的</span><br><span class="line"></span><br><span class="line">function a(name,age)&#123;</span><br><span class="line">    this.name = name;</span><br><span class="line">    this.age = age;</span><br><span class="line">&#125;</span><br><span class="line">a函数的内容就是a类的构造函数，a中的属性就是this.name、this.age</span><br><span class="line">在javascript中你生名了一个函数a之后，浏览器就会自动生成一个对象b（实例原型），a构造函数中就有一个默认的属性（prototype）指向对象b，b就是函数a的原型对象，其中b有一个默认的属性constructor指向函数a</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/02/15/Newcalc0/5.png" alt="1"></p>
+<p><img src="/2022/02/15/Newcalc0/6.png" alt="1"></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">实例对象的__proto__指向实例原型，实例原型的__proto__等于他上一级的实例原型直到object这是由于对象之间存在继承关系当上层没有就会再向上上层搜索，直到指向 null，若此时还未找到就会返回 undefined</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/02/15/Newcalc0/7.png" alt="1"></p>
+<p><img src="/2022/02/15/Newcalc0/8.png" alt="1"></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">原型链污染就是修改其构造函数中的属性值，使其他通过该构造函数实例化出的对象也具有这个属性的值。</span><br><span class="line">由于对象是无序的，当使用第二种方式访问对象时，只能使用指明下标的方式去访问。</span><br><span class="line">因此我们可以通过 a [“proto“] 的方式去访问其原型对象</span><br><span class="line"></span><br><span class="line">当我们调用对象属性时， 会查找属性，如果本身没有，则会去proto中查找，也就是构造函数的显式原型中查找，如果构造函数中也没有该属性，因为构造函数也是对象，也有proto，那么会去proto的显式原型中查找，一直到null。</span><br><span class="line">p神的文章中提到JavaScript原型链继承</span><br></pre></td></tr></table></figure>
+
+<p>那么我们回到题目：</p>
+<p>看到他的源码</p>
+<p><img src="/2022/02/15/Newcalc0/1.png" alt="1"></p>
+<p>首先这里有一个知识点：</p>
+<p>console.table()会将数据以表格的形式输出</p>
+<p>我们直接构造console.table([{a:1}],[‘__proto__‘]）就可以添加一个表格更改flag页面中的object.prototype的值，使其绕过判断，直接输出flag</p>
+<p><img src="/2022/02/15/Newcalc0/2.png" alt="1"></p>
+<p><img src="/2022/02/15/Newcalc0/3.png" alt="1"></p>
+]]></content>
+      <tags>
+        <tag>V&amp;NCTF</tag>
+      </tags>
   </entry>
   <entry>
     <title>GameV4.0</title>
