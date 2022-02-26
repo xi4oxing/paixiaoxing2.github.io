@@ -9,7 +9,7 @@
     
     <title>
         
-            ctf-show |
+            ctf-show(持续更新) |
         
         paixiaoxing&#39;s Blog
     </title>
@@ -150,7 +150,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">ctf-show</span>
+            <span class="title-hover-animation">ctf-show(持续更新)</span>
         </div>
 
         
@@ -202,10 +202,10 @@
         
 
         <div class="article-content markdown-body">
-            <h1 id="ctf-show-持续更新"><a href="#ctf-show-持续更新" class="headerlink" title="ctf-show(持续更新)"></a>ctf-show(持续更新)</h1><h2 id="爆破"><a href="#爆破" class="headerlink" title="爆破"></a>爆破</h2><h3 id="web27"><a href="#web27" class="headerlink" title="web27"></a>web27</h3><h3 id="web-28"><a href="#web-28" class="headerlink" title="web 28"></a>web 28</h3><p><img src="/2022/02/22/ctf-show/.%5Cctf-show%5Cweb28_1.png" alt="1"></p>
+            <h1 id="ctf-show-持续更新"><a href="#ctf-show-持续更新" class="headerlink" title="ctf-show(持续更新)"></a>ctf-show(持续更新)</h1><h2 id="爆破"><a href="#爆破" class="headerlink" title="爆破"></a>爆破</h2><h3 id="web27"><a href="#web27" class="headerlink" title="web27"></a>web27</h3><h3 id="web-28"><a href="#web-28" class="headerlink" title="web 28"></a>web 28</h3><p><img src="/2022/02/22/ctf-show/web28_1.png" alt="1"></p>
 <p>看到题目里面啥也没有，能爆破的地方只有页面上面的url内容</p>
 <p>但是如果改txt内容，网页会将我们重定向</p>
-<p><img src="/2022/02/22/ctf-show/.%5Cctf-show%5Cweb28_3.png" alt="1"></p>
+<p><img src="/2022/02/22/ctf-show/web28_3.png" alt="1"></p>
 <p>导致网页访问不了，直接爆破目录/0/1/替换用bp</p>
 <p>最后结果是/72/20/</p>
 <h2 id="命令执行"><a href="#命令执行" class="headerlink" title="命令执行"></a>命令执行</h2><h3 id="web29"><a href="#web29" class="headerlink" title="web29"></a>web29</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span>(!preg_match(<span class="string">&quot;/flag/i&quot;</span>, <span class="variable">$c</span>))&#123;</span><br><span class="line">        <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -424,7 +424,7 @@
             <div class="post-copyright-info">
                 <div class="article-copyright-info-container">
     <ul>
-        <li>Post title：ctf-show</li>
+        <li>Post title：ctf-show(持续更新)</li>
         <li>Post author：paixiaoxing</li>
         <li>Create time：2022-02-22 11:11:39</li>
         <li>
