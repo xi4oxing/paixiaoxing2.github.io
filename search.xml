@@ -1165,7 +1165,19 @@
 <p>读取这个方法也全是问号，想到用utf-8编码看一下是不是编码问题</p>
 <p>查看源代码发现下面有一层过滤</p>
 <p>可以用exit();跳过这层过滤</p>
-<h3 id="web-72"><a href="#web-72" class="headerlink" title="web 72"></a>web 72</h3>]]></content>
+<h3 id="web-72"><a href="#web-72" class="headerlink" title="web 72"></a>web 72</h3><h3 id="web-73"><a href="#web-73" class="headerlink" title="web 73"></a>web 73</h3><p>先用var_export遍历一下目录发现根目录下面的flagc.txt文件</p>
+<p>然后include包含这个文件就可以</p>
+<h3 id="web-74"><a href="#web-74" class="headerlink" title="web 74"></a>web 74</h3><p>这里过滤掉了dir相关的函数</p>
+<p>用glob函数过</p>
+<p>使用方法：``</p>
+<p>glob(‘./*’)遍历当前目录下的文件</p>
+<h3 id="web-75"><a href="#web-75" class="headerlink" title="web 75"></a>web 75</h3><p>用到了php中保存目录的类：DirectoryIterator</p>
+<p>DirectoryIterator 类提供了一个简单的界面来查看文件系统目录的内容。</p>
+<p>我们可以直接在网页中编写实例一个DirectoryIterator对象，然后用一个循环遍历出它里面包含的文件</p>
+<p>payload：</p>
+<p><code>?&gt;&lt;?php $a = new DirectoryIterator(&quot;glob:///*&quot;);foreach($a as $f)&#123;echo $f-&gt;__toString().&quot; &quot;;&#125;exit();</code></p>
+<p>可以找到flag36.txt文件</p>
+<h3 id="web-76"><a href="#web-76" class="headerlink" title="web 76"></a>web 76</h3>]]></content>
       <tags>
         <tag>ctf-show</tag>
       </tags>
