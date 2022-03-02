@@ -1190,7 +1190,13 @@
 
 <p>c=try {$dbh = new PDO(‘mysql:host=localhost;dbname=ctftraining’, ‘root’, ‘root’);foreach($dbh-&gt;query(‘select load_file(“/flag36.txt”)’) as $row) {echo($row[0]).”|”; }$dbh = null;}catch (PDOException $e) {echo $e- &gt;getMessage();<strong>exit</strong>(0);}<strong>exit</strong>(0);</p>
 <p>原理：在数据库中查找flag36.txt然后抛出异常，输出其中内容</p>
-<h3 id="web77"><a href="#web77" class="headerlink" title="web77"></a>web77</h3><h2 id="SSTI"><a href="#SSTI" class="headerlink" title="SSTI"></a>SSTI</h2><h3 id="web-361"><a href="#web-361" class="headerlink" title="web 361"></a>web 361</h3><p>这里跳了一下，看一下模板，ssti</p>
+<h3 id="web77"><a href="#web77" class="headerlink" title="web77"></a>web77</h3><h2 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h2><h3 id="web-78"><a href="#web-78" class="headerlink" title="web 78"></a>web 78</h3><p>用php伪协议</p>
+<h3 id="web-79"><a href="#web-79" class="headerlink" title="web 79"></a>web 79</h3><p>用data伪协议</p>
+<h3 id="web-80"><a href="#web-80" class="headerlink" title="web 80"></a>web 80</h3><p>随便输入一个页面查看服务器的系统</p>
+<p>用file伪协议抓包之后在网页的标头信息构造漏洞在日志文件中getshell</p>
+<h3 id="web-81"><a href="#web-81" class="headerlink" title="web 81"></a>web 81</h3><p>直接file=文件的日志文件</p>
+<p>然后抓包构造标头</p>
+<h3 id="web-82"><a href="#web-82" class="headerlink" title="web 82"></a>web 82</h3><h2 id="SSTI"><a href="#SSTI" class="headerlink" title="SSTI"></a>SSTI</h2><h3 id="web-361"><a href="#web-361" class="headerlink" title="web 361"></a>web 361</h3><p>这里跳了一下，看一下模板，ssti</p>
 <p>题目的提示：名字就是提示，我们只需要在网页的后面以get方式传入一个值就行了</p>
 <p>既然是ssti那么我们直接测试一下49看一下</p>
 <p>成功返回了49，那就肯定了就是这里。</p>
@@ -1384,6 +1390,42 @@
 ]]></content>
       <tags>
         <tag>CISCN</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>朱雀杯-Nmap</title>
+    <url>/2022/03/02/%E6%9C%B1%E9%9B%80%E6%9D%AF-Nmap/</url>
+    <content><![CDATA[<h1 id="朱雀杯-Nmap"><a href="#朱雀杯-Nmap" class="headerlink" title="[朱雀杯]Nmap"></a>[朱雀杯]Nmap</h1><p>看到题目，想到了上次做到的OnlineTool</p>
+<p>一样都是用到了Nmap这个脚本</p>
+<p>翻到nmap中有一个-oG参数将命令参数写入自己定义的文件中</p>
+<p>而且这里考到了escapeshellarg和escapeshellcmd一起使用的时候会造成单引号逃逸</p>
+<p>escapeshellarg，会在字符串中所有的单引号（包括成对存在闭合的）前添加一个’’ ，若已经用\转义，则会用并且用’’ 替换\，最后将整个变量用单引号包裹。<br>escapeshellcmd，会将字符串中未被转义的双引号或单引号转义（成对存在闭合的双引号或单引号除外）若已被转义，则用&quot;或\‘替”或’<br>但是先进行larg再进行cmd的时候因为前面先转义单引号</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">127.0.0.1&#x27; -v -d a=1</span><br></pre></td></tr></table></figure>
+
+<p>经过escapeshellarg进行单引号转义,再用单引号包裹连接</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">&#x27;127.0.0.1&#x27;\&#x27;&#x27; -v -d a=1&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>在进行escapeshellcmd转义对后面的单引号还有\进行转义</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">&#x27;127.0.0.1&#x27;\\&#x27;&#x27; -v -d a=1\&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>现在可以看到后面的参数是没有被包裹的这里面的\直接被变成了一个\，也就是说这个指令被分割成三个部分</p>
+<p>127.0.0.1    ’ ’ 还有a =1&#39;</p>
+<p>如果此时是进行curl指令那么就变成</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">curl 127.0.0.1 -v -d a=1&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>也就是以post方式传入a=1‘最终逃逸单引号</p>
+<p>尝试一下上次构造的payload</p>
+<p><code> &#39; &lt;?php @eval($_POST[&quot;a&quot;]）;?&gt; -oG hack.php&#39;</code></p>
+<p><img src="/2022/03/02/%E6%9C%B1%E9%9B%80%E6%9D%AF-Nmap/1.png" alt="1"></p>
+<p>可以看到，被拦截了</p>
+<p>但是代码是正确执行了，只是需要绕一下过滤</p>
+<p>测试了一下，是因为过滤了php</p>
+<p>那么我们直接&lt;?php替换成&lt;?=可以直接运行，然后把php文件转换成phtml文件，直接读取文件</p>
+<p><img src="/2022/03/02/%E6%9C%B1%E9%9B%80%E6%9D%AF-Nmap/2.png" alt="1"></p>
+<p>发现可以执行命令，那么直接执行cat /flag直接拿到flag</p>
+]]></content>
+      <tags>
+        <tag>朱雀杯</tag>
       </tags>
   </entry>
 </search>
