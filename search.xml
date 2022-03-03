@@ -1196,7 +1196,19 @@
 <p>用file伪协议抓包之后在网页的标头信息构造漏洞在日志文件中getshell</p>
 <h3 id="web-81"><a href="#web-81" class="headerlink" title="web 81"></a>web 81</h3><p>直接file=文件的日志文件</p>
 <p>然后抓包构造标头</p>
-<h3 id="web-82"><a href="#web-82" class="headerlink" title="web 82"></a>web 82</h3><h2 id="SSTI"><a href="#SSTI" class="headerlink" title="SSTI"></a>SSTI</h2><h3 id="web-361"><a href="#web-361" class="headerlink" title="web 361"></a>web 361</h3><p>这里跳了一下，看一下模板，ssti</p>
+<h3 id="web-82-86"><a href="#web-82-86" class="headerlink" title="web 82-86"></a>web 82-86</h3><p>环境有问题，现在没办法做</p>
+<h3 id="web-87"><a href="#web-87" class="headerlink" title="web 87"></a>web 87</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"><span class="meta">if(isset($</span><span class="bash">_GET[<span class="string">&#x27;file&#x27;</span>]))&#123;</span></span><br><span class="line">    $file = $_GET[&#x27;file&#x27;];</span><br><span class="line">    $content = $_POST[&#x27;content&#x27;];</span><br><span class="line">    $file = str_replace(&quot;php&quot;, &quot;???&quot;, $file);</span><br><span class="line">    $file = str_replace(&quot;data&quot;, &quot;???&quot;, $file);</span><br><span class="line">    $file = str_replace(&quot;:&quot;, &quot;???&quot;, $file);</span><br><span class="line">    $file = str_replace(&quot;.&quot;, &quot;???&quot;, $file);</span><br><span class="line">    file_put_contents(urldecode($file), &quot;&lt;?php die(&#x27;大佬别秀了&#x27;);?&gt;&quot;.$content);</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#125;else&#123;</span><br><span class="line">    highlight_file(__FILE__);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们需要写入content数据写进file中，但是要绕过这个die</p>
+<p>考到了伪协议绕过，我们可以用伪协议编码绕过，用base64或者是rot13base64解码的时候<?;>等会被忽略，最后也就会变成phpdie然后添加两个字符之后对后面的数再继续进行解码这样我们就直接绕过了这个死亡杂糅（我这题base64没做出来，用的rot13）rot13编码之后` <?php die('大佬别秀了');?><code>会变成</code><?cuc qvr('大佬别秀了');?>`再进行一次编码他就会恢复原状，如果php没有开启短标签的话，php不认识这个字符那么他就不会执行，我们直接在后面添加我们想要输入的代码然后进行一次rot13编码，当他在进行一次rot13编码的时候，他就会变成我们想要输入的原始形态，就绕过了前面的die不会退出。</p>
+<p>参考链接：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://xz.aliyun.com/t/8163#toc-3</span><br><span class="line">https://www.leavesongs.com/PENETRATION/php-filter-magic.html</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="web-88"><a href="#web-88" class="headerlink" title="web 88"></a>web 88</h3><p>过滤的字符串</p>
+<p>php ~ !   @ #   $   %  ^  &amp;  *   (     )   -    _  +  =  .</p>
+<h2 id="SSTI"><a href="#SSTI" class="headerlink" title="SSTI"></a>SSTI</h2><h3 id="web-361"><a href="#web-361" class="headerlink" title="web 361"></a>web 361</h3><p>这里跳了一下，看一下模板，ssti</p>
 <p>题目的提示：名字就是提示，我们只需要在网页的后面以get方式传入一个值就行了</p>
 <p>既然是ssti那么我们直接测试一下49看一下</p>
 <p>成功返回了49，那就肯定了就是这里。</p>
