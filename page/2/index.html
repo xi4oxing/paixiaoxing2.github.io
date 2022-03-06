@@ -152,6 +152,42 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2022/02/10/%E7%A6%81%E6%AD%A2%E5%A5%97%E5%A8%83/">
+                        禁止套娃
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        [GXYCTF2019]禁止套娃进入题目就一句话，啥也没有
+
+猜测一下是不是藏起来了？
+找了半天没找到，扫描一下目录也没有，最后找到是git源码泄露
+用githack来下载源码
+
+可以看到需要有四个if需要绕过
+第一个是确定以get方式传入exp
+第...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Feb 10 2022 12:31:40 GMT+0800">2022-02-10</span></span>
+        
+        
+    </div>
+
+    <a href="/2022/02/10/%E7%A6%81%E6%AD%A2%E5%A5%97%E5%A8%83/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2022/02/10/%E6%88%91%E6%9C%89%E4%B8%80%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/">
                         我有一个数据库
                     </a>
@@ -567,57 +603,6 @@ flag网页中回显了ip
     </div>
 
     <a href="/2022/02/01/EasyJava/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/02/01/BabyUpload/">
-                        BabyUpload
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        [GXYCTF2019]BabyUpload名字一看就知道是文件上传
-老样子先随便传一些文件进去看看
-
-传入php一句话木马发现不能有ph后缀
-那么试试别的
-
-
-发现jpg可以传
-那么就是htaccess改后缀了
-抓个包，上传个一句话木马
-
-发现他还...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Feb 01 2022 17:03:04 GMT+0800">2022-02-01</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/GXYCTF/">GXYCTF</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/02/01/BabyUpload/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>

