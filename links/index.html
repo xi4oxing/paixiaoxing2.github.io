@@ -146,165 +146,123 @@
             <div class="main-content">
 
                 
-                    $friend-link-item-height = 82px;
-$friend-link-item-height-tablet = 68px;
-$friend-link-item-interval = 16px;
-$friend-link-item-border-radius = 6px;
+                    <div class="fade-in-down-animation">
+    <div class="page-template-container">
+        
+        
+            <div class="friends-link-container">
+    <ul class="friends-link-list">
+        
+            <li class="friends-link-item">
+                <a target="_blank" rel="noopener" href="https://www.z1r0.top">
+                    <div class="content">
+                        <div class="avatar radius">
+                            
+                                <img class="radius"
+                                     src="https://cdn.jsdelivr.net/gh/XPoet/image-hosting@master/common-use/avatar.jpg"
+                                     onerror="this.style.display='none'"
+                                >
+                            
+                        </div>
+                        <div class="info">
+                            <div class="name ellipsis">z1ro</div>
+                            <div class="description ellipsis">浪费时间是一桩大罪过</div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        
+            <li class="friends-link-item">
+                <a target="_blank" rel="noopener" href="https://scumbag-dwq.github.io/">
+                    <div class="content">
+                        <div class="avatar radius">
+                            
+                                <img class="radius"
+                                     src="https://cdn.jsdelivr.net/gh/XPoet/image-hosting@master/common-use/avatar.jpg"
+                                     onerror="this.style.display='none'"
+                                >
+                            
+                        </div>
+                        <div class="info">
+                            <div class="name ellipsis">lenyan</div>
+                            <div class="description ellipsis">试问江南诸伴侣，谁似我，醉扬州 。</div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        
+            <li class="friends-link-item">
+                <a target="_blank" rel="noopener" href="https://www.ke1os.top/">
+                    <div class="content">
+                        <div class="avatar radius">
+                            
+                                <img class="radius"
+                                     src="https://cdn.jsdelivr.net/gh/XPoet/image-hosting@master/common-use/avatar.jpg"
+                                     onerror="this.style.display='none'"
+                                >
+                            
+                        </div>
+                        <div class="info">
+                            <div class="name ellipsis">ke1os</div>
+                            <div class="description ellipsis">所有命运的馈赠，早已在暗中标好价格。</div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        
+            <li class="friends-link-item">
+                <a target="_blank" rel="noopener" href="https://blog.csdn.net/shinygod?type=blog">
+                    <div class="content">
+                        <div class="avatar radius">
+                            
+                                <img class="radius"
+                                     src="https://cdn.jsdelivr.net/gh/XPoet/image-hosting@master/common-use/avatar.jpg"
+                                     onerror="this.style.display='none'"
+                                >
+                            
+                        </div>
+                        <div class="info">
+                            <div class="name ellipsis">gengtao</div>
+                            <div class="description ellipsis">Everything is done, like a dream bubble！</div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        
+            <li class="friends-link-item">
+                <a target="_blank" rel="noopener" href="https://aeeeeeep.github.io/">
+                    <div class="content">
+                        <div class="avatar radius">
+                            
+                                <img class="radius"
+                                     src="https://cdn.jsdelivr.net/gh/XPoet/image-hosting@master/common-use/avatar.jpg"
+                                     onerror="this.style.display='none'"
+                                >
+                            
+                        </div>
+                        <div class="info">
+                            <div class="name ellipsis">aep</div>
+                            <div class="description ellipsis">一口吃不掉一个胖子。</div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        
+    </ul>
+    <div class="clear"></div>
+</div>
 
-.page-template-container {
-
-  keep-container(false, 0, 0, 30px, 30px);
-
-  .page-template-content {
-    color: var(--default-text-color);
-
-    h1, h2, h3, h4, h5, h6 {
-
-      &:first-child {
-        margin-top: 0;
-      }
-
-    }
-  }
-
-
-  if (hexo-config('menu.Links')) {
-    .friends-link-container {
-
-      .friends-link-list {
-        position: relative;
-
-        .friends-link-item {
-          box-sizing: border-box;
-          position: relative;
-          float: left;
-          width: 50%;
-          cursor: pointer;
-          height: $friend-link-item-height;
-          padding-bottom: $friend-link-item-interval;
-
-          +keep-tablet() {
-            height: $friend-link-item-height-tablet;
-          }
-
-          &:nth-child(odd) {
-            padding-right: $friend-link-item-interval * 0.5;
-          }
-
-          &:nth-child(even) {
-            padding-left: $friend-link-item-interval * 0.5;
-          }
-
-          .content {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            box-shadow: 1px 1px 2px var(--shadow-color);
-            border-radius: $friend-link-item-border-radius;
-            padding-left: $friend-link-item-height - $friend-link-item-interval;
-            box-sizing: border-box;
-
-
-            +keep-tablet() {
-              padding-left: $friend-link-item-height-tablet - $friend-link-item-interval;
-            }
-
-            &:hover {
-              box-shadow: 1px 1px 6px var(--shadow-color);
-
-              .info .name {
-                color: var(--primary-color);
-              }
-            }
-
-            .radius {
-              border-top-left-radius: $friend-link-item-border-radius;
-              border-bottom-left-radius: $friend-link-item-border-radius;
-            }
-
-            .avatar {
-              position: absolute;
-              top: 0;
-              left: 0;
-              width: $friend-link-item-height  - $friend-link-item-interval;
-              height: 100%;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              font-size: 2rem;
-              background: var(--second-background-color);
-              color: var(--second-text-color);
-
-
-              +keep-tablet() {
-                width: $friend-link-item-height-tablet  - $friend-link-item-interval;
-              }
-
-              img {
-                box-sizing: border-box;
-                position: relative;
-                width: 100%;
-                height: 100%;
-              }
-            }
-
-
-            .info {
-              position: relative;
-              width: 100%;
-              height: 100%;
-              box-sizing: border-box;
-              padding: 10px;
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              justify-items: flex-start;
-
-              +keep-tablet() {
-                padding: 6px;
-              }
-
-              .name {
-                width: 100%;
-                height: 60%;
-                font-size: 1.28rem;
-                color: var(--second-text-color);
-
-                +keep-tablet() {
-                  font-size: 1.08rem;
-                }
-              }
-
-              .description {
-                width: 100%;
-                height: 40%;
-                font-size: 1rem;
-                color: var(--third-text-color);
-
-
-                +keep-tablet() {
-                  font-size: 0.98rem;
-                }
-              }
-
-              .ellipsis {
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-              }
-
-            }
-          }
-
-        }
-
-      }
-
-    }
-
-  }
-
-}
+        
+        <div class="page-template-content markdown-body">
+            
+                
+            
+        </div>
+        <div class="page-template-comments">
+            
+        </div>
+    </div>
+</div>
 
 
                 
@@ -352,119 +310,46 @@ $friend-link-item-border-radius = 6px;
     
 
     <div class="right-bottom-side-tools">
-        $tools-item-width = 32px;
-$tools-item-font-size = 1.1rem;
-$tools-item-border-radius = 1px;
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
 
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
 
-.side-tools-container {
-  position: relative;
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
 
-  .tools-item {
-    width: $tools-item-width;
-    height: $tools-item-width;
-    font-size: $tools-item-font-size;
-    margin-bottom: 3px;
-    cursor: pointer;
-    border-right: none;
-    border-radius: $tools-item-border-radius;
-    box-shadow: 1px 1px 3px var(--shadow-color);
-    color: var(--default-text-color);
-    background: var(--background-color);
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
 
-    i {
-      color: var(--default-text-color);
-    }
+        <!-- rss -->
+        
 
-    &:hover {
-      color: var(--background-color);
-      background: var(--primary-color);
-      box-shadow: 2px 2px 6px var(--shadow-color);
+        
 
-      i {
-        color: var(--background-color);
-      }
-    }
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
 
-    +keep-tablet() {
-      width: $tools-item-width * 0.9;
-      height: $tools-item-width * 0.9;
-      font-size: $tools-item-font-size * 0.9;
-      margin-bottom: 2px;
-    }
-
-    &.rss {
-
-      a {
-        border-radius: $tools-item-border-radius;
-        width: 100%;
-        height: 100%;
-
-        &:hover {
-          color: var(--background-color);
-          background: var(--primary-color);
-          box-shadow: 2px 2px 6px var(--shadow-color);
-        }
-      }
-    }
-  }
-
-
-  .side-tools-list {
-    opacity: 0;
-    transform: translateX(100%);
-    transition-t("transform, opacity", "0, 0", "0.2, 0.2", "linear, linear");
-
-    .tool-expand-width {
-      +keep-tablet() {
-        display: none;
-      }
-    }
-
-
-    &.show {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-
-  .exposed-tools-list {
-
-    if (hexo-config('style.scroll.percent.enable') == true) {
-      .tool-scroll-to-top {
-        display: none;
-
-        &.show {
-          display: flex;
-        }
-
-        &:hover {
-
-          .percent {
-            display: none;
-          }
-
-          .arrow-up {
-            display: flex;
-          }
-
-        }
-
-        .arrow-up {
-          display: none;
-        }
-
-        .percent {
-          display: flex;
-          font-size: 1rem;
-        }
-
-      }
-
-    }
-  }
-}
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+    </ul>
+</div>
 
     </div>
 
