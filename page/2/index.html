@@ -152,6 +152,152 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2022/02/28/Dropbox/">
+                        Dropbox
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        [CISCN2019 华北赛区 Day1 Web1]Dropbox进入页面是一个登录框
+先注册一下
+
+直接注册admin
+发现成功，admin没有注册可能漏洞在别的地方
+
+随便写一些上传
+
+可以发现只可以上传gif等图片格式
+
+然后又发现了两个页面：...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Feb 28 2022 15:39:44 GMT+0800">2022-02-28</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/CISCN/">CISCN</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/02/28/Dropbox/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/02/28/%E6%9C%B4%E5%AE%9E%E6%97%A0%E5%8D%8E/">
+                        朴实无华
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        [WUSTCTF2020]朴实无华小刷一下。
+进入题目发现
+
+网页啥也没有，让我们黑他，但是这个标题上面是一串乱码，但是结尾有个很明显的bot
+猜测页面含有一个机器人
+访问robots.txt发现
+
+果然给出了提示，说是虚假的flag存在这个文件中
+...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Feb 28 2022 15:12:34 GMT+0800">2022-02-28</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/WUSTCTF2020/">WUSTCTF2020</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/02/28/%E6%9C%B4%E5%AE%9E%E6%97%A0%E5%8D%8E/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/02/28/Unicorn-shop/">
+                        Unicorn shop
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        [ASIS 2019]Unicorn shop刷题刷题。
+题目名字是独角兽商店
+进去看看
+
+意思是我们输入商品名还有价钱来购买它
+啥也不输直接点购买看看会出现什么问题：
+
+可以看到返回了一堆目录还有一个报错
+需要一个单独的unicode字符串作为参数...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Feb 28 2022 13:43:50 GMT+0800">2022-02-28</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/ASIS/">ASIS</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/02/28/Unicorn-shop/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2022/02/15/Newcalc0/">
                         Newcalc0
                     </a>
@@ -461,137 +607,6 @@
     </div>
 
     <a href="/2022/02/08/cybergrabs-rabbit/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/02/08/cybergrabs-easyweb/">
-                        cybergrabs-easyweb
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        easy-web进入题目也得先看看
-
-啥也没有，源代码也没啥
-抓个包看下（因为他刚进去的时候有的要等响应，抓错几次）
-
-可以看到我们传过去一个cookie
-而且从服务器端回传了一个cookie的value值，我们拿到这个值直接去base64解码就可以...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Feb 08 2022 10:36:35 GMT+0800">2022-02-08</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/Cyber-Grabs/">Cyber Grabs</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/02/08/cybergrabs-easyweb/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/02/06/Tetris-plus/">
-                        Tetris plus
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        Tetris-plus进入题目：
-发现是个游戏，先小玩一把。
-
-到最后也没发现啥问题
-点点别的也都正常
-看看源代码
-
-都是些不痛不痒的东西，但是包含的js非常多，都点进去看看
-在check.js页面发现他注释了段很长的东西，之前写过的jsfuck
-
-...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Feb 06 2022 16:36:57 GMT+0800">2022-02-06</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/hgame/">hgame</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/02/06/Tetris-plus/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/02/06/%E8%9B%9B%E8%9B%9B-%E5%98%BF%E5%98%BF%E2%99%A5%E6%88%91%E7%9A%84%E8%9B%9B%E8%9B%9B/">
-                        蛛蛛...嘿嘿♥我的蛛蛛
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        蛛蛛…嘿嘿♥我的蛛蛛进去之后先看看
-
-点了一下，发现方框变多但是只有一个是真的
-
-查看源代码的时候可以看到哪个是真的
-但是一直点也不知道什么时候结束，写一个简单的爬虫脚本方便我们直接得到那个页面
-附上我的脚本：
-1234567891011121314...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Feb 06 2022 16:36:21 GMT+0800">2022-02-06</span></span>
-        
-        
-    </div>
-
-    <a href="/2022/02/06/%E8%9B%9B%E8%9B%9B-%E5%98%BF%E5%98%BF%E2%99%A5%E6%88%91%E7%9A%84%E8%9B%9B%E8%9B%9B/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>

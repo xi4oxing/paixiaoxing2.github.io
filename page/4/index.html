@@ -152,6 +152,147 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/">
+                        随便注
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        随便注首先进入题目：
+
+看起来是sql注入先试试看看有啥报错
+
+看起来是单引号字符型漏洞
+测试一下他的列数
+
+4看起来不行
+测试了一下2的时候可以正常回显
+
+所以列数是2，用select看看有没有回显的地方
+
+看到他过滤了很多东西就连命名表都过滤了但...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Jan 30 2022 08:56:49 GMT+0800">2022-01-30</span></span>
+        
+        
+    </div>
+
+    <a href="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/01/29/MRCTF2020-Ez-bypass/">
+                        MRCTF2020]Ez_bypass
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        [MRCTF2020]Ez_bypass首先进入题目看一看
+
+进入源码可以看到排列好的函数
+
+可以看出我们需要绕过这些if
+考到了两个知识点：
+1、MD5碰撞绕过
+2、php弱比较
+MD5碰撞比较好绕过
+可以通过数组绕过（0e绕过，但是尝试了一下不知...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sat Jan 29 2022 16:25:07 GMT+0800">2022-01-29</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/MRCTF/">MRCTF</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/01/29/MRCTF2020-Ez-bypass/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/01/28/Most-Secure-Calculator/">
+                        Most-Secure-Calculator
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        计算器1一样先进去看一下
+
+进行一个简单的wfuzz测试
+发现啥也没过滤
+然后
+随便输入一些数看看
+
+发现这里面是一个简单的命令执行所以直接执行系统命令试试
+
+发现可以执行基本的system命令
+然后直接执行cat flag.txt就行拉
+
+KCTF...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Jan 28 2022 16:11:28 GMT+0800">2022-01-28</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/knightctf/">knightctf</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/01/28/Most-Secure-Calculator/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2022/01/28/myphpsite/">
                         myphpsite
                     </a>
@@ -480,38 +621,6 @@ php://filter/read=convert.base64-encode/resource=
 
             </li>
         
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/01/27/%E5%BA%8F%E5%88%97%E5%8C%96/">
-                        序列化
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        序列化反序列化反序列化漏洞专题
-代码审计重点：
-1、在源代码审计的时候要确认代码逻辑安全性
-2、在做在吗审计的时候要确认调用函数的安全性
-PASS-11234567&lt;?php $a = &#x27;Micheal&#x27;;echo sera...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Jan 27 2022 19:32:02 GMT+0800">2022-01-27</span></span>
-        
-        
-    </div>
-
-    <a href="/2022/01/27/%E5%BA%8F%E5%88%97%E5%8C%96/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
     </ul>
 
     <div class="home-paginator">
@@ -522,6 +631,10 @@ PASS-11234567&lt;?php $a = &#x27;Micheal&#x27;;echo sera...
         >Prev</a>
     
 
+    
+        <a class="next btn"
+           href="/page/5/"
+        >Next</a>
     
 </div>
 
