@@ -9,7 +9,7 @@
     
     <title>
         
-            Newcalc0 |
+            EasySearch |
         
         paixiaoxing&#39;s Blog
     </title>
@@ -150,7 +150,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">Newcalc0</span>
+            <span class="title-hover-animation">EasySearch</span>
         </div>
 
         
@@ -169,8 +169,8 @@
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fas fa-edit"></i>&nbsp;
-        <span class="pc">2022-02-15 13:56:04</span>
-        <span class="mobile">2022-02-15 13:56</span>
+        <span class="pc">2022-03-23 19:27:22</span>
+        <span class="mobile">2022-03-23 19:27</span>
     </span>
     
     
@@ -179,7 +179,7 @@
             <ul>
                 
                     <li>
-                        <a href="/tags/V-NCTF/">V&amp;NCTF</a>&nbsp;
+                        <a href="/tags/BJDCTF/">BJDCTF</a>&nbsp;
                     </li>
                 
             </ul>
@@ -202,26 +202,19 @@
         
 
         <div class="article-content markdown-body">
-            <h1 id="Newcalc0"><a href="#Newcalc0" class="headerlink" title="Newcalc0"></a>Newcalc0</h1><p>本题是一道nodejs：</p>
-<p>是原型链污染</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">什么是原型链污染？</span><br><span class="line">js中几乎所有的东西都是一个对象，任何对象都有一个原型对象，这个原型对象由对象的内置属性proto指向它的构造函数的prototype指向的对象，即任何对象都是由一个构造函数创建的</span><br><span class="line"></span><br><span class="line">function a(name,age)&#123;</span><br><span class="line">    this.name = name;</span><br><span class="line">    this.age = age;</span><br><span class="line">&#125;</span><br><span class="line">a函数的内容就是a类的构造函数，a中的属性就是this.name、this.age</span><br><span class="line">在javascript中你生名了一个函数a之后，浏览器就会自动生成一个对象b（实例原型），a构造函数中就有一个默认的属性（prototype）指向对象b，b就是函数a的原型对象，其中b有一个默认的属性constructor指向函数a</span><br></pre></td></tr></table></figure>
+            <h1 id="BJDCTF2020-EasySearch"><a href="#BJDCTF2020-EasySearch" class="headerlink" title="[BJDCTF2020]EasySearch"></a>[BJDCTF2020]EasySearch</h1><p>终究最重要的还是信息收集</p>
+<p><img src="/2022/03/23/EasySearch/1.png" alt="1"></p>
+<p>以为是sql注入什么的，用sqlmap跑了好久，没用，最后发现有一个swp源代码泄露打开index.php.swp查看源码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	ob_start();</span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">get_hash</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		<span class="variable">$chars</span> = <span class="string">&#x27;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&amp;*()+-&#x27;</span>;</span><br><span class="line">		<span class="variable">$random</span> = <span class="variable">$chars</span>[mt_rand(<span class="number">0</span>,<span class="number">73</span>)].<span class="variable">$chars</span>[mt_rand(<span class="number">0</span>,<span class="number">73</span>)].<span class="variable">$chars</span>[mt_rand(<span class="number">0</span>,<span class="number">73</span>)].<span class="variable">$chars</span>[mt_rand(<span class="number">0</span>,<span class="number">73</span>)].<span class="variable">$chars</span>[mt_rand(<span class="number">0</span>,<span class="number">73</span>)];<span class="comment">//Random 5 times</span></span><br><span class="line">		<span class="variable">$content</span> = uniqid().<span class="variable">$random</span>;</span><br><span class="line">		<span class="keyword">return</span> sha1(<span class="variable">$content</span>); </span><br><span class="line">	&#125;</span><br><span class="line">    header(<span class="string">&quot;Content-Type: text/html;charset=utf-8&quot;</span>);</span><br><span class="line">	***</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;username&#x27;</span>]) <span class="keyword">and</span> <span class="variable">$_POST</span>[<span class="string">&#x27;username&#x27;</span>] != <span class="string">&#x27;&#x27;</span> )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="variable">$admin</span> = <span class="string">&#x27;6d0bc1&#x27;</span>;</span><br><span class="line">        <span class="keyword">if</span> ( <span class="variable">$admin</span> == substr(md5(<span class="variable">$_POST</span>[<span class="string">&#x27;password&#x27;</span>]),<span class="number">0</span>,<span class="number">6</span>)) &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;script&gt;alert(&#x27;[+] Welcome to manage system&#x27;)&lt;/script&gt;&quot;</span>;</span><br><span class="line">            <span class="variable">$file_shtml</span> = <span class="string">&quot;public/&quot;</span>.get_hash().<span class="string">&quot;.shtml&quot;</span>;</span><br><span class="line">            <span class="variable">$shtml</span> = fopen(<span class="variable">$file_shtml</span>, <span class="string">&quot;w&quot;</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">&quot;Unable to open file!&quot;</span>);</span><br><span class="line">            <span class="variable">$text</span> = <span class="string">&#x27;</span></span><br><span class="line"><span class="string">            ***</span></span><br><span class="line"><span class="string">            ***</span></span><br><span class="line"><span class="string">            &lt;h1&gt;Hello,&#x27;</span>.<span class="variable">$_POST</span>[<span class="string">&#x27;username&#x27;</span>].<span class="string">&#x27;&lt;/h1&gt;</span></span><br><span class="line"><span class="string">            ***</span></span><br><span class="line"><span class="string">			***&#x27;</span>;</span><br><span class="line">            fwrite(<span class="variable">$shtml</span>,<span class="variable">$text</span>);</span><br><span class="line">            fclose(<span class="variable">$shtml</span>);</span><br><span class="line">            ***</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&quot;[!] Header  error ...&quot;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;script&gt;alert(&#x27;[!] Failed&#x27;)&lt;/script&gt;&quot;</span>;</span><br><span class="line">            </span><br><span class="line">    &#125;<span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">	***</span><br><span class="line">    &#125;</span><br><span class="line">	***</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="/2022/02/15/Newcalc0/5.png" alt="1"></p>
-<p><img src="/2022/02/15/Newcalc0/6.png" alt="1"></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">实例对象的__proto__指向实例原型，实例原型的__proto__等于他上一级的实例原型直到object这是由于对象之间存在继承关系当上层没有就会再向上上层搜索，直到指向 null，若此时还未找到就会返回 undefined</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2022/02/15/Newcalc0/7.png" alt="1"></p>
-<p><img src="/2022/02/15/Newcalc0/8.png" alt="1"></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">原型链污染就是修改其构造函数中的属性值，使其他通过该构造函数实例化出的对象也具有这个属性的值。</span><br><span class="line">由于对象是无序的，当使用第二种方式访问对象时，只能使用指明下标的方式去访问。</span><br><span class="line">因此我们可以通过 a [“proto“] 的方式去访问其原型对象</span><br><span class="line"></span><br><span class="line">当我们调用对象属性时， 会查找属性，如果本身没有，则会去proto中查找，也就是构造函数的显式原型中查找，如果构造函数中也没有该属性，因为构造函数也是对象，也有proto，那么会去proto的显式原型中查找，一直到null。</span><br><span class="line">p神的文章中提到JavaScript原型链继承</span><br></pre></td></tr></table></figure>
-
-<p>那么我们回到题目：</p>
-<p>看到他的源码</p>
-<p><img src="/2022/02/15/Newcalc0/1.png" alt="1"></p>
-<p>首先这里有一个知识点：</p>
-<p>console.table()会将数据以表格的形式输出</p>
-<p>我们直接构造console.table([{a:1}],[‘__proto__‘])就可以添加一个表格更改flag页面中的object.prototype的值，使其绕过判断，直接输出flag</p>
-<p><img src="/2022/02/15/Newcalc0/2.png" alt="1"></p>
-<p><img src="/2022/02/15/Newcalc0/3.png" alt="1"></p>
+<p>最主要的就是这个判断了，主要判断的就是密码，用户名检测输入之后进入第一层判断，admin的值已经设定，我们需要密码的md5值的前六位等于<code>6d0bc1</code></p>
+<p>最简单的方法就是写个循环爆破一下（太简单，我就不写了）我挑的是2020666进入第二个if，抓个包看一下，当我们输入了正确的匹配密码之后回显：</p>
+<p><img src="/2022/03/23/EasySearch/2.png" alt="1"></p>
+<p>访问上面的地址</p>
+<p><img src="/2022/03/23/EasySearch/3.png" alt="1"></p>
+<p>可以看到页面回显了我们的ip以及我们的用户名，而且这个页面是shtml，可以动态执行我们的命令，查询了一下写一个exec</p>
+<p><code>&lt;!--#exec cmd=&quot;ls &quot;--&gt;</code>然后访问，发现执行了我们的命令，在根目录还有当前目录都没有发现flag，那我们就尝试一层一层网上查看，在当前目录的上级找到了flag文件</p>
+<p>最终paiload：<code>username=&lt;!--#exec cmd=&quot;cat ../flag_990c66bf85a09c664f0b6741840499b2&quot;--&gt;&amp;password=2020666</code></p>
 
         </div>
 
@@ -229,11 +222,11 @@
             <div class="post-copyright-info">
                 <div class="article-copyright-info-container">
     <ul>
-        <li>Post title：Newcalc0</li>
+        <li>Post title：EasySearch</li>
         <li>Post author：paixiaoxing</li>
-        <li>Create time：2022-02-15 13:56:04</li>
+        <li>Create time：2022-03-23 19:27:22</li>
         <li>
-            Post link：https://keep.xpoet.cn/2022/02/15/Newcalc0/
+            Post link：https://keep.xpoet.cn/2022/03/23/EasySearch/
         </li>
         <li>
             Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
@@ -248,7 +241,7 @@
             <ul class="post-tags-box">
                 
                     <li class="tag-item">
-                        <a href="/tags/V-NCTF/">#V&amp;NCTF</a>&nbsp;
+                        <a href="/tags/BJDCTF/">#BJDCTF</a>&nbsp;
                     </li>
                 
             </ul>
@@ -260,13 +253,13 @@
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2022/02/22/ctf-show/"
+                           href="/2022/03/23/MRCTF2020-Ezpop/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">ctf-show(持续更新)</span>
+                                <span class="post-nav-title-item">MRCTF2020-Ezpop</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
@@ -276,10 +269,10 @@
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2022/02/15/GOclac/"
+                           href="/2022/03/21/PYWebsite/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">GOclac</span>
+                                <span class="post-nav-title-item">PYWebsite</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -405,7 +398,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Newcalc0"><span class="nav-number">1.</span> <span class="nav-text">Newcalc0</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#BJDCTF2020-EasySearch"><span class="nav-number">1.</span> <span class="nav-text">[BJDCTF2020]EasySearch</span></a></li></ol>
     </div>
 </div>
         </aside>

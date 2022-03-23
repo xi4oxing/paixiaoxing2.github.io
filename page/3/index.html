@@ -152,6 +152,105 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2022/02/15/GOclac/">
+                        GOclac
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        gocalc这道题目据说是出题的时候出错了；
+首先打开题目
+
+查看他的提示
+
+他提示了flag在session中
+我们直接抓包发包，拿到服务器端返回的session值，这次的题目返回没有进行加密
+可以直接拿到解码，经过二次解码得到flag
+
+
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Feb 15 2022 13:55:41 GMT+0800">2022-02-15</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/V-NCTF/">V&amp;NCTF</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/02/15/GOclac/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/02/13/GameV4-0/">
+                        GameV4.0
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        GAME V4.0web的第一道签到题：
+打开页面可以看到是一个小游戏：
+直接看源代码把
+
+没什么别的问题，那就看看他的这些子文件中有没有什么信息
+最后在data.js中发现
+
+含有flag名称的新型
+解码一下得到flag
+
+
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Feb 13 2022 13:55:32 GMT+0800">2022-02-13</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/V-NCTF/">V&amp;NCTF</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/02/13/GameV4-0/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2022/02/10/%E7%A6%81%E6%AD%A2%E5%A5%97%E5%A8%83/">
                         禁止套娃
                     </a>
@@ -502,107 +601,6 @@
     </div>
 
     <a href="/2022/02/06/easy-auth/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/02/03/Themysteryofip/">
-                        Themysteryofip
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        [BJDCTF2020]The mystery of ip做一下题目：
-
-有三个子网页
-flag以及hint
-flag网页中回显了ip
-
-看看第另一个子网页，源码发现一句话
-
-回到flag网页中注入一下XFF
-发现可以
-
-尝试一下函数发现不会执行
-
-...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Feb 03 2022 16:00:55 GMT+0800">2022-02-03</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/BJDCTF/">BJDCTF</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/02/03/Themysteryofip/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/02/01/EasyJava/">
-                        EasyJava
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        [RoarCTF 2019]Easy Javajava类的题目没写过，还是先进去看看把
-
-不知道是啥漏洞，提示了是java应该不是sql注入
-尝试爆破的时候发现爆出了账号密码
-12adminadmin888
-
-登录进去看看
-
-可惜，flag不在这里，...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Feb 01 2022 17:04:40 GMT+0800">2022-02-01</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/RoarCTF/">RoarCTF</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/02/01/EasyJava/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>

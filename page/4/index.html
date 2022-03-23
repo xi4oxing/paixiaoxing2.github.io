@@ -152,6 +152,107 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2022/02/03/Themysteryofip/">
+                        Themysteryofip
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        [BJDCTF2020]The mystery of ip做一下题目：
+
+有三个子网页
+flag以及hint
+flag网页中回显了ip
+
+看看第另一个子网页，源码发现一句话
+
+回到flag网页中注入一下XFF
+发现可以
+
+尝试一下函数发现不会执行
+
+...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Feb 03 2022 16:00:55 GMT+0800">2022-02-03</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/BJDCTF/">BJDCTF</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/02/03/Themysteryofip/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/02/01/EasyJava/">
+                        EasyJava
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        [RoarCTF 2019]Easy Javajava类的题目没写过，还是先进去看看把
+
+不知道是啥漏洞，提示了是java应该不是sql注入
+尝试爆破的时候发现爆出了账号密码
+12adminadmin888
+
+登录进去看看
+
+可惜，flag不在这里，...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Feb 01 2022 17:04:40 GMT+0800">2022-02-01</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/RoarCTF/">RoarCTF</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/02/01/EasyJava/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2022/02/01/BabyUpload/">
                         BabyUpload
                     </a>
@@ -521,107 +622,6 @@ KCTF...
     </div>
 
     <a href="/2022/01/28/myphpsite/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/01/28/Obsfuscation-Isn-t-Enough/">
-                        Obsfuscation Isn&#39;t Enough
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        Obsfuscation Isn’t Enough
-猜测可能是sql注入但是不管，先看看源代码
-
-发现一串很奇怪的符号其实是jsfuck
-可以直接拿到进开发者工具中执行
-
-发现其中返回了location，直接进入那个页面看看
-
-直接拿到了flag
-
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Jan 28 2022 15:50:08 GMT+0800">2022-01-28</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/knightctf/">knightctf</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/01/28/Obsfuscation-Isn-t-Enough/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/01/28/GXYCTF2019-BabySQli/">
-                        (GXYCTF2019)BabySQli
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        BabySQli进入题目是这样：
-
-这种题目先抓包测试
-
-看到有提示，解码一下（需要一次base32和一次base64解码）
-得到提示
-
-知道这题是单引号注入
-用wfuzz测试一下过滤
-发现只过滤了一些=，or之类的
-用orderby测试一下列数
-
-...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Jan 28 2022 12:13:01 GMT+0800">2022-01-28</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/GXYCTF/">GXYCTF</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/01/28/GXYCTF2019-BabySQli/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
