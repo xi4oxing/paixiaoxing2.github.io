@@ -9,7 +9,7 @@
     
     <title>
         
-            Unicorn shop |
+            Can you guess it ? |
         
         paixiaoxing&#39;s Blog
     </title>
@@ -150,7 +150,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">Unicorn shop</span>
+            <span class="title-hover-animation">Can you guess it ?</span>
         </div>
 
         
@@ -169,8 +169,8 @@
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fas fa-edit"></i>&nbsp;
-        <span class="pc">2022-02-28 13:43:50</span>
-        <span class="mobile">2022-02-28 13:43</span>
+        <span class="pc">2022-03-31 22:07:21</span>
+        <span class="mobile">2022-03-31 22:07</span>
     </span>
     
     
@@ -179,7 +179,7 @@
             <ul>
                 
                     <li>
-                        <a href="/tags/ASIS/">ASIS</a>&nbsp;
+                        <a href="/tags/Zer0pts2020/">Zer0pts2020</a>&nbsp;
                     </li>
                 
             </ul>
@@ -202,30 +202,22 @@
         
 
         <div class="article-content markdown-body">
-            <h1 id="ASIS-2019-Unicorn-shop"><a href="#ASIS-2019-Unicorn-shop" class="headerlink" title="[ASIS 2019]Unicorn shop"></a>[ASIS 2019]Unicorn shop</h1><p>刷题刷题。</p>
-<p>题目名字是独角兽商店</p>
-<p>进去看看</p>
-<p><img src="/2022/02/28/Unicorn-shop/6.png" alt="1"></p>
-<p>意思是我们输入商品名还有价钱来购买它</p>
-<p>啥也不输直接点购买看看会出现什么问题：</p>
-<p><img src="/2022/02/28/Unicorn-shop/1.png" alt="1"></p>
-<p>可以看到返回了一堆目录还有一个报错</p>
-<p>需要一个单独的unicode字符串作为参数</p>
-<p>那么我们试试输入，购买上面的便宜的商品看看，</p>
-<p>发现</p>
-<p><img src="/2022/02/28/Unicorn-shop/2.png" alt="1"></p>
-<p>测试一个最下面的那个，最下面吗那个应该是我们需要购买的flag</p>
-<p><img src="/2022/02/28/Unicorn-shop/4.png" alt="1"></p>
-<p>也不让访问</p>
-<p>看看源码</p>
-<p><img src="/2022/02/28/Unicorn-shop/3.png" alt="1"></p>
-<p>他在编码后面添加了一句提示，那么可能在编码方面可能会出现一些问题，上网查了一下，我们需要找到一个字符，它的数值需要大于1337，从而绕过这个过滤</p>
-<p>可以在这里找</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://www.compart.com/en/unicode/</span><br></pre></td></tr></table></figure>
+            <h2 id="Zer0pts2020-Can-you-guess-it"><a href="#Zer0pts2020-Can-you-guess-it" class="headerlink" title="[Zer0pts2020]Can you guess it?"></a>[Zer0pts2020]Can you guess it?</h2><p>进入题目一个文本框，有一个可以点的地方，点进去看到源码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">&#x27;config.php&#x27;</span>; <span class="comment">// FLAG is defined in config.php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (preg_match(<span class="string">&#x27;/config\.php\/*$/i&#x27;</span>, <span class="variable">$_SERVER</span>[<span class="string">&#x27;PHP_SELF&#x27;</span>])) &#123;</span><br><span class="line">  <span class="keyword">exit</span>(<span class="string">&quot;I don&#x27;t know what you are thinking, but I won&#x27;t let you read it :)&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;source&#x27;</span>])) &#123;</span><br><span class="line">  highlight_file(basename(<span class="variable">$_SERVER</span>[<span class="string">&#x27;PHP_SELF&#x27;</span>]));</span><br><span class="line">  <span class="keyword">exit</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$secret</span> = bin2hex(random_bytes(<span class="number">64</span>));<span class="comment">#二进制字符转换成16进制</span></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;guess&#x27;</span>])) &#123;<span class="comment">#如果设置post传参guess</span></span><br><span class="line">  <span class="variable">$guess</span> = (<span class="keyword">string</span>) <span class="variable">$_POST</span>[<span class="string">&#x27;guess&#x27;</span>];<span class="comment">#将其强制转换成string</span></span><br><span class="line">  <span class="keyword">if</span> (hash_equals(<span class="variable">$secret</span>, <span class="variable">$guess</span>)) &#123;<span class="comment">#比较两个字符串</span></span><br><span class="line">    <span class="variable">$message</span> = <span class="string">&#x27;Congratulations! The flag is: &#x27;</span> . FLAG;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable">$message</span> = <span class="string">&#x27;Wrong.&#x27;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p>直接搜索thousand，在里面找，只要它的数值大于1337的就行了</p>
-<p><img src="/2022/02/28/Unicorn-shop/5.png" alt="1"></p>
-<p>输入，返回flag</p>
+<p>先看的下面，下面看完了之后发现,<code>bin2hex(random_bytes(64))</code>这里根本进不去，所以得找一个别的地方拿flag，题目提示flag在config.php里面，而且意外的在最前面添加了一个过滤，继续往下看。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;source&#x27;</span>])) &#123;</span><br><span class="line">  highlight_file(basename(<span class="variable">$_SERVER</span>[<span class="string">&#x27;PHP_SELF&#x27;</span>]));</span><br><span class="line">  <span class="keyword">exit</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>看来问题就处在这里了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#PHP_SELF	他是返回的当前路径</span><br><span class="line">例如，在地址为 http://example.com/foo/bar.php 的脚本中使用 $_SERVER[&#x27;PHP_SELF&#x27;] 将得到 /foo/bar.php</span><br><span class="line">而basename返回的是文件名部分</span><br><span class="line">也就是说如果我们访问index.php/config.php</span><br><span class="line">我们访问的是index.php但是bsename获得的是config.php</span><br></pre></td></tr></table></figure>
+
+<p>这也解释了为什么在最前面要添加一个过滤，让config.php不能再当前路径的最后位置，再看一下basename的介绍</p>
+<p><img src="/2022/03/31/canyougussit/1.png" alt="1"></p>
+<p>那么事情就简单了,我们需要构造一个没有正确处理的路径，构造一个字符串，让他放在<code>config.php/</code>后面，然后让他解析的还是config.php而且还要绕过这个检查</p>
+<p>写一个脚本测试一下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check</span>(<span class="params"><span class="variable">$str</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> preg_match(<span class="string">&#x27;/config\.php\/*$/i&#x27;</span>, <span class="variable">$str</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="variable">$i</span> = <span class="number">0</span>; <span class="variable">$i</span> &lt; <span class="number">256</span>; <span class="variable">$i</span>++) &#123;</span><br><span class="line">  <span class="variable">$s</span> = <span class="string">&#x27;/index.php/config.php/&#x27;</span> . chr(<span class="variable">$i</span>);</span><br><span class="line">  <span class="keyword">if</span> (!check(<span class="variable">$s</span>)) &#123;</span><br><span class="line">    <span class="variable">$t</span> = basename(<span class="string">&#x27;/index.php/config.php/&#x27;</span> . chr(<span class="variable">$i</span>));</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;$&#123;i&#125;: $&#123;t&#125;\n&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>发现128之后的所有不可见字符都可以，因为不可见字符，所以直接对他进行手动url编码放在路径后面即可,我这里选的是129,也就是%81直接接在这个路劲后面这样basename就不会对他进行解析，从而读取到config.php的内容</p>
 
         </div>
 
@@ -233,11 +225,11 @@
             <div class="post-copyright-info">
                 <div class="article-copyright-info-container">
     <ul>
-        <li>Post title：Unicorn shop</li>
+        <li>Post title：Can you guess it ?</li>
         <li>Post author：paixiaoxing</li>
-        <li>Create time：2022-02-28 13:43:50</li>
+        <li>Create time：2022-03-31 22:07:21</li>
         <li>
-            Post link：https://keep.xpoet.cn/2022/02/28/Unicorn-shop/
+            Post link：https://keep.xpoet.cn/2022/03/31/canyougussit/
         </li>
         <li>
             Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
@@ -252,7 +244,7 @@
             <ul class="post-tags-box">
                 
                     <li class="tag-item">
-                        <a href="/tags/ASIS/">#ASIS</a>&nbsp;
+                        <a href="/tags/Zer0pts2020/">#Zer0pts2020</a>&nbsp;
                     </li>
                 
             </ul>
@@ -264,13 +256,13 @@
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2022/02/28/%E6%9C%B4%E5%AE%9E%E6%97%A0%E5%8D%8E/"
+                           href="/2022/03/31/%E5%A5%97%E5%A8%83/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">朴实无华</span>
+                                <span class="post-nav-title-item">套娃</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
@@ -280,10 +272,10 @@
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2022/02/22/ctf-show(%E7%88%86%E7%A0%B4-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-sql%E6%B3%A8%E5%85%A5-php%E7%89%B9%E6%80%A7)/"
+                           href="/2022/03/31/jikedatiaozhan2020-greatphp/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">ctf-show(爆破-命令执行-php特性-文件上传-sql注入)</span>
+                                <span class="post-nav-title-item">jikedatiaozhan2020-greatphp</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -409,7 +401,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ASIS-2019-Unicorn-shop"><span class="nav-number">1.</span> <span class="nav-text">[ASIS 2019]Unicorn shop</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Zer0pts2020-Can-you-guess-it"><span class="nav-number">1.</span> <span class="nav-text">[Zer0pts2020]Can you guess it?</span></a></li></ol>
     </div>
 </div>
         </aside>

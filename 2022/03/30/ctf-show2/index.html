@@ -9,7 +9,7 @@
     
     <title>
         
-            Unicorn shop |
+            ctf-show2 |
         
         paixiaoxing&#39;s Blog
     </title>
@@ -150,7 +150,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">Unicorn shop</span>
+            <span class="title-hover-animation">ctf-show2</span>
         </div>
 
         
@@ -169,8 +169,8 @@
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fas fa-edit"></i>&nbsp;
-        <span class="pc">2022-02-28 13:43:50</span>
-        <span class="mobile">2022-02-28 13:43</span>
+        <span class="pc">2022-03-30 14:49:14</span>
+        <span class="mobile">2022-03-30 14:49</span>
     </span>
     
     
@@ -179,7 +179,7 @@
             <ul>
                 
                     <li>
-                        <a href="/tags/ASIS/">ASIS</a>&nbsp;
+                        <a href="/tags/ctfshow/">ctfshow</a>&nbsp;
                     </li>
                 
             </ul>
@@ -202,42 +202,23 @@
         
 
         <div class="article-content markdown-body">
-            <h1 id="ASIS-2019-Unicorn-shop"><a href="#ASIS-2019-Unicorn-shop" class="headerlink" title="[ASIS 2019]Unicorn shop"></a>[ASIS 2019]Unicorn shop</h1><p>刷题刷题。</p>
-<p>题目名字是独角兽商店</p>
-<p>进去看看</p>
-<p><img src="/2022/02/28/Unicorn-shop/6.png" alt="1"></p>
-<p>意思是我们输入商品名还有价钱来购买它</p>
-<p>啥也不输直接点购买看看会出现什么问题：</p>
-<p><img src="/2022/02/28/Unicorn-shop/1.png" alt="1"></p>
-<p>可以看到返回了一堆目录还有一个报错</p>
-<p>需要一个单独的unicode字符串作为参数</p>
-<p>那么我们试试输入，购买上面的便宜的商品看看，</p>
-<p>发现</p>
-<p><img src="/2022/02/28/Unicorn-shop/2.png" alt="1"></p>
-<p>测试一个最下面的那个，最下面吗那个应该是我们需要购买的flag</p>
-<p><img src="/2022/02/28/Unicorn-shop/4.png" alt="1"></p>
-<p>也不让访问</p>
-<p>看看源码</p>
-<p><img src="/2022/02/28/Unicorn-shop/3.png" alt="1"></p>
-<p>他在编码后面添加了一句提示，那么可能在编码方面可能会出现一些问题，上网查了一下，我们需要找到一个字符，它的数值需要大于1337，从而绕过这个过滤</p>
-<p>可以在这里找</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://www.compart.com/en/unicode/</span><br></pre></td></tr></table></figure>
-
-<p>直接搜索thousand，在里面找，只要它的数值大于1337的就行了</p>
-<p><img src="/2022/02/28/Unicorn-shop/5.png" alt="1"></p>
-<p>输入，返回flag</p>
-
+            <h1 id="ctf-show-第二篇"><a href="#ctf-show-第二篇" class="headerlink" title="ctf-show 第二篇"></a>ctf-show 第二篇</h1><h2 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h2><h2 id="web-253"><a href="#web-253" class="headerlink" title="web 253"></a>web 253</h2><p>拿到flag需要判断账号密码，只需要跟题目里面相同即可</p>
+<h3 id="web-254"><a href="#web-254" class="headerlink" title="web 254"></a>web 254</h3><h3 id="web-255"><a href="#web-255" class="headerlink" title="web 255"></a>web 255</h3><p>需要在cookie中设置user属性，属性是将ctfshowuser序列化之后修改isvip值为1的序列化</p>
+<h3 id="web-256"><a href="#web-256" class="headerlink" title="web 256"></a>web 256</h3><p>跟上面的不同，需要账号密码不同才能够登录，我们直接在cookie里面构造的序列化中构造不一样的账号密码登录即可</p>
+<h3 id="web-257"><a href="#web-257" class="headerlink" title="web 257"></a>web 257</h3><p>因为在ctfshowuser类中的构造方法指定了新构造的链子，我们需要改另一个链子作为下一个目标，所以可以直接修改构造函数里面的值来更改他的链子拿到flag</p>
+<h3 id="web-258"><a href="#web-258" class="headerlink" title="web 258"></a>web 258</h3><p>对cookie多了一层过滤，<code>O:</code>还有<code>C:</code>后面不能有数字，我们可以在编码之前加上一个加号，这样编码回去的时候加号会被解析回来</p>
+<h3 id="web-259"><a href="#web-259" class="headerlink" title="web 259"></a>web 259</h3>
         </div>
 
         
             <div class="post-copyright-info">
                 <div class="article-copyright-info-container">
     <ul>
-        <li>Post title：Unicorn shop</li>
+        <li>Post title：ctf-show2</li>
         <li>Post author：paixiaoxing</li>
-        <li>Create time：2022-02-28 13:43:50</li>
+        <li>Create time：2022-03-30 14:49:14</li>
         <li>
-            Post link：https://keep.xpoet.cn/2022/02/28/Unicorn-shop/
+            Post link：https://keep.xpoet.cn/2022/03/30/ctf-show2/
         </li>
         <li>
             Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
@@ -252,7 +233,7 @@
             <ul class="post-tags-box">
                 
                     <li class="tag-item">
-                        <a href="/tags/ASIS/">#ASIS</a>&nbsp;
+                        <a href="/tags/ctfshow/">#ctfshow</a>&nbsp;
                     </li>
                 
             </ul>
@@ -264,13 +245,13 @@
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2022/02/28/%E6%9C%B4%E5%AE%9E%E6%97%A0%E5%8D%8E/"
+                           href="/2022/03/31/jikedatiaozhan2020-greatphp/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">朴实无华</span>
+                                <span class="post-nav-title-item">jikedatiaozhan2020-greatphp</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
@@ -280,10 +261,10 @@
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2022/02/22/ctf-show(%E7%88%86%E7%A0%B4-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-sql%E6%B3%A8%E5%85%A5-php%E7%89%B9%E6%80%A7)/"
+                           href="/2022/03/29/lovemath2/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">ctf-show(爆破-命令执行-php特性-文件上传-sql注入)</span>
+                                <span class="post-nav-title-item">lovematch2</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -409,7 +390,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ASIS-2019-Unicorn-shop"><span class="nav-number">1.</span> <span class="nav-text">[ASIS 2019]Unicorn shop</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ctf-show-%E7%AC%AC%E4%BA%8C%E7%AF%87"><span class="nav-number">1.</span> <span class="nav-text">ctf-show 第二篇</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-number">1.1.</span> <span class="nav-text">反序列化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web-253"><span class="nav-number">1.2.</span> <span class="nav-text">web 253</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#web-254"><span class="nav-number">1.2.1.</span> <span class="nav-text">web 254</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#web-255"><span class="nav-number">1.2.2.</span> <span class="nav-text">web 255</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#web-256"><span class="nav-number">1.2.3.</span> <span class="nav-text">web 256</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#web-257"><span class="nav-number">1.2.4.</span> <span class="nav-text">web 257</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#web-258"><span class="nav-number">1.2.5.</span> <span class="nav-text">web 258</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#web-259"><span class="nav-number">1.2.6.</span> <span class="nav-text">web 259</span></a></li></ol></li></ol></li></ol>
     </div>
 </div>
         </aside>

