@@ -152,26 +152,22 @@
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2022/03/06/SWPU2019-WEB1/">
-                        SWPU2019-WEB1
+                    <a href="/2022/04/01/SSRF-Me/">
+                        SSRF Me
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        [SWPY2019]WEB 1也算是通过题目学sql注入了
-进入题目
-发现是一个登录框，一直测了很久，发现还是得注册进去
-似乎是没啥漏洞
-进去发现，是一个广告申请系统
-我们可以进行申请广告并进去查看
-看了一下，好像漏洞出现再这个申请广告的地方，得先随...
+                        虽然python我学的有点捞，看不太懂源码，但是简单梳理一下还是蛮清晰的
+hint：flag在./flag.txt中,打开页面F12读取一下源码
+1234567891011121314151617181920212223242526272829303...
                     
                 </div>
 
                 <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Mar 06 2022 20:09:54 GMT+0800">2022-03-06</span></span>
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Apr 01 2022 09:44:23 GMT+0800">2022-04-01</span></span>
         
         
             <span class="home-article-tag">
@@ -180,7 +176,7 @@
                     
                         <li>
                             
-                            <a href="/tags/SWPU2019/">SWPU2019</a>&nbsp;
+                            <a href="/tags/De1CTF2019/">De1CTF2019</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -188,7 +184,7 @@
         
     </div>
 
-    <a href="/2022/03/06/SWPU2019-WEB1/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/04/01/SSRF-Me/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -198,27 +194,39 @@
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2022/03/03/OnlineTool/">
-                        OnlineTool
+                    <a href="/2022/03/31/%E5%A5%97%E5%A8%83/">
+                        套娃
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        OnlineTool昨天的朱雀杯提到了这个，想了一下自己好像没写wp，今天补一下
-源码：
-123456789101112131415161718&lt;?phpif (isset($_SERVER[&#x27;HTTP_X_FORWARDED_FOR...
+                        [MRCTF2020]套娃进入页面没什么东西，图片都没加载，打开源码看看有没有提示
+发现一部分源代码：
+12345678910&lt;?php$query = $_SERVER[&#x27;QUERY_STRING&#x27;];#query str...
                     
                 </div>
 
                 <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Mar 03 2022 16:17:52 GMT+0800">2022-03-03</span></span>
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Mar 31 2022 22:07:31 GMT+0800">2022-03-31</span></span>
         
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/MRCTF2020/">MRCTF2020</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
         
     </div>
 
-    <a href="/2022/03/03/OnlineTool/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/03/31/%E5%A5%97%E5%A8%83/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -228,23 +236,21 @@
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2022/03/02/%E6%9C%B1%E9%9B%80%E6%9D%AF-Nmap/">
-                        网鼎杯-朱雀组-Nmap
+                    <a href="/2022/03/31/canyougussit/">
+                        Can you guess it ?
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        [网鼎杯]朱雀组Nmap看到题目，想到了上次做到的OnlineTool
-一样都是用到了Nmap这个脚本
-翻到nmap中有一个-oG参数将命令参数写入自己定义的文件中
-而且这里考到了escapeshellarg和escapeshellcmd一起使用的时...
+                        [Zer0pts2020]Can you guess it?进入题目一个文本框，有一个可以点的地方，点进去看到源码
+12345678910111213141516171819202122&lt;?phpinclude &#x27;config.php...
                     
                 </div>
 
                 <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Mar 02 2022 19:54:07 GMT+0800">2022-03-02</span></span>
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Mar 31 2022 22:07:21 GMT+0800">2022-03-31</span></span>
         
         
             <span class="home-article-tag">
@@ -253,7 +259,7 @@
                     
                         <li>
                             
-                            <a href="/tags/%E7%BD%91%E9%BC%8E%E6%9D%AF/">网鼎杯</a>&nbsp;
+                            <a href="/tags/Zer0pts2020/">Zer0pts2020</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -261,7 +267,7 @@
         
     </div>
 
-    <a href="/2022/03/02/%E6%9C%B1%E9%9B%80%E6%9D%AF-Nmap/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/03/31/canyougussit/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -271,30 +277,21 @@
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2022/02/28/Dropbox/">
-                        Dropbox
+                    <a href="/2022/03/31/jikedatiaozhan2020-greatphp/">
+                        jikedatiaozhan2020-greatphp
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        [CISCN2019 华北赛区 Day1 Web1]Dropbox进入页面是一个登录框
-先注册一下
-
-直接注册admin
-发现成功，admin没有注册可能漏洞在别的地方
-
-随便写一些上传
-
-可以发现只可以上传gif等图片格式
-
-然后又发现了两个页面：...
+                        [极客大挑战 2020]Greatphp因为看到了原生类反序列化，看到这条，就来做一下
+12345678910111213141516171819202122232425&lt;?phperror_reporting(0);class SYCLOVE...
                     
                 </div>
 
                 <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Feb 28 2022 15:39:44 GMT+0800">2022-02-28</span></span>
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Mar 31 2022 14:16:57 GMT+0800">2022-03-31</span></span>
         
         
             <span class="home-article-tag">
@@ -303,7 +300,7 @@
                     
                         <li>
                             
-                            <a href="/tags/CISCN/">CISCN</a>&nbsp;
+                            <a href="/tags/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982020/">极客大挑战2020</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -311,7 +308,7 @@
         
     </div>
 
-    <a href="/2022/02/28/Dropbox/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/03/31/jikedatiaozhan2020-greatphp/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -321,28 +318,20 @@
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2022/02/28/%E6%9C%B4%E5%AE%9E%E6%97%A0%E5%8D%8E/">
-                        朴实无华
+                    <a href="/2022/03/29/lovemath2/">
+                        lovematch2
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        [WUSTCTF2020]朴实无华小刷一下。
-进入题目发现
-
-网页啥也没有，让我们黑他，但是这个标题上面是一串乱码，但是结尾有个很明显的bot
-猜测页面含有一个机器人
-访问robots.txt发现
-
-果然给出了提示，说是虚假的flag存在这个文件中
-...
+                        [NESTCTF 2019]Love Math 212345678910111213141516171819202122232425262728&lt;?phperror_reporting(0);//听说你很喜欢数学，不知道你是否爱它胜过爱flag...
                     
                 </div>
 
                 <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Feb 28 2022 15:12:34 GMT+0800">2022-02-28</span></span>
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Mar 29 2022 19:12:54 GMT+0800">2022-03-29</span></span>
         
         
             <span class="home-article-tag">
@@ -351,7 +340,7 @@
                     
                         <li>
                             
-                            <a href="/tags/WUSTCTF2020/">WUSTCTF2020</a>&nbsp;
+                            <a href="/tags/NESTCTF2019/">NESTCTF2019</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -359,7 +348,7 @@
         
     </div>
 
-    <a href="/2022/02/28/%E6%9C%B4%E5%AE%9E%E6%97%A0%E5%8D%8E/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/03/29/lovemath2/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -369,28 +358,24 @@
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2022/02/28/Unicorn-shop/">
-                        Unicorn shop
+                    <a href="/2022/03/29/Roamphp4-Rceme/">
+                        Roamphp4-Rceme
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        [ASIS 2019]Unicorn shop刷题刷题。
-题目名字是独角兽商店
-进去看看
+                        [极客大挑战 2020]Roamphp4-Rceme进入是一个登录框：可以执行命令，但是需要绕判断，判断md5的值前几位需要与她随机的数相等。
+查看一下网页源码：
 
-意思是我们输入商品名还有价钱来购买它
-啥也不输直接点购买看看会出现什么问题：
-
-可以看到返回了一堆目录还有一个报错
-需要一个单独的unicode字符串作为参数...
+给出了提示，直接访问.index.php.swp下载源码：
+123456789101...
                     
                 </div>
 
                 <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Feb 28 2022 13:43:50 GMT+0800">2022-02-28</span></span>
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Mar 29 2022 17:22:30 GMT+0800">2022-03-29</span></span>
         
         
             <span class="home-article-tag">
@@ -399,7 +384,7 @@
                     
                         <li>
                             
-                            <a href="/tags/ASIS/">ASIS</a>&nbsp;
+                            <a href="/tags/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982020/">极客大挑战2020</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -407,7 +392,7 @@
         
     </div>
 
-    <a href="/2022/02/28/Unicorn-shop/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/03/29/Roamphp4-Rceme/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -417,26 +402,20 @@
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2022/02/22/ctf-show(%E7%88%86%E7%A0%B4-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-sql%E6%B3%A8%E5%85%A5-php%E7%89%B9%E6%80%A7)/">
-                        ctf-show(爆破-命令执行-php特性-文件上传-sql注入)
+                    <a href="/2022/03/29/jikedatiaozhan2019-rce-me/">
+                        jikedatiaozhan2019-rce-me
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        爆破web27web 28
-看到题目里面啥也没有，能爆破的地方只有页面上面的url内容
-但是如果改txt内容，网页会将我们重定向
-
-导致网页访问不了，直接爆破目录/0/1/替换用bp
-最后结果是/72/20/
-命令执行web2912345678910...
+                        [极客大挑战2019]RCE ME1234567891011121314151617&lt;?phperror_reporting(0);if(isset($_GET[&#x27;code&#x27;]))&#123;            $cod...
                     
                 </div>
 
                 <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Feb 22 2022 11:11:39 GMT+0800">2022-02-22</span></span>
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Mar 29 2022 09:36:59 GMT+0800">2022-03-29</span></span>
         
         
             <span class="home-article-tag">
@@ -445,7 +424,7 @@
                     
                         <li>
                             
-                            <a href="/tags/ctf-show/">ctf-show</a>&nbsp;
+                            <a href="/tags/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019/">极客大挑战2019</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -453,7 +432,7 @@
         
     </div>
 
-    <a href="/2022/02/22/ctf-show(%E7%88%86%E7%A0%B4-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-sql%E6%B3%A8%E5%85%A5-php%E7%89%B9%E6%80%A7)/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/03/29/jikedatiaozhan2019-rce-me/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -463,22 +442,22 @@
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2022/02/15/Newcalc0/">
-                        Newcalc0
+                    <a href="/2022/03/24/piapiapia/">
+                        piapiapia
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        Newcalc0本题是一道nodejs：
-是原型链污染
-123456789什么是原型链污染？js中几乎所有的东西都是一个对象，任何对象都有一个原型对象，这个原型对象由对象的内置属性proto指向它的构造函数的prototype指向的对象，即任何对象都...
+                        [0CTF 2016]piapiapia_信息收集信息收集信息收集_重要的事情说三遍！
+从刚开始就卡了好久，以为是sql注入，用sqlmap跑了好久，然后用dirsearch也没扫出来，最后手动测，访问www.zip之后发现了源码泄露
+一共有6个文件...
                     
                 </div>
 
                 <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Feb 15 2022 13:56:04 GMT+0800">2022-02-15</span></span>
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Mar 24 2022 21:16:22 GMT+0800">2022-03-24</span></span>
         
         
             <span class="home-article-tag">
@@ -487,7 +466,7 @@
                     
                         <li>
                             
-                            <a href="/tags/V-NCTF/">V&amp;NCTF</a>&nbsp;
+                            <a href="/tags/0ctf2016/">0ctf2016</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -495,7 +474,7 @@
         
     </div>
 
-    <a href="/2022/02/15/Newcalc0/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/03/24/piapiapia/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -505,29 +484,21 @@
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2022/02/15/GOclac/">
-                        GOclac
+                    <a href="/2022/03/23/MRCTF2020-Ezpop/">
+                        MRCTF2020-Ezpop
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        gocalc这道题目据说是出题的时候出错了；
-首先打开题目
-
-查看他的提示
-
-他提示了flag在session中
-我们直接抓包发包，拿到服务器端返回的session值，这次的题目返回没有进行加密
-可以直接拿到解码，经过二次解码得到flag
-
-
+                        [MRCTF2020]Ezpop开始就给出了源码，需要我们构造反序列化链子：
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546474...
                     
                 </div>
 
                 <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Feb 15 2022 13:55:41 GMT+0800">2022-02-15</span></span>
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Mar 23 2022 19:47:01 GMT+0800">2022-03-23</span></span>
         
         
             <span class="home-article-tag">
@@ -536,7 +507,7 @@
                     
                         <li>
                             
-                            <a href="/tags/V-NCTF/">V&amp;NCTF</a>&nbsp;
+                            <a href="/tags/MRCTF2020/">MRCTF2020</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -544,7 +515,7 @@
         
     </div>
 
-    <a href="/2022/02/15/GOclac/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/03/23/MRCTF2020-Ezpop/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -554,30 +525,23 @@
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2022/02/13/GameV4-0/">
-                        GameV4.0
+                    <a href="/2022/03/23/EasySearch/">
+                        EasySearch
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        GAME V4.0web的第一道签到题：
-打开页面可以看到是一个小游戏：
-直接看源代码把
+                        [BJDCTF2020]EasySearch终究最重要的还是信息收集
 
-没什么别的问题，那就看看他的这些子文件中有没有什么信息
-最后在data.js中发现
-
-含有flag名称的新型
-解码一下得到flag
-
-
+以为是sql注入什么的，用sqlmap跑了好久，没用，最后发现有一个swp源代码泄露打开index.php.swp查看源码：
+12345678910111213141516171...
                     
                 </div>
 
                 <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Feb 13 2022 13:55:32 GMT+0800">2022-02-13</span></span>
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Mar 23 2022 19:27:22 GMT+0800">2022-03-23</span></span>
         
         
             <span class="home-article-tag">
@@ -586,7 +550,7 @@
                     
                         <li>
                             
-                            <a href="/tags/V-NCTF/">V&amp;NCTF</a>&nbsp;
+                            <a href="/tags/BJDCTF/">BJDCTF</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -594,7 +558,7 @@
         
     </div>
 
-    <a href="/2022/02/13/GameV4-0/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/03/23/EasySearch/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>

