@@ -152,74 +152,22 @@
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2022/01/31/fakebook/">
-                        fakebook
+                    <a href="/2022/02/15/Newcalc0/">
+                        Newcalc0
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        fakebook今天的第二条
-先看看题目
-
-页面上有些登录信息以及两个网页
-join创建账户
-
-
-login登录
-登上去试试
-
-可以看到这里面注入都没啥用
-用户名可以点击
-进去看看
-
-可以看到以get方式传入了一个no
-测试一下sql注入
-发现屏蔽了...
+                        Newcalc0本题是一道nodejs：
+是原型链污染
+123456789什么是原型链污染？js中几乎所有的东西都是一个对象，任何对象都有一个原型对象，这个原型对象由对象的内置属性proto指向它的构造函数的prototype指向的对象，即任何对象都...
                     
                 </div>
 
                 <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Jan 31 2022 15:40:34 GMT+0800">2022-01-31</span></span>
-        
-        
-    </div>
-
-    <a href="/2022/01/31/fakebook/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/01/31/CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day2-Web1-Hack-World/">
-                        (CISCN2019 华北赛区 Day2 Web1)Hack World
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        今天来写一下Hack World首先还是先进入题目：
-
-提示我们我们想要的flag再表flag中的flag列中
-我们可以猜一下payload=select flag from flag
-先试试输入数字看看
-发现1是
-
-2是
-0和3就报错了
-
-输入数字...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Jan 31 2022 14:07:24 GMT+0800">2022-01-31</span></span>
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Feb 15 2022 13:56:04 GMT+0800">2022-02-15</span></span>
         
         
             <span class="home-article-tag">
@@ -228,7 +176,7 @@ login登录
                     
                         <li>
                             
-                            <a href="/tags/CISCN/">CISCN</a>&nbsp;
+                            <a href="/tags/V-NCTF/">V&amp;NCTF</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -236,7 +184,7 @@ login登录
         
     </div>
 
-    <a href="/2022/01/31/CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day2-Web1-Hack-World/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/02/15/Newcalc0/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -246,108 +194,29 @@ login登录
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2022/01/30/Blacklist/">
-                        Blacklist
+                    <a href="/2022/02/15/GOclac/">
+                        GOclac
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        Blacklist[可以先看看之前强网杯的随便住]
-首先进入题目：
+                        gocalc这道题目据说是出题的时候出错了；
+首先打开题目
 
-看起来是sql注入先试试看看有啥报错
+查看他的提示
 
-看起来是单引号字符型漏洞
-测试一下他的列数
+他提示了flag在session中
+我们直接抓包发包，拿到服务器端返回的session值，这次的题目返回没有进行加密
+可以直接拿到解码，经过二次解码得到flag
 
-4看起来不行
-测试了一下2的时候可以正常回显
 
-所以列数是2，用select看看有没有回显的地...
                     
                 </div>
 
                 <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Jan 30 2022 10:20:50 GMT+0800">2022-01-30</span></span>
-        
-        
-    </div>
-
-    <a href="/2022/01/30/Blacklist/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/">
-                        随便注
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        随便注首先进入题目：
-
-看起来是sql注入先试试看看有啥报错
-
-看起来是单引号字符型漏洞
-测试一下他的列数
-
-4看起来不行
-测试了一下2的时候可以正常回显
-
-所以列数是2，用select看看有没有回显的地方
-
-看到他过滤了很多东西就连命名表都过滤了但...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Jan 30 2022 08:56:49 GMT+0800">2022-01-30</span></span>
-        
-        
-    </div>
-
-    <a href="/2022/01/30/%E9%9A%8F%E4%BE%BF%E6%B3%A8/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/01/29/MRCTF2020-Ez-bypass/">
-                        MRCTF2020]Ez_bypass
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        [MRCTF2020]Ez_bypass首先进入题目看一看
-
-进入源码可以看到排列好的函数
-
-可以看出我们需要绕过这些if
-考到了两个知识点：
-1、MD5碰撞绕过
-2、php弱比较
-MD5碰撞比较好绕过
-可以通过数组绕过（0e绕过，但是尝试了一下不知...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sat Jan 29 2022 16:25:07 GMT+0800">2022-01-29</span></span>
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Feb 15 2022 13:55:41 GMT+0800">2022-02-15</span></span>
         
         
             <span class="home-article-tag">
@@ -356,7 +225,7 @@ MD5碰撞比较好绕过
                     
                         <li>
                             
-                            <a href="/tags/MRCTF/">MRCTF</a>&nbsp;
+                            <a href="/tags/V-NCTF/">V&amp;NCTF</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -364,7 +233,7 @@ MD5碰撞比较好绕过
         
     </div>
 
-    <a href="/2022/01/29/MRCTF2020-Ez-bypass/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/02/15/GOclac/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -374,32 +243,30 @@ MD5碰撞比较好绕过
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2022/01/28/Most-Secure-Calculator/">
-                        Most-Secure-Calculator
+                    <a href="/2022/02/13/GameV4-0/">
+                        GameV4.0
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        计算器1一样先进去看一下
+                        GAME V4.0web的第一道签到题：
+打开页面可以看到是一个小游戏：
+直接看源代码把
 
-进行一个简单的wfuzz测试
-发现啥也没过滤
-然后
-随便输入一些数看看
+没什么别的问题，那就看看他的这些子文件中有没有什么信息
+最后在data.js中发现
 
-发现这里面是一个简单的命令执行所以直接执行系统命令试试
+含有flag名称的新型
+解码一下得到flag
 
-发现可以执行基本的system命令
-然后直接执行cat flag.txt就行拉
 
-KCTF...
                     
                 </div>
 
                 <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Jan 28 2022 16:11:28 GMT+0800">2022-01-28</span></span>
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Feb 13 2022 13:55:32 GMT+0800">2022-02-13</span></span>
         
         
             <span class="home-article-tag">
@@ -408,7 +275,7 @@ KCTF...
                     
                         <li>
                             
-                            <a href="/tags/knightctf/">knightctf</a>&nbsp;
+                            <a href="/tags/V-NCTF/">V&amp;NCTF</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -416,7 +283,7 @@ KCTF...
         
     </div>
 
-    <a href="/2022/01/28/Most-Secure-Calculator/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/02/13/GameV4-0/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -426,33 +293,66 @@ KCTF...
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2022/01/28/myphpsite/">
-                        myphpsite
+                    <a href="/2022/02/10/%E7%A6%81%E6%AD%A2%E5%A5%97%E5%A8%83/">
+                        禁止套娃
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        My php site拿到题目先看看
-发现这是一个php网页
-而且网页头以get方式传送了地址
+                        [GXYCTF2019]禁止套娃进入题目就一句话，啥也没有
 
-所以想到用伪协议来读取文件地址
-尝试一下拿他现在的页面看看能不能读到
+猜测一下是不是藏起来了？
+找了半天没找到，扫描一下目录也没有，最后找到是git源码泄露
+用githack来下载源码
 
-
-拿去解码一下发现可以
-接下来尝一下php网页
-
-
-代码审计一下
-发现这个下面给...
+可以看到需要有四个if需要绕过
+第一个是确定以get方式传入exp
+第...
                     
                 </div>
 
                 <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Jan 28 2022 16:10:58 GMT+0800">2022-01-28</span></span>
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Feb 10 2022 12:31:40 GMT+0800">2022-02-10</span></span>
+        
+        
+    </div>
+
+    <a href="/2022/02/10/%E7%A6%81%E6%AD%A2%E5%A5%97%E5%A8%83/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/02/10/%E6%88%91%E6%9C%89%E4%B8%80%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/">
+                        我有一个数据库
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        [GWCTF 2019]我有一个数据库首先进去是遗传乱码
+
+应该是编码问题
+看了一下robots.txt
+里面藏了一个东西
+
+但是里面好像啥也没有
+还是扫描一下把
+可以看到里面有一个phpmyadmin页面
+
+这里右边直接就给数据库版本服务器版本以及...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Feb 10 2022 10:02:20 GMT+0800">2022-02-10</span></span>
         
         
             <span class="home-article-tag">
@@ -461,7 +361,7 @@ KCTF...
                     
                         <li>
                             
-                            <a href="/tags/knightctf/">knightctf</a>&nbsp;
+                            <a href="/tags/GWCTF/">GWCTF</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -469,7 +369,7 @@ KCTF...
         
     </div>
 
-    <a href="/2022/01/28/myphpsite/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/02/10/%E6%88%91%E6%9C%89%E4%B8%80%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -479,29 +379,24 @@ KCTF...
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2022/01/28/Obsfuscation-Isn-t-Enough/">
-                        Obsfuscation Isn&#39;t Enough
+                    <a href="/2022/02/09/easy-serialize-php/">
+                        easy-serialize-php
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        Obsfuscation Isn’t Enough
-猜测可能是sql注入但是不管，先看看源代码
+                        [安洵杯]easy_serialize_php123题目涉及到序列化漏洞的字符逃逸因为到后面序列化写不明白，看了一下大佬的wp（https://www.jianshu.com/p/8e8117f9fd0e）
 
-发现一串很奇怪的符号其实是jsfuck
-可以直接拿到进开发者工具中执行
+进入题目有一个链接里面是源码
 
-发现其中返回了location，直接进入那个页面看看
-
-直接拿到了flag
-
+可以看到...
                     
                 </div>
 
                 <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Jan 28 2022 15:50:08 GMT+0800">2022-01-28</span></span>
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Feb 09 2022 09:39:24 GMT+0800">2022-02-09</span></span>
         
         
             <span class="home-article-tag">
@@ -510,7 +405,7 @@ KCTF...
                     
                         <li>
                             
-                            <a href="/tags/knightctf/">knightctf</a>&nbsp;
+                            <a href="/tags/%E5%AE%89%E6%B4%B5%E6%9D%AF/">安洵杯</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -518,7 +413,7 @@ KCTF...
         
     </div>
 
-    <a href="/2022/01/28/Obsfuscation-Isn-t-Enough/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/02/09/easy-serialize-php/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -528,24 +423,115 @@ KCTF...
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2022/01/28/GXYCTF2019-BabySQli/">
-                        (GXYCTF2019)BabySQli
+                    <a href="/2022/02/08/cybergrabs-rabbit/">
+                        cybergrabs-rabbit
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        BabySQli进入题目是这样：
+                        rabblt这道题跟之前的不一样
+在tryhackme网站里开了个攻击机
+我们自己连连不上
+题目提示让我们read flag.txt
+我们可以想到可能是文件读取或者文件包含，让我们直接读到flag.txt之中的内容
+打开之后照常先进网站看看
 
-这种题目先抓包测试
+发现这...
+                    
+                </div>
 
-看到有提示，解码一下（需要一次base32和一次base64解码）
-得到提示
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Feb 08 2022 10:36:43 GMT+0800">2022-02-08</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/Cyber-Grabs/">Cyber Grabs</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
 
-知道这题是单引号注入
-用wfuzz测试一下过滤
-发现只过滤了一些=，or之类的
-用orderby测试一下列数
+    <a href="/2022/02/08/cybergrabs-rabbit/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/02/08/cybergrabs-easyweb/">
+                        cybergrabs-easyweb
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        easy-web进入题目也得先看看
+
+啥也没有，源代码也没啥
+抓个包看下（因为他刚进去的时候有的要等响应，抓错几次）
+
+可以看到我们传过去一个cookie
+而且从服务器端回传了一个cookie的value值，我们拿到这个值直接去base64解码就可以...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Feb 08 2022 10:36:35 GMT+0800">2022-02-08</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/Cyber-Grabs/">Cyber Grabs</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/02/08/cybergrabs-easyweb/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/02/06/Tetris-plus/">
+                        Tetris plus
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        Tetris-plus进入题目：
+发现是个游戏，先小玩一把。
+
+到最后也没发现啥问题
+点点别的也都正常
+看看源代码
+
+都是些不痛不痒的东西，但是包含的js非常多，都点进去看看
+在check.js页面发现他注释了段很长的东西，之前写过的jsfuck
 
 ...
                     
@@ -553,7 +539,7 @@ KCTF...
 
                 <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Jan 28 2022 12:13:01 GMT+0800">2022-01-28</span></span>
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Feb 06 2022 16:36:57 GMT+0800">2022-02-06</span></span>
         
         
             <span class="home-article-tag">
@@ -562,7 +548,7 @@ KCTF...
                     
                         <li>
                             
-                            <a href="/tags/GXYCTF/">GXYCTF</a>&nbsp;
+                            <a href="/tags/hgame/">hgame</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -570,7 +556,7 @@ KCTF...
         
     </div>
 
-    <a href="/2022/01/28/GXYCTF2019-BabySQli/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/02/06/Tetris-plus/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -580,44 +566,32 @@ KCTF...
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/">
-                        王鼎杯2020青龙组AreUSerialz
+                    <a href="/2022/02/06/%E8%9B%9B%E8%9B%9B-%E5%98%BF%E5%98%BF%E2%99%A5%E6%88%91%E7%9A%84%E8%9B%9B%E8%9B%9B/">
+                        蛛蛛...嘿嘿♥我的蛛蛛
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        [网鼎杯 2020 青龙组]AreUSerialz同样先进去看看发现是一道序列化题目
+                        蛛蛛…嘿嘿♥我的蛛蛛进去之后先看看
 
-然后进行代码审计
-注意：这类型题目在进行反序列化时首先调用的是__destruct()魔术方法
+点了一下，发现方框变多但是只有一个是真的
 
-
-
-我们可以看到这里上面的2是强比较类型（同类型同大小同数值）而...
+查看源代码的时候可以看到哪个是真的
+但是一直点也不知道什么时候结束，写一个简单的爬虫脚本方便我们直接得到那个页面
+附上我的脚本：
+1234567891011121314...
                     
                 </div>
 
                 <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Jan 28 2022 10:10:39 GMT+0800">2022-01-28</span></span>
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Feb 06 2022 16:36:21 GMT+0800">2022-02-06</span></span>
         
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/%E7%BD%91%E9%BC%8E%E6%9D%AF/">网鼎杯</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
         
     </div>
 
-    <a href="/2022/01/28/%E7%8E%8B%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84AreUSerialz/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/02/06/%E8%9B%9B%E8%9B%9B-%E5%98%BF%E5%98%BF%E2%99%A5%E6%88%91%E7%9A%84%E8%9B%9B%E8%9B%9B/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>

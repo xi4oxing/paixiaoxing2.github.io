@@ -220,7 +220,7 @@
 <p>jwt的构成：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">由两个点分割成三部分，第一步分是经过base64编码之后的JWT头其中含有两个信息一个是type(默认是JWT)声明类型，另一个是声明加密的算法alg(algorithm)</span><br><span class="line">可以将JWT中的alg算法修改为none：</span><br><span class="line">JWT支持将算法设定为“None”。如果“alg”字段设为“ None”，那么JWT的第三部分会被置空，这样任何token都是有效的。这样就可以伪造token进行随意访问。</span><br></pre></td></tr></table></figure>
 
-<p>所以这里我们需要将alg设置为none，还得将secretid改为空数组，因为再js是一个弱类型语言，空数组的比较永远为真，然后我们将第二个点后面的东西直接删除然后就可以登录上去</p>
+<p>所以这里我们需要将alg设置为none，还得将secretid改为空数组（js是一个弱类型语言，空数组的比较永远为真），然后我们将第二个点后面的东西直接删除然后就可以登录上去</p>
 <p>登录上去之后点击getflag就可以拿到flag</p>
 
         </div>

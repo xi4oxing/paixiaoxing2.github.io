@@ -152,22 +152,25 @@
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2022/04/01/SSRF-Me/">
-                        SSRF Me
+                    <a href="/2022/04/07/HFCTF2020-EasyLogin/">
+                        HFCTF2020-EasyLogin
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        虽然python我学的有点捞，看不太懂源码，但是简单梳理一下还是蛮清晰的
-hint：flag在./flag.txt中,打开页面F12读取一下源码
-1234567891011121314151617181920212223242526272829303...
+                        [HFCTF2020]EasyLogin进入题目注册登录，先进去看看
+
+直接获取flag，点了之后提示没有权限
+猜测需要以admin身份来点击它
+然后再app.js中发现了小提示以及部分源码：
+1234567891011121314151617181...
                     
                 </div>
 
                 <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Apr 01 2022 09:44:23 GMT+0800">2022-04-01</span></span>
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Apr 07 2022 18:13:14 GMT+0800">2022-04-07</span></span>
         
         
             <span class="home-article-tag">
@@ -176,7 +179,7 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
                     
                         <li>
                             
-                            <a href="/tags/De1CTF2019/">De1CTF2019</a>&nbsp;
+                            <a href="/tags/HFCTF2020/">HFCTF2020</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -184,7 +187,7 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
         
     </div>
 
-    <a href="/2022/04/01/SSRF-Me/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/04/07/HFCTF2020-EasyLogin/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -194,22 +197,25 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2022/03/31/%E5%A5%97%E5%A8%83/">
-                        套娃
+                    <a href="/2022/04/07/CISCN%E6%80%BB%E5%86%B3%E8%B5%9B2019-EasyWeb/">
+                        CISCN总决赛2019-EasyWeb
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        [MRCTF2020]套娃进入页面没什么东西，图片都没加载，打开源码看看有没有提示
-发现一部分源代码：
-12345678910&lt;?php$query = $_SERVER[&#x27;QUERY_STRING&#x27;];#query str...
+                        [CISCN2019 总决赛 Day2 Web1]Easyweb打开是一个登录框，啥也没有，登录也没有回显，访问robots.txt得到提示：
+12User-agent: *Disallow: *.php.bak
+
+查看源码看到
+
+很可疑，而且在in...
                     
                 </div>
 
                 <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Mar 31 2022 22:07:31 GMT+0800">2022-03-31</span></span>
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Apr 07 2022 10:41:39 GMT+0800">2022-04-07</span></span>
         
         
             <span class="home-article-tag">
@@ -218,7 +224,7 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
                     
                         <li>
                             
-                            <a href="/tags/MRCTF2020/">MRCTF2020</a>&nbsp;
+                            <a href="/tags/CISCN2019/">CISCN2019</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -226,7 +232,7 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
         
     </div>
 
-    <a href="/2022/03/31/%E5%A5%97%E5%A8%83/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/04/07/CISCN%E6%80%BB%E5%86%B3%E8%B5%9B2019-EasyWeb/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -236,21 +242,22 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2022/03/31/canyougussit/">
-                        Can you guess it ?
+                    <a href="/2022/04/06/RCTF2015-EasySQL/">
+                        RCTF2015-EasySQL
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        [Zer0pts2020]Can you guess it?进入题目一个文本框，有一个可以点的地方，点进去看到源码
-12345678910111213141516171819202122&lt;?phpinclude &#x27;config.php...
+                        [RCTF2015]EasySQL开始的界面我还以为我走错片场了，
+源码里啥也没藏，那就先注册登录进去看看，发现登录进去后有一个修改密码，有点嫌疑，而且下面还有三段文本。
+点进去之后会有url处会有一个title=本来以为注入点是这里，小测了一下，发...
                     
                 </div>
 
                 <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Mar 31 2022 22:07:21 GMT+0800">2022-03-31</span></span>
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Apr 06 2022 21:53:22 GMT+0800">2022-04-06</span></span>
         
         
             <span class="home-article-tag">
@@ -259,7 +266,7 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
                     
                         <li>
                             
-                            <a href="/tags/Zer0pts2020/">Zer0pts2020</a>&nbsp;
+                            <a href="/tags/RCTF2015/">RCTF2015</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -267,7 +274,7 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
         
     </div>
 
-    <a href="/2022/03/31/canyougussit/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/04/06/RCTF2015-EasySQL/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -277,21 +284,24 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2022/03/31/jikedatiaozhan2020-greatphp/">
-                        jikedatiaozhan2020-greatphp
+                    <a href="/2022/04/06/CyberPunk/">
+                        CyberPunk
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        [极客大挑战 2020]Greatphp因为看到了原生类反序列化，看到这条，就来做一下
-12345678910111213141516171819202122232425&lt;?phperror_reporting(0);class SYCLOVE...
+                        [CISCN2019 华北赛区 Day1 Web5]CyberPunk突然刷到这题，来看看
+进入题目是一个购买赛博朋克的信息
+具体也不知道有什么用，先收集一下资料
+看了下页面源代码发现：&lt;!--?file=?--&gt;
+猜测可以读取页面源码：...
                     
                 </div>
 
                 <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Mar 31 2022 14:16:57 GMT+0800">2022-03-31</span></span>
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Apr 06 2022 19:30:24 GMT+0800">2022-04-06</span></span>
         
         
             <span class="home-article-tag">
@@ -300,7 +310,7 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
                     
                         <li>
                             
-                            <a href="/tags/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982020/">极客大挑战2020</a>&nbsp;
+                            <a href="/tags/CISCN2019/">CISCN2019</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -308,7 +318,7 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
         
     </div>
 
-    <a href="/2022/03/31/jikedatiaozhan2020-greatphp/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/04/06/CyberPunk/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -318,20 +328,20 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2022/03/29/lovemath2/">
-                        lovematch2
+                    <a href="/2022/04/06/SSRFMe/">
+                        SSRFMe
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        [NESTCTF 2019]Love Math 212345678910111213141516171819202122232425262728&lt;?phperror_reporting(0);//听说你很喜欢数学，不知道你是否爱它胜过爱flag...
+                        [HITCON 2017]SSRFme12345678910111213141516171819&lt;?php    if (isset($_SERVER[&#x27;HTTP_X_FORWARDED_FOR&#x27;])) &#123;    ...
                     
                 </div>
 
                 <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Mar 29 2022 19:12:54 GMT+0800">2022-03-29</span></span>
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Apr 06 2022 09:09:47 GMT+0800">2022-04-06</span></span>
         
         
             <span class="home-article-tag">
@@ -340,7 +350,7 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
                     
                         <li>
                             
-                            <a href="/tags/NESTCTF2019/">NESTCTF2019</a>&nbsp;
+                            <a href="/tags/HITCON2017/">HITCON2017</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -348,7 +358,7 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
         
     </div>
 
-    <a href="/2022/03/29/lovemath2/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/04/06/SSRFMe/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -358,24 +368,26 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2022/03/29/Roamphp4-Rceme/">
-                        Roamphp4-Rceme
+                    <a href="/2022/04/05/FlaskLight/">
+                        FlaskLight
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        [极客大挑战 2020]Roamphp4-Rceme进入是一个登录框：可以执行命令，但是需要绕判断，判断md5的值前几位需要与她随机的数相等。
-查看一下网页源码：
+                        [CSCCTF 2019 Qual]FlaskLight因为题目说是flask所以直接寻找注入点
+在页面源码发现注入点
 
-给出了提示，直接访问.index.php.swp下载源码：
-123456789101...
+以get方式传入search
+那么就判断是什么框架了
+输入&#123;&#123;7*'7'&#125;&#125;
+发现回显7...
                     
                 </div>
 
                 <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Mar 29 2022 17:22:30 GMT+0800">2022-03-29</span></span>
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Apr 05 2022 21:22:12 GMT+0800">2022-04-05</span></span>
         
         
             <span class="home-article-tag">
@@ -384,7 +396,7 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
                     
                         <li>
                             
-                            <a href="/tags/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982020/">极客大挑战2020</a>&nbsp;
+                            <a href="/tags/CSCCTF2019/">CSCCTF2019</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -392,7 +404,7 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
         
     </div>
 
-    <a href="/2022/03/29/Roamphp4-Rceme/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/04/05/FlaskLight/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -402,20 +414,24 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2022/03/29/jikedatiaozhan2019-rce-me/">
-                        jikedatiaozhan2019-rce-me
+                    <a href="/2022/04/05/%E6%9E%AF%E7%87%A5%E7%9A%84%E6%8A%BD%E5%A5%96/">
+                        枯燥的抽奖
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        [极客大挑战2019]RCE ME1234567891011121314151617&lt;?phperror_reporting(0);if(isset($_GET[&#x27;code&#x27;]))&#123;            $cod...
+                        [GWCTF 2019]枯燥的抽奖哈哈哈，进行枯燥无味的抽奖
+看了一下源码：
+
+直接访问check.php页面看到源码：
+12345678910111213141516171819202122232425262728&lt;?php#这不是抽奖程序的...
                     
                 </div>
 
                 <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Mar 29 2022 09:36:59 GMT+0800">2022-03-29</span></span>
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Apr 05 2022 19:55:12 GMT+0800">2022-04-05</span></span>
         
         
             <span class="home-article-tag">
@@ -424,7 +440,7 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
                     
                         <li>
                             
-                            <a href="/tags/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019/">极客大挑战2019</a>&nbsp;
+                            <a href="/tags/GWCTF2019/">GWCTF2019</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -432,7 +448,7 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
         
     </div>
 
-    <a href="/2022/03/29/jikedatiaozhan2019-rce-me/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/04/05/%E6%9E%AF%E7%87%A5%E7%9A%84%E6%8A%BD%E5%A5%96/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -442,22 +458,22 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2022/03/24/piapiapia/">
-                        piapiapia
+                    <a href="/2022/04/05/ikun/">
+                        ikun
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        [0CTF 2016]piapiapia_信息收集信息收集信息收集_重要的事情说三遍！
-从刚开始就卡了好久，以为是sql注入，用sqlmap跑了好久，然后用dirsearch也没扫出来，最后手动测，访问www.zip之后发现了源码泄露
-一共有6个文件...
+                        先注册登录进去看看
+进入题目让找到买到lv6，所以第一步是找到lv6的页面写个脚本查一下
+1234567import requestsfor i in range(502):	url = &#x27;http://0a865d2d-fba3-4285...
                     
                 </div>
 
                 <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Mar 24 2022 21:16:22 GMT+0800">2022-03-24</span></span>
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Apr 05 2022 18:26:34 GMT+0800">2022-04-05</span></span>
         
         
             <span class="home-article-tag">
@@ -466,7 +482,7 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
                     
                         <li>
                             
-                            <a href="/tags/0ctf2016/">0ctf2016</a>&nbsp;
+                            <a href="/tags/CISCN2019/">CISCN2019</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -474,7 +490,7 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
         
     </div>
 
-    <a href="/2022/03/24/piapiapia/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/04/05/ikun/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -484,21 +500,21 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2022/03/23/MRCTF2020-Ezpop/">
-                        MRCTF2020-Ezpop
+                    <a href="/2022/04/04/shrine/">
+                        shrine
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        [MRCTF2020]Ezpop开始就给出了源码，需要我们构造反序列化链子：
-12345678910111213141516171819202122232425262728293031323334353637383940414243444546474...
+                        [WesternCTF2018]shrine题目给出了源码：
+1234567891011121314151617181920212223242526import flaskimport osapp = flask.Flask(__name__)app...
                     
                 </div>
 
                 <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Mar 23 2022 19:47:01 GMT+0800">2022-03-23</span></span>
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Apr 04 2022 13:08:14 GMT+0800">2022-04-04</span></span>
         
         
             <span class="home-article-tag">
@@ -507,7 +523,7 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
                     
                         <li>
                             
-                            <a href="/tags/MRCTF2020/">MRCTF2020</a>&nbsp;
+                            <a href="/tags/westernCTF/">westernCTF</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -515,7 +531,7 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
         
     </div>
 
-    <a href="/2022/03/23/MRCTF2020-Ezpop/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/04/04/shrine/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -525,23 +541,22 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2022/03/23/EasySearch/">
-                        EasySearch
+                    <a href="/2022/04/04/Pythonginx/">
+                        Pythonginx
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        [BJDCTF2020]EasySearch终究最重要的还是信息收集
-
-以为是sql注入什么的，用sqlmap跑了好久，没用，最后发现有一个swp源代码泄露打开index.php.swp查看源码：
-12345678910111213141516171...
+                        [SUCTF 2019]Pythonginx打开题目是一个搜索框
+给了源码
+123456789101112131415161718192021@app.route(&#x27;/getUrl&#x27;, methods=[&#x27;GET&#x2...
                     
                 </div>
 
                 <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Mar 23 2022 19:27:22 GMT+0800">2022-03-23</span></span>
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Apr 04 2022 09:52:45 GMT+0800">2022-04-04</span></span>
         
         
             <span class="home-article-tag">
@@ -550,7 +565,7 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
                     
                         <li>
                             
-                            <a href="/tags/BJDCTF/">BJDCTF</a>&nbsp;
+                            <a href="/tags/SUCTF2019/">SUCTF2019</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -558,7 +573,7 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
         
     </div>
 
-    <a href="/2022/03/23/EasySearch/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/04/04/Pythonginx/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>

