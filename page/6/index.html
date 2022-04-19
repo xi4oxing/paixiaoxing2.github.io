@@ -152,6 +152,269 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2022/03/21/PYWebsite/">
+                        PYWebsite
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        [MRCTF2020]PYWebsite进入页面就让我购买flag，还66块钱，心黑啊。
+查看网页源码，发现前端包含了授权码验证的代码
+123456789101112131415161718function enc(code)&#123;  hash...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Mar 21 2022 15:52:19 GMT+0800">2022-03-21</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/MRCTF2020/">MRCTF2020</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/03/21/PYWebsite/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/03/21/FakeXML-cookbook/">
+                        FakeXML-cookboos
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        [NCTF2019]Fake XML cookbook本题主要考到xxe（xml外部实体注入）
+
+进入题目给出了一个登录框，看起来很像是sql注入，但是题目提示是XML所以也就不看了，登录一下抓个包看看
+
+可以看到这与一般的post登录框不同，这里传...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Mar 21 2022 15:12:44 GMT+0800">2022-03-21</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/NCTF2019/">NCTF2019</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/03/21/FakeXML-cookbook/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/03/20/ReadlezPHP/">
+                        ReadlezPHP
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        [NPUCTF2020]ReadlezPHP题目页面啥也没看出来，打开源码看看
+
+找到一个页面，打开看看
+
+看出意图，反序列化题目，分析一下代码，这个类的作用主要就是先将时间代码写入类的a，b中然后再下面的析构方法组合，我们需要重写构造方法，构造出a...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Mar 20 2022 18:12:16 GMT+0800">2022-03-20</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/NPUCTF2020/">NPUCTF2020</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/03/20/ReadlezPHP/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/03/20/%E5%8D%8E%E4%B8%9C%E5%8D%97%E8%B5%9B%E5%8C%BA-Web11/">
+                        华东南赛区-Web11
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        [CISCN华东南赛区]-web11进入题目先观察一下
+
+右上角出现一个本地ip，然后页面下方给出了模板的类型，猜测应该就是smarty模板漏洞，注入点的华应该就在ip这里，页面上还有XFF提示，测试一下
+{$smarty.version}可以看到页...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Mar 20 2022 17:35:52 GMT+0800">2022-03-20</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/CISCN/">CISCN</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/03/20/%E5%8D%8E%E4%B8%9C%E5%8D%97%E8%B5%9B%E5%8C%BA-Web11/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/03/16/BJDCTF%E5%A4%8D%E7%8E%B0/">
+                        BJDCTF复现
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        今天复现了一下BJDCTF
+假猪套天下第一首先进入页面
+是一个登录页面，以为是注入，随便输入了一下发现进去了，抓个包
+
+发现藏了一个网页，访问一下
+第一次访问的时候网页显示发生了一个错误，刷新一下就可以发现下一步的提示（如果不刷新抓包的话没有在coo...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Mar 16 2022 20:42:15 GMT+0800">2022-03-16</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/BJDCTF/">BJDCTF</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/03/16/BJDCTF%E5%A4%8D%E7%8E%B0/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/03/13/SWPUCTF-2018-easyphp/">
+                        SWPUCTF-2018-simplephp
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        [SWPUCTF 2018]simplephp因为之前写过，文件丢失了，简单回顾一下phar反序列化：
+123phar反序列化需要的条件：1、文件上传点2、内置函数拥有某些文件类的函数
+
+
+
+进入题目有三个子页面，而且切换到中间页面的时候url上面会...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Mar 13 2022 15:39:29 GMT+0800">2022-03-13</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/SWPUCTF/">SWPUCTF</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/03/13/SWPUCTF-2018-easyphp/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2022/03/13/%E5%AE%89%E6%B4%B5%E6%9D%AF-2019-easy-web/">
                         安洵杯-2019-easy-web
                     </a>
@@ -318,271 +581,6 @@ sql盲注
     </div>
 
     <a href="/2022/03/06/SWPU2019-WEB1/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/03/03/OnlineTool/">
-                        OnlineTool
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        OnlineTool昨天的朱雀杯提到了这个，想了一下自己好像没写wp，今天补一下
-源码：
-123456789101112131415161718&lt;?phpif (isset($_SERVER[&#x27;HTTP_X_FORWARDED_FOR...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Mar 03 2022 16:17:52 GMT+0800">2022-03-03</span></span>
-        
-        
-    </div>
-
-    <a href="/2022/03/03/OnlineTool/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/03/02/%E6%9C%B1%E9%9B%80%E6%9D%AF-Nmap/">
-                        网鼎杯-朱雀组-Nmap
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        [网鼎杯]朱雀组Nmap看到题目，想到了上次做到的OnlineTool
-一样都是用到了Nmap这个脚本
-翻到nmap中有一个-oG参数将命令参数写入自己定义的文件中
-而且这里考到了escapeshellarg和escapeshellcmd一起使用的时...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Mar 02 2022 19:54:07 GMT+0800">2022-03-02</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/%E7%BD%91%E9%BC%8E%E6%9D%AF/">网鼎杯</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/03/02/%E6%9C%B1%E9%9B%80%E6%9D%AF-Nmap/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/02/28/Dropbox/">
-                        Dropbox
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        [CISCN2019 华北赛区 Day1 Web1]Dropbox进入页面是一个登录框
-先注册一下
-
-直接注册admin
-发现成功，admin没有注册可能漏洞在别的地方
-
-随便写一些上传
-
-可以发现只可以上传gif等图片格式
-
-然后又发现了两个页面：...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Feb 28 2022 15:39:44 GMT+0800">2022-02-28</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/CISCN/">CISCN</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/02/28/Dropbox/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/02/28/%E6%9C%B4%E5%AE%9E%E6%97%A0%E5%8D%8E/">
-                        朴实无华
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        [WUSTCTF2020]朴实无华小刷一下。
-进入题目发现
-
-网页啥也没有，让我们黑他，但是这个标题上面是一串乱码，但是结尾有个很明显的bot
-猜测页面含有一个机器人
-访问robots.txt发现
-
-果然给出了提示，说是虚假的flag存在这个文件中
-...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Feb 28 2022 15:12:34 GMT+0800">2022-02-28</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/WUSTCTF2020/">WUSTCTF2020</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/02/28/%E6%9C%B4%E5%AE%9E%E6%97%A0%E5%8D%8E/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/02/28/Unicorn-shop/">
-                        Unicorn shop
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        [ASIS 2019]Unicorn shop刷题刷题。
-题目名字是独角兽商店
-进去看看
-
-意思是我们输入商品名还有价钱来购买它
-啥也不输直接点购买看看会出现什么问题：
-
-可以看到返回了一堆目录还有一个报错
-需要一个单独的unicode字符串作为参数...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Feb 28 2022 13:43:50 GMT+0800">2022-02-28</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/ASIS/">ASIS</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/02/28/Unicorn-shop/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/02/22/ctf-show(%E7%88%86%E7%A0%B4-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-sql%E6%B3%A8%E5%85%A5-php%E7%89%B9%E6%80%A7)/">
-                        ctf-show(爆破-命令执行-php特性-文件上传-sql注入)
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        爆破web27web 28
-看到题目里面啥也没有，能爆破的地方只有页面上面的url内容
-但是如果改txt内容，网页会将我们重定向
-
-导致网页访问不了，直接爆破目录/0/1/替换用bp
-最后结果是/72/20/
-命令执行web2912345678910...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Feb 22 2022 11:11:39 GMT+0800">2022-02-22</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/ctf-show/">ctf-show</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/02/22/ctf-show(%E7%88%86%E7%A0%B4-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-sql%E6%B3%A8%E5%85%A5-php%E7%89%B9%E6%80%A7)/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
