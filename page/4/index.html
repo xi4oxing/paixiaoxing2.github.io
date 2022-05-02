@@ -152,6 +152,226 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2022/04/07/watevrCTF-2019-Cookie-Store/">
+                        watevrCTF-2019-Cookie Store
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        进入题目直接就是一个购买网页，让我们购买到价值$100的flag，但是我们的钱只有50，直接点击购买并且抓包：
+
+可以看到在session中藏了一段base64编码（其实也就是jwt的头），解析之后看到money
+
+那么也就是说我们只需要把money...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Apr 07 2022 21:23:57 GMT+0800">2022-04-07</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/wateverCTF2019/">wateverCTF2019</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/04/07/watevrCTF-2019-Cookie-Store/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/04/07/HFCTF2020-EasyLogin/">
+                        HFCTF2020-EasyLogin
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        [HFCTF2020]EasyLogin进入题目注册登录，先进去看看
+
+直接获取flag，点了之后提示没有权限
+猜测需要以admin身份来点击它
+然后再app.js中发现了小提示以及部分源码：
+1234567891011121314151617181...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Apr 07 2022 18:13:14 GMT+0800">2022-04-07</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/HFCTF2020/">HFCTF2020</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/04/07/HFCTF2020-EasyLogin/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/04/07/CISCN%E6%80%BB%E5%86%B3%E8%B5%9B2019-EasyWeb/">
+                        CISCN总决赛2019-EasyWeb
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        [CISCN2019 总决赛 Day2 Web1]Easyweb打开是一个登录框，啥也没有，登录也没有回显，访问robots.txt得到提示：
+12User-agent: *Disallow: *.php.bak
+
+查看源码看到
+
+很可疑，而且在in...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Apr 07 2022 10:41:39 GMT+0800">2022-04-07</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/CISCN2019/">CISCN2019</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/04/07/CISCN%E6%80%BB%E5%86%B3%E8%B5%9B2019-EasyWeb/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/04/06/RCTF2015-EasySQL/">
+                        RCTF2015-EasySQL
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        [RCTF2015]EasySQL开始的界面我还以为我走错片场了，
+源码里啥也没藏，那就先注册登录进去看看，发现登录进去后有一个修改密码，有点嫌疑，而且下面还有三段文本。
+点进去之后会有url处会有一个title=本来以为注入点是这里，小测了一下，发...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Apr 06 2022 21:53:22 GMT+0800">2022-04-06</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/RCTF2015/">RCTF2015</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/04/06/RCTF2015-EasySQL/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/04/06/CyberPunk/">
+                        CyberPunk
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        [CISCN2019 华北赛区 Day1 Web5]CyberPunk突然刷到这题，来看看
+进入题目是一个购买赛博朋克的信息
+具体也不知道有什么用，先收集一下资料
+看了下页面源代码发现：&lt;!--?file=?--&gt;
+猜测可以读取页面源码：...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Apr 06 2022 19:30:24 GMT+0800">2022-04-06</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/CISCN2019/">CISCN2019</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/04/06/CyberPunk/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2022/04/06/SSRFMe/">
                         SSRFMe
                     </a>
@@ -356,201 +576,6 @@
     </div>
 
     <a href="/2022/04/04/shrine/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/04/04/Pythonginx/">
-                        Pythonginx
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        [SUCTF 2019]Pythonginx打开题目是一个搜索框
-给了源码
-123456789101112131415161718192021@app.route(&#x27;/getUrl&#x27;, methods=[&#x27;GET&#x2...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Apr 04 2022 09:52:45 GMT+0800">2022-04-04</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/SUCTF2019/">SUCTF2019</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/04/04/Pythonginx/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/04/02/EIS-EzPOP/">
-                        EIS-EzPOP
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        [EIS 2019]EzPOP在题目端给出了源码
-1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sat Apr 02 2022 20:09:45 GMT+0800">2022-04-02</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/EIS2019/">EIS2019</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/04/02/EIS-EzPOP/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/04/01/%E9%A2%9C%E5%80%BC%E6%88%90%E7%BB%A9%E6%9F%A5%E8%AF%A2/">
-                        颜值成绩查询
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        [WUSTCTF2020]颜值成绩查询先看一下题目，直接是查询框
-输入1，2，3，4的时候有回显，以上回显student number not exists.
-输入0的时候测试一下，发现输入一般语句都不行，但是可以输入1^1^1这样中间插入语句可以执...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Apr 01 2022 20:01:44 GMT+0800">2022-04-01</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/WUSTCTF2020/">WUSTCTF2020</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/04/01/%E9%A2%9C%E5%80%BC%E6%88%90%E7%BB%A9%E6%9F%A5%E8%AF%A2/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/04/01/RCEService/">
-                        RCEService
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        [FBCTF2019]RCEService页面提示需要按照JSON方式传入参数，随便传入一个参数看看
-发现他以get方式传入了一个cmd，我输入的是数字他直接报过滤了，猜测这里有一个过滤把，因为是cmd传入，尝试传入一个system：ls
-发现Inv...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Apr 01 2022 10:46:45 GMT+0800">2022-04-01</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/FBCTF2019/">FBCTF2019</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/04/01/RCEService/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/04/01/Kookie/">
-                        Kookie!
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Apr 01 2022 10:16:22 GMT+0800">2022-04-01</span></span>
-        
-        
-    </div>
-
-    <a href="/2022/04/01/Kookie/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>

@@ -152,6 +152,229 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2022/02/22/ctf-show(%E7%88%86%E7%A0%B4-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-sql%E6%B3%A8%E5%85%A5-php%E7%89%B9%E6%80%A7)/">
+                        ctf-show(爆破-命令执行-php特性-文件上传-sql注入)
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        爆破web27web 28
+看到题目里面啥也没有，能爆破的地方只有页面上面的url内容
+但是如果改txt内容，网页会将我们重定向
+
+导致网页访问不了，直接爆破目录/0/1/替换用bp
+最后结果是/72/20/
+命令执行web2912345678910...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Feb 22 2022 11:11:39 GMT+0800">2022-02-22</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/ctf-show/">ctf-show</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/02/22/ctf-show(%E7%88%86%E7%A0%B4-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-sql%E6%B3%A8%E5%85%A5-php%E7%89%B9%E6%80%A7)/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/02/15/Newcalc0/">
+                        Newcalc0
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        Newcalc0本题是一道nodejs：
+是原型链污染
+123456789什么是原型链污染？js中几乎所有的东西都是一个对象，任何对象都有一个原型对象，这个原型对象由对象的内置属性proto指向它的构造函数的prototype指向的对象，即任何对象都...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Feb 15 2022 13:56:04 GMT+0800">2022-02-15</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/V-NCTF/">V&amp;NCTF</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/02/15/Newcalc0/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/02/15/GOclac/">
+                        GOclac
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        gocalc这道题目据说是出题的时候出错了；
+首先打开题目
+
+查看他的提示
+
+他提示了flag在session中
+我们直接抓包发包，拿到服务器端返回的session值，这次的题目返回没有进行加密
+可以直接拿到解码，经过二次解码得到flag
+
+
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Feb 15 2022 13:55:41 GMT+0800">2022-02-15</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/V-NCTF/">V&amp;NCTF</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/02/15/GOclac/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/02/13/GameV4-0/">
+                        GameV4.0
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        GAME V4.0web的第一道签到题：
+打开页面可以看到是一个小游戏：
+直接看源代码把
+
+没什么别的问题，那就看看他的这些子文件中有没有什么信息
+最后在data.js中发现
+
+含有flag名称的新型
+解码一下得到flag
+
+
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Feb 13 2022 13:55:32 GMT+0800">2022-02-13</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/V-NCTF/">V&amp;NCTF</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/02/13/GameV4-0/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/02/10/%E7%A6%81%E6%AD%A2%E5%A5%97%E5%A8%83/">
+                        禁止套娃
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        [GXYCTF2019]禁止套娃进入题目就一句话，啥也没有
+
+猜测一下是不是藏起来了？
+找了半天没找到，扫描一下目录也没有，最后找到是git源码泄露
+用githack来下载源码
+
+可以看到需要有四个if需要绕过
+第一个是确定以get方式传入exp
+第...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Feb 10 2022 12:31:40 GMT+0800">2022-02-10</span></span>
+        
+        
+    </div>
+
+    <a href="/2022/02/10/%E7%A6%81%E6%AD%A2%E5%A5%97%E5%A8%83/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2022/02/10/%E6%88%91%E6%9C%89%E4%B8%80%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/">
                         我有一个数据库
                     </a>
@@ -380,244 +603,6 @@
     </div>
 
     <a href="/2022/02/06/Tetris-plus/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/02/06/%E8%9B%9B%E8%9B%9B-%E5%98%BF%E5%98%BF%E2%99%A5%E6%88%91%E7%9A%84%E8%9B%9B%E8%9B%9B/">
-                        蛛蛛...嘿嘿♥我的蛛蛛
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        蛛蛛…嘿嘿♥我的蛛蛛进去之后先看看
-
-点了一下，发现方框变多但是只有一个是真的
-
-查看源代码的时候可以看到哪个是真的
-但是一直点也不知道什么时候结束，写一个简单的爬虫脚本方便我们直接得到那个页面
-附上我的脚本：
-1234567891011121314...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Feb 06 2022 16:36:21 GMT+0800">2022-02-06</span></span>
-        
-        
-    </div>
-
-    <a href="/2022/02/06/%E8%9B%9B%E8%9B%9B-%E5%98%BF%E5%98%BF%E2%99%A5%E6%88%91%E7%9A%84%E8%9B%9B%E8%9B%9B/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/02/06/easy-auth/">
-                        easy_auth
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        easy_auth进去是一个注册登录框：
-
-先注册一个admin看看
-
-可以看到，admin用户是存在的
-那么有极大的可能就是第一个就是admin
-先随便注册一个进去先看看
-
-进入了这个页面
-下面有个对话框可以输入内容
-输入完会显示在网页上
-抓个包，...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Feb 06 2022 16:35:13 GMT+0800">2022-02-06</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/hgame/">hgame</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/02/06/easy-auth/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/02/03/Themysteryofip/">
-                        Themysteryofip
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        [BJDCTF2020]The mystery of ip做一下题目：
-
-有三个子网页
-flag以及hint
-flag网页中回显了ip
-
-看看第另一个子网页，源码发现一句话
-
-回到flag网页中注入一下XFF
-发现可以
-
-尝试一下函数发现不会执行
-
-...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Feb 03 2022 16:00:55 GMT+0800">2022-02-03</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/BJDCTF/">BJDCTF</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/02/03/Themysteryofip/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/02/01/EasyJava/">
-                        EasyJava
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        [RoarCTF 2019]Easy Javajava类的题目没写过，还是先进去看看把
-
-不知道是啥漏洞，提示了是java应该不是sql注入
-尝试爆破的时候发现爆出了账号密码
-12adminadmin888
-
-登录进去看看
-
-可惜，flag不在这里，...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Feb 01 2022 17:04:40 GMT+0800">2022-02-01</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/RoarCTF/">RoarCTF</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/02/01/EasyJava/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/02/01/BabyUpload/">
-                        BabyUpload
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        [GXYCTF2019]BabyUpload名字一看就知道是文件上传
-老样子先随便传一些文件进去看看
-
-传入php一句话木马发现不能有ph后缀
-那么试试别的
-
-
-发现jpg可以传
-那么就是htaccess改后缀了
-抓个包，上传个一句话木马
-
-发现他还...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Feb 01 2022 17:03:04 GMT+0800">2022-02-01</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/GXYCTF/">GXYCTF</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/02/01/BabyUpload/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>

