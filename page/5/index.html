@@ -152,6 +152,52 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2022/04/05/FlaskLight/">
+                        FlaskLight
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        [CSCCTF 2019 Qual]FlaskLight因为题目说是flask所以直接寻找注入点
+在页面源码发现注入点
+
+以get方式传入search
+那么就判断是什么框架了
+输入&#123;&#123;7*'7'&#125;&#125;
+发现回显7...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Apr 05 2022 21:22:12 GMT+0800">2022-04-05</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/CSCCTF2019/">CSCCTF2019</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/04/05/FlaskLight/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2022/04/05/%E6%9E%AF%E7%87%A5%E7%9A%84%E6%8A%BD%E5%A5%96/">
                         枯燥的抽奖
                     </a>
@@ -507,48 +553,6 @@ hint：flag在./flag.txt中,打开页面F12读取一下源码
     </div>
 
     <a href="/2022/04/01/SSRF-Me/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/03/31/%E5%A5%97%E5%A8%83/">
-                        套娃
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        [MRCTF2020]套娃进入页面没什么东西，图片都没加载，打开源码看看有没有提示
-发现一部分源代码：
-12345678910&lt;?php$query = $_SERVER[&#x27;QUERY_STRING&#x27;];#query str...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Mar 31 2022 22:07:31 GMT+0800">2022-03-31</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/MRCTF2020/">MRCTF2020</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/03/31/%E5%A5%97%E5%A8%83/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
